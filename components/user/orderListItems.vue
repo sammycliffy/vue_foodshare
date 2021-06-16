@@ -179,7 +179,10 @@
             </div>
 
             <div
-              v-if="item.orderStatus === 'AWAITING_PAYMENT'"
+              v-if="
+                item.orderStatus === 'AWAITING_PAYMENT' ||
+                item.orderStatus === 'AWAITING _PROOF_OF_PAYMENT'
+              "
               class="text-center mt-3"
             >
               <nuxt-link :to="`/cart/payment/#!/${item.orderId}`">
