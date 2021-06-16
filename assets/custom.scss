@@ -1,0 +1,13 @@
+// Import custom SASS variable overrides, or alternatively
+// define your variable overrides here instead
+@import 'variables.scss';
+
+// Import Bootstrap and BootstrapVue source SCSS files
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'bootstrap-vue/src/index.scss';
+
+// General style overrides and custom classes
+@import 'main.scss';
+
+//importing vue-select sass
+@import 'vue-select/src/scss/vue-select.scss';

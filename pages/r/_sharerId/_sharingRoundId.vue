@@ -1,0 +1,548 @@
+<template>
+  <div class="">
+    <div v-if="$fetchState.pending" class="text-center p-5">
+      <partials-skeleton-loader />
+    </div>
+
+    <div v-else-if="$fetchState.error" class="text-center p-5">
+      Something Occured. Please, Try Again
+    </div>
+
+    <div v-else-if="sharingRound.length < 1" class="text-center p-5">
+      Round Not Found!
+    </div>
+
+    <div v-else class="scroll-overflow half-width">
+      <div class="top-bar">
+        <div class="top-row d-flex justify-content-between">
+          <div class="d-flex justify-content-around align-items-center">
+            <partials-back-nav-button v-if="USER" />
+            <partials-back-nav-button v-if="$route.path === '/home/'" />
+            <span>
+              <img
+                :src="
+                  FILE_BLOB ||
+                  sharingRound.groupImage ||
+                  '/assets/empty-photo.svg'
+                "
+                class="sharerLogoDisplay mr-2"
+              />
+            </span>
+            <span class="primary-p text_semiBold color-green"
+              >{{ sharingRound.name }}
+            </span>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mt-3 text_medium">
+          <p class="color-orange mb-0">
+            Order deadline
+            <span class="d-block color-black pr-2">
+              <!-- {{
+              new Date(sharingRound.cutOffTime).toLocaleString()
+            }} -->
+              {{ sharingRound.cutOffTimeWithDay }}
+            </span>
+          </p>
+          <p class="color-orange text-right mb-0">
+            Sharing day
+            <span class="d-block color-black pl-2">
+              <!-- {{
+              new Date(sharingRound.endTime).toLocaleString()
+            }} -->
+              {{ sharingRound.endTimeWithDay }}
+            </span>
+          </p>
+        </div>
+        <div class="mt-3">
+          <p class="color-orange mb-0 text_medium">
+            Sharing Location
+            <span class="d-block color-black mt-2">
+              <span>{{ sharingRound.sharingAddress.lineOne }}</span
+              >&comma;
+              <span v-if="sharingRound.sharingAddress.lineTwo"
+                >{{ sharingRound.sharingAddress.lineTwo }} &comma;</span
+              >
+              <span>{{ sharingRound.sharingAddress.town }}</span
+              >&comma;
+              <span>{{ sharingRound.sharingAddress.state }}</span>
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <div class="body-primary">
+        <section
+          v-if="+new Date() > +new Date(sharingRound.endTime)"
+          class="bg-white text-center rounded px-3 py-5"
+        >
+          Sorry, this round is not available anymore
+        </section>
+        <template v-else>
+          <partials-round-search-bar />
+          <section
+            v-for="(item, index) in sharingRound.commoditiesDetails"
+            :key="item.id"
+          >
+            <div
+              v-if="!cartToggle[index]"
+              class="round_commodity"
+              :class="
+                cartPayload.sharedCommodities[index] &&
+                cartPayload.sharedCommodities[index].numberOfSlots > 0
+                  ? 'border border-primary'
+                  : ''
+              "
+            >
+              <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-around">
+                  <div class="item__image">
+                    <img
+                      :src="item.imageUrl || '/assets/empty-photo.svg'"
+                      class="commodityImg"
+                    />
+                  </div>
+
+                  <div class="ml-3 my-auto">
+                    <span class="d-block primary-p text_semiBold">{{
+                      item.commodityName
+                    }}</span>
+                    <p
+                      v-if="
+                        cartPayload.sharedCommodities[index] &&
+                        cartPayload.sharedCommodities[index].numberOfSlots > 0
+                      "
+                      class="mb-0 mt-2"
+                    >
+                      {{ cartPayload.sharedCommodities[index].numberOfSlots }}
+                      Selected
+                      <span
+                        v-text="
+                          cartPayload.sharedCommodities[index].numberOfSlots > 1
+                            ? 'slots'
+                            : 'slot'
+                        "
+                      />
+                    </p>
+                    <p v-else class="mb-0 mt-2">
+                      {{ item.remainingSlots }}
+                      Available
+                      <span
+                        v-text="item.remainingSlots > 1 ? 'slots' : 'slot'"
+                      />
+                    </p>
+                  </div>
+                </div>
+                <span class="align-self-center text-right">
+                  <span
+                    v-if="item.remainingSlots >= 1"
+                    class="toggle_icon"
+                    @click="toggleDropDown(index)"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      fill="currentColor"
+                      class="bi bi-chevron-down"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                      />
+                    </svg>
+                  </span>
+                  <span v-else class="toggle_icon color-orange">Sold Out</span>
+                </span>
+              </div>
+            </div>
+
+            <div v-show="cartToggle[index]" class="round_commodity_toggle">
+              <div class="d-flex justify-content-between">
+                <h3 class="text_semiBold toggle_item_name">
+                  {{ item.commodityName }}
+                </h3>
+                <span class="toggle_icon" @click="toggleDropDown(index)">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-chevron-up"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              <div class="">
+                <b-row class="my-2">
+                  <b-col>
+                    <div class="toggle_img_host text-center">
+                      <div class="item__image">
+                        <img
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                          class="commodityToggleImg"
+                        />
+                      </div>
+                    </div>
+                  </b-col>
+                  <b-col>
+                    <p class="toggle_text m-0">Sharing Price</p>
+                    <span class="toggle_price text_bold d-block">
+                      &#8358;
+                      {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
+                    >
+                    <span class="d-block toggle_text_sub">
+                      <span v-if="item.sharingUnits < 2">per</span>
+                      <span v-else>
+                        {{ item.sharingUnits }}
+                      </span>
+                      {{ item.unitOfMeasurement }}</span
+                    >
+                  </b-col>
+                </b-row>
+                <b-row class="">
+                  <b-col class="input-r-seperator input-col">
+                    <div class="form-group">
+                      <label class="toggle_label" for="remainingSlots">
+                        <span>{{ item.remainingSlots }} Available </span>
+                        <span v-if="item.remainingSlots > 1">slots</span>
+                        <span v-else>slot</span>
+                      </label>
+                      <input
+                        v-model="cart[index]"
+                        type="number"
+                        min="0"
+                        :max="item.remainingSlots"
+                        class="form-control toggle_input"
+                        :placeholder="
+                          cartPayload.sharedCommodities[index]
+                            ? cartPayload.sharedCommodities[index].numberOfSlots
+                            : 'Enter NO. of slots'
+                        "
+                      />
+                    </div>
+                  </b-col>
+                  <b-col class="input-l-seperator input-col">
+                    <b-btn
+                      class="btn primary-btn mt-sub"
+                      @click="addToCart(item, index)"
+                      >Add to Basket</b-btn
+                    >
+                  </b-col>
+                </b-row>
+              </div>
+              <hr />
+
+              <div v-if="item.topMarkets" class="">
+                <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
+                <div
+                  v-for="market in item.topMarkets"
+                  :key="market.id"
+                  class=""
+                >
+                  <div class="row topMarket_item_mb">
+                    <div class="col-8 input-r-seperator input-col">
+                      <p class="toggle_text m-0">{{ market.name }}:</p>
+                    </div>
+                    <div class="col-4 input-l-seperator input-col">
+                      <p class="toggle_text m-0 text_bold">
+                        &#8358; {{ Intl.NumberFormat().format(market.amount) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="text-center">
+            <b-btn
+              :disabled="totalItems < 1"
+              class="btn primary-btn padded-btn"
+              @click="
+                $router.replace(
+                  '/cart/' + sharerId + '/' + sharingRoundId + '/'
+                )
+              "
+              >Next</b-btn
+            >
+          </div>
+        </template>
+      </div>
+    </div>
+
+    <partials-footer />
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      cart: [],
+      cartToggle: [],
+
+      // sharerLogo
+      FILE_BLOB: null,
+
+      // fetch stuff from vuex
+      cartPayload: this.$store.state.cart.payload,
+
+      sharerId: this.$route.params.sharerId,
+      sharingRoundId: this.$route.params.sharingRoundId,
+
+      sharingRound: {
+        sharingRound: [],
+      },
+
+      USER: this.$store.state.auth.userData,
+    }
+  },
+
+  async fetch() {
+    this.resetPayload()
+
+    const URI = `/unauth/sharing-rounds/${this.sharerId}/sharer?sharingRoundId=${this.sharingRoundId}`
+    await this.$axios
+      .$get(URI, {})
+      .then((res) => {
+        this.sharingRound = res.result
+        // Save round form data to a perstisted Vuex store
+        this.$store.commit('cart/SAVE_ROUND_DATA', res.result)
+        // Reset cartPayload
+        this.cartPayload.sharedCommodities = []
+        // Save cart data to a perstisted Vuex store
+        this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
+      })
+      .finally(() => {
+        try {
+          this.cartPayload.sharedCommodities.forEach((element) => {
+            element ? this.cart.push(element.numberOfSlots) : this.cart.push(0)
+          })
+        } catch (e) {
+          // do nothing
+          this.cart = [0]
+        }
+      })
+  },
+
+  computed: {
+    totalItems() {
+      let items = 0
+
+      this.cart.forEach((item) => {
+        items += item - 0
+      })
+      return items > 0
+    },
+  },
+
+  methods: {
+    toggleDropDown(index) {
+      this.cartToggle[index] = !this.cartToggle[index]
+      this.$forceUpdate()
+    },
+
+    resetPayload() {
+      if (this.cartPayload.orderId) {
+        // Save cart data to a perstisted Vuex store
+        this.$store.commit('cart/RESET_CART_DATA')
+        this.cartPayload = this.$store.state.cart.payload
+      }
+    },
+
+    addToCart(item, index) {
+      if (this.cart[index] < 1) {
+        // Delete from Cart
+        this.cartPayload.sharedCommodities[index] = null
+        // toggle drop-down
+        this.toggleDropDown(index)
+        // Save cart data to a perstisted Vuex store
+        this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
+      } else if (
+        this.cart[index] <=
+        this.sharingRound.commoditiesDetails[index].remainingSlots
+      ) {
+        this.cartPayload.sharedCommodities[index] = {
+          numberOfSlots: this.cart[index],
+          pricePerSlot: item.sharingPrice,
+          sharedCommodityId: item.id,
+          sharedCommodityName: item.commodityName,
+          imageUrl: item.imageUrl,
+        }
+
+        // toggle drop-down
+        this.toggleDropDown(index)
+        // Save cart data to a perstisted Vuex store
+        this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
+      } else {
+        // Display warning toast notification
+        this.$bvToast.toast(
+          'The slot you entered more than the available slot',
+          {
+            title: 'Oops!',
+            variant: 'warning',
+            solid: true,
+          }
+        )
+      }
+    },
+  },
+}
+</script>
+
+<style scoped>
+.scroll-overflow {
+  padding-bottom: 0;
+  background-color: transparent;
+}
+.body-primary {
+  padding-top: 20px;
+  top: 200px;
+  z-index: 5;
+  bottom: 0;
+  min-height: 71vh;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  /* position: absolute; */
+}
+
+.top-bar {
+  background-color: #ffffff;
+  margin-top: unset;
+  padding-top: 30px;
+  scroll-padding-bottom: 19px;
+}
+
+.round_commodity {
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 245, 245, 1);
+  font-size: 15px;
+  line-height: 22px;
+  padding: 10px 17px;
+  margin-bottom: 25px;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
+}
+
+.commodityListBox {
+  padding: 30px 0 10px;
+}
+
+.item__image {
+  height: 80px;
+  width: 80px;
+  border-radius: 20px;
+}
+
+.item__name {
+  font-size: 18px;
+  line-height: 22px;
+  color: rgba(20, 8, 8, 0.9);
+  font-weight: bolder;
+  text-transform: capitalize;
+}
+
+.round_commodity_toggle {
+  background-color: #ffffff;
+  padding: 20px 17px 40px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(183, 185, 197, 0.27);
+  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
+}
+
+.toggle_label {
+  font-size: 12px;
+  color: #000000;
+  margin: 6px 10px;
+}
+
+.toggle_input {
+  border: 1px solid #4f9e55;
+  color: #000000;
+  padding: 10px;
+  height: 40px;
+}
+
+.toggle_input::-webkit-input-placeholder {
+  /* Edge */
+  font-size: 12px;
+  line-height: 22px;
+  color: rgba(100, 100, 100, 0.81);
+}
+
+.toggle_input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  font-size: 12px;
+  line-height: 22px;
+  color: rgba(100, 100, 100, 0.81);
+}
+
+.toggle_input::placeholder {
+  font-size: 12px;
+  line-height: 22px;
+  color: rgba(100, 100, 100, 0.81);
+}
+
+.mt-sub {
+  margin-top: 30px;
+  font-size: 14px;
+  line-height: 7px;
+  height: 40px;
+}
+
+.topMarket_item_mb {
+  margin-bottom: 8px;
+}
+
+.toggle_text {
+  font-size: 15px;
+  line-height: 22px;
+  color: #000000;
+}
+
+.toggle_text_sub {
+  font-size: 12px;
+  line-height: 22px;
+  color: #b7b9c5;
+}
+
+.toggle_price {
+  font-size: 20px;
+  line-height: 22px;
+  color: #4f9e55;
+  margin: 2px 0;
+}
+
+.toggle_icon > svg {
+  color: #000000;
+}
+
+.toggle_item_name {
+  font-size: 18px;
+  line-height: 22px;
+  margin-top: 13px;
+}
+
+.toggle_img_host {
+  /* background-color: #fcd4d4; */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.toggle_img_host > .item__image {
+  height: 100px;
+  width: 100px;
+}
+</style>

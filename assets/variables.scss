@@ -1,0 +1,20 @@
+// Define your variable overrides here
+$primary: #4f9e55;
+$link-color: $primary;
+
+// These are the defaults, but you can override any values
+$font-family-sans-serif: -apple-system, system-ui, BlinkMacSystemFont,
+  'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !default;
+$font-family-serif: Georgia, 'Times New Roman', Times, serif !default;
+$font-family-monospace: Menlo, Monaco, Consolas, 'Liberation Mono',
+  'Courier New', monospace !default;
+
+$font-family-base: 'Poppins', $font-family-sans-serif !default;
+
+$enable-responsive-font-sizes: true;
+$enable-shadows: true;
+$enable-gradients: true;
+
+// .container-fluid {
+//   max-width: 720px;
+// }

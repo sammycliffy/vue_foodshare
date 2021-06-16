@@ -1,0 +1,257 @@
+<template>
+  <div class="scroll-overflow">
+    <div class="half-width">
+      <header class="top-row d-flex justify-content-between">
+        <partials-back-nav-button />
+        <h5 class="title">Round Basket</h5>
+        <span>&nbsp;</span>
+      </header>
+
+      <nav v-if="$fetchState.pending" class="text-center p-5">
+        <partials-skeleton-loader />
+      </nav>
+
+      <nav v-else-if="$fetchState.error" class="text-center p-5">
+        Something Occured. Please, Try Again
+      </nav>
+
+      <section v-else>
+        <div class="detailsBox">
+          <p class="text_medium mb-0" v-text="sharingRound.name"></p>
+          <p class="item_day mt-1 mb-0">
+            <span>Sharing Day&colon;</span>
+            <span v-text="sharingRound.endTimeWithDay"></span>
+          </p>
+        </div>
+
+        <div v-if="orders.length < 1" class="bg-white text-center py-3">
+          No Member Found
+        </div>
+
+        <div v-else>
+          <p class="color-orange text_medium">Round Members</p>
+          <div v-for="item in orders" :key="item.id" class="member">
+            <label class="row mx-0">
+              <div class="col px-0 pr-2">
+                <img
+                  class="rounded-circle border border-primary"
+                  :src="item.imageUrl || '/assets/empty-photo.svg'"
+                  height="75"
+                  width="75"
+                />
+              </div>
+              <div class="col-8 px-0">
+                <span class="nameBox">
+                  <strong
+                    class="mb-0"
+                    v-text="`${item.firstName} ${item.lastName}`"
+                  ></strong>
+                  <p class="mb-0" v-text="item.emailAddress"></p>
+                  <nuxt-link
+                    :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
+                    class="plain-link text_medium basketLink"
+                  >
+                    <span>View Basket</span>
+                  </nuxt-link>
+                </span>
+              </div>
+              <div class="col px-0">
+                <b-form-checkbox
+                  :id="item.orderId + ''"
+                  v-model="checkStatus[item.orderId]"
+                  class="roundBasket"
+                  @change="confirmCollection(item)"
+                >
+                </b-form-checkbox>
+              </div>
+            </label>
+          </div>
+          <div class="text-center">
+            <b-btn class="btn closeRound-btn" @click="closeRound()"
+              >Close Round
+              <b-spinner
+                v-if="spinner"
+                variant="white"
+                label="Spinning"
+                class="ml-3"
+                small
+              />
+            </b-btn>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <partials-sharer-footer-bar />
+  </div>
+</template>
+
+<script>
+export default {
+  middleware: 'authenticated',
+
+  data() {
+    return {
+      spinner: false,
+      checkStatus: [],
+      orders: [],
+      sharingRound: this.$store.state.round.data,
+    }
+  },
+
+  async fetch() {
+    const commodityId = this.$route.params.commodityId
+    // Fetch user's rounds
+    const URL = `/services/orders/sharing-rounds/${commodityId}/order`
+    await this.$axios
+      .$get(URL, {})
+      .then((res) => {
+        this.orders = res.result.orders
+
+        this.checkStatus = {}
+        this.orders.forEach((el) => {
+          this.checkStatus[el.orderId] = el.isCollected || false
+        })
+      })
+      .catch((error) => {
+        this.ERROR_HANDLER(error)
+        throw error
+      })
+  },
+
+  methods: {
+    async confirmCollection(item) {
+      const PAYLOAD = {
+        particpants: [
+          {
+            collected: this.checkStatus[item.orderId],
+            orderId: item.orderId,
+            userId: item.id,
+          },
+        ],
+      }
+
+      const URL = `/services/sharing-rounds/${this.sharingRound.sharerId}/${item.sharingRoundId}/participants`
+      await this.$axios
+        .$put(URL, PAYLOAD)
+        .then((res) => {
+          this.roundBasket = res.result
+
+          this.SHOW_TOAST({
+            title: 'Success',
+            variant: 'success',
+            text: 'Orders successfully updated for: ' + item.emailAddress,
+          })
+        })
+        .catch((error) => {
+          this.ERROR_HANDLER(error)
+        })
+    },
+
+    async closeRound() {
+      const checkedItems = Object.values(this.checkStatus).filter((x) => x)
+
+      if (checkedItems.length > 0) {
+        this.spinner = true
+
+        const itemId = this.$route.params.commodityId
+
+        // Close the particular round
+        const URL = `/services/sharing-rounds/${this.sharingRound.id}/${itemId}/close`
+        await this.$axios
+          .$put(URL, {})
+          .then(() => {
+            this.SHOW_TOAST({
+              text: 'Round Closed Successfully',
+              variant: 'success',
+              title: 'Success',
+            })
+          })
+          .catch((error) => {
+            this.ERROR_HANDLER(error)
+            throw error
+          })
+          .finally(() => {
+            this.spinner = false
+          })
+      } else {
+        this.SHOW_TOAST({
+          text: 'Confirm at least one payment before closing round',
+          variant: 'warning',
+          title: 'Hint',
+        })
+      }
+    },
+  },
+}
+</script>
+
+<style scoped>
+.scroll-overflow {
+  color: #000000;
+  padding: 20px 18px 80px;
+}
+
+.detailsBox {
+  margin-top: 20px;
+  margin-bottom: 24px;
+}
+
+.item_day {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.perticipantImage {
+  width: 45px;
+  height: 45px;
+}
+
+.member {
+  margin-bottom: 24px;
+}
+
+.basketLink {
+  font-size: 13px;
+  line-height: 22px;
+  color: #4f9e55;
+}
+
+.closeRound-btn {
+  background: #4f9e55;
+  color: #ffffff;
+  padding: 15px 28px;
+  font-size: 15px;
+  line-height: 12px;
+  border-radius: 2px;
+  box-shadow: 0px 3px 6px 0px rgba(79, 158, 85, 0.3);
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(79, 158, 85, 0.3);
+  -moz-box-shadow: 0px 3px 6px 0px rgba(79, 158, 85, 0.3);
+  border: unset;
+}
+
+::v-deep .roundBasket .custom-control-label::before {
+  height: 20px !important;
+  width: 20px !important;
+  border: 1px solid #000000 !important;
+  box-shadow: unset !important;
+  border-radius: 50px !important;
+  background-color: transparent;
+}
+
+::v-deep .roundBasket .custom-control-label::after {
+  height: 20px !important;
+  width: 20px !important;
+}
+
+/* ::v-deep
+  .roundBasket
+  .custom-control-input:checked
+  ~ .custom-control-label::before {
+  background: transparent;
+} */
+
+::v-deep .roundBasket .custom-control-label {
+  float: right;
+}
+</style>
