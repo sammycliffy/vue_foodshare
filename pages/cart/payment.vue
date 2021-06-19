@@ -52,18 +52,6 @@
                 ></b-spinner
               ></b-btn>
             </div>
-            <!-- <div class="text-center mt-3">
-              <b-btn class="btn primary-btn padded-btn" @click="submitPaymentMethod"
-                >Next
-                <b-spinner
-                  v-if="spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-                />
-              </b-btn>
-            </div> -->
           </section>
         </div>
       </div>
@@ -84,17 +72,20 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     if (this.hashbang) {
       this.saveOrderAsCart()
 
-      if (!this.sharingRound.id) {
-        this.sharingRound = {
-          id: this.cartPayload.sharingRoundId,
-        }
+      this.sharingRound = {
+        id: null,
+        name: null,
       }
+      this.sharingRound.id = this.cartPayload.sharingRoundId
+      this.sharingRound.name = this.cartPayload.sharingRoundName
     }
+  },
 
+  mounted() {
     if (!this.cartPayload.paymentDetails) {
       this.cartPayload.paymentDetails = {
         paymentType: null,
