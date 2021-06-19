@@ -23,9 +23,6 @@
           </p>
           <span class="item_day">
             Sharing Day&colon;&nbsp;
-            <!-- <span
-              v-text="new Date(sharingRound.endTime).toLocaleString()"
-            ></span> -->
             <span v-text="sharingRound.endTimeWithDay"></span>
           </span>
         </div>
@@ -101,8 +98,8 @@
                   </div>
                   <div
                     v-if="
-                      roundBasket.paymentComplete &&
-                      roundBasket.orderStatus !== 'ORDER_CANCELLED'
+                      roundBasket.orderStatus ===
+                      'AWAITING_PAYMENT_CONFIRMATION'
                     "
                     class="mt-20 btnBox d-flex"
                   >
@@ -142,7 +139,8 @@
                 </div>
                 <div
                   v-if="
-                    roundBasket.paymentMethod === 'OFFLINE' && !paymentProof
+                    roundBasket.orderStatus ===
+                      'AWAITING_PAYMENT_CONFIRMATION' && !paymentProof
                   "
                   class="badge badge-secondary text-wrap"
                 >
@@ -192,14 +190,6 @@ export default {
 
       orderAddress: {},
       paymentProof: null,
-
-      participant: {
-        id: 1,
-        name: 'Darlington',
-        imgSrc: '/assets/pic.jpg',
-        paymentStatus: 'Paid',
-        paymentProof: '/assets/pic.jpg',
-      },
     }
   },
 
@@ -220,7 +210,10 @@ export default {
 
     await this.fetchOrderAddress()
 
-    if (this.roundBasket.paymentMethod === 'OFFLINE') {
+    if (
+      this.roundBasket.paymentMethod === 'OFFLINE' &&
+      this.roundBasket.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
+    ) {
       await this.fetchPaymentProof()
     }
   },
