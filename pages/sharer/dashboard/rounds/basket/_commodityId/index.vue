@@ -30,41 +30,64 @@
 
         <div v-else>
           <p class="color-orange text_medium">Round Members</p>
-          <div v-for="item in orders" :key="item.id" class="member">
-            <label class="row mx-0">
-              <div class="col px-0 pr-2">
-                <img
-                  class="rounded-circle border border-primary"
-                  :src="item.imageUrl || '/assets/empty-photo.svg'"
-                  height="75"
-                  width="75"
-                />
-              </div>
-              <div class="col-8 px-0">
-                <span class="nameBox">
-                  <strong
-                    class="mb-0"
-                    v-text="`${item.firstName} ${item.lastName}`"
-                  ></strong>
-                  <p class="mb-0" v-text="item.emailAddress"></p>
-                  <nuxt-link
-                    :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
-                    class="plain-link text_medium basketLink"
+          <div v-for="item in orders" :key="item.id" class="">
+            <div v-if="item.orderStatus != 'ORDER_CANCELLED'" class="member">
+              <label class="row mx-0">
+                <div class="col px-0 pr-2">
+                  <img
+                    class="rounded-circle border border-primary"
+                    :src="item.imageUrl || '/assets/empty-photo.svg'"
+                    height="75"
+                    width="75"
+                  />
+                </div>
+                <div class="col-8 px-0">
+                  <span class="nameBox">
+                    <strong
+                      class="mb-0"
+                      v-text="`${item.firstName} ${item.lastName}`"
+                    ></strong>
+                    <p class="mb-0" v-text="item.emailAddress"></p>
+                    <nuxt-link
+                      :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
+                      class="plain-link text_medium basketLink"
+                    >
+                      <span>View Basket</span>
+                    </nuxt-link>
+                  </span>
+                  <span
+                    v-if="item.orderStatus === 'ORDER_CANCELLED'"
+                    class="paymentStatusBadge"
+                    >Order cancelled</span
                   >
-                    <span>View Basket</span>
-                  </nuxt-link>
-                </span>
-              </div>
-              <div class="col px-0">
-                <b-form-checkbox
-                  :id="item.orderId + ''"
-                  v-model="checkStatus[item.orderId]"
-                  class="roundBasket"
-                  @change="confirmCollection(item)"
-                >
-                </b-form-checkbox>
-              </div>
-            </label>
+                  <span
+                    v-if="item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'"
+                    class="paymentStatusBadge"
+                    >Awaiting Approval</span
+                  >
+                  <span
+                    v-if="
+                      item.orderStatus === 'AWAITING_PAYMENT' ||
+                      item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
+                    "
+                    class="paymentStatusBadge"
+                    >Payment required</span
+                  >
+                  <span v-if="item.paymentComplete" class="paymentStatusBadge"
+                    >Payment Confirmed</span
+                  >
+                </div>
+                <div class="col px-0">
+                  <b-form-checkbox
+                    :id="item.orderId + ''"
+                    v-model="checkStatus[item.orderId]"
+                    class="roundBasket"
+                    @change="confirmCollection(item)"
+                  >
+                  </b-form-checkbox>
+                </div>
+              </label>
+            </div>
           </div>
           <div class="text-center">
             <b-btn class="btn closeRound-btn" @click="closeRound()"
@@ -107,7 +130,6 @@ export default {
       .$get(URL, {})
       .then((res) => {
         this.orders = res.result.orders
-
         this.checkStatus = {}
         this.orders.forEach((el) => {
           this.checkStatus[el.orderId] = el.isCollected || false
@@ -253,5 +275,24 @@ export default {
 
 ::v-deep .roundBasket .custom-control-label {
   float: right;
+}
+
+.paymentStatusBadge {
+  color: #fe8f0a;
+  padding: 4px 12px;
+  font-size: 12px;
+  line-height: 22px;
+  border-radius: 13px;
+  background-color: rgba(254, 143, 10, 0.13);
+  margin-left: 10px;
+}
+.paymentStatusPaid {
+  color: #4f9e55;
+  padding: 4px 12px;
+  font-size: 12px;
+  line-height: 22px;
+  border-radius: 13px;
+  background-color: rgba(79, 158, 85, 0.13);
+  margin-left: 10px;
 }
 </style>
