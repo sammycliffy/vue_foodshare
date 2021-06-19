@@ -63,7 +63,10 @@
         </p>
         <div v-if="item.paymentComplete === false" class="text-right badgeBox">
           <span
-            v-if="item.orderStatus === 'AWAITING_PAYMENT'"
+            v-if="
+              item.orderStatus === 'AWAITING_PAYMENT' ||
+              item.orderStatus == 'AWAITING_PROOF_OF_PAYMENT'
+            "
             class="paymentStatusBadge"
             >Payment required</span
           >
@@ -181,11 +184,11 @@
             <div
               v-if="
                 item.orderStatus === 'AWAITING_PAYMENT' ||
-                item.orderStatus === 'AWAITING _PROOF_OF_PAYMENT'
+                item.orderStatus == 'AWAITING_PROOF_OF_PAYMENT'
               "
-              class="text-center mt-3"
+              class="text-center"
             >
-              <nuxt-link :to="`/cart/payment/#!/${item.orderId}`">
+              <nuxt-link :to="`/cart/payment/#!/${item.orderId}`" class="mt-3">
                 <b-btn class="btn primary-btn padded-btn">Make Payment </b-btn>
               </nuxt-link>
             </div>
