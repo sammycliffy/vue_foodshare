@@ -14,7 +14,7 @@
         <div class="statisticsBox row">
           <div class="text-center col statisticsBoxInner mr-1">
             <span class="d-block statisticsNumber text_medium">
-              <span>{{ Intl.NumberFormat().format(orders.length) }}</span>
+              <span>{{ Intl.NumberFormat().format(noOfSharings.length) }}</span>
             </span>
             <span class="d-block statisticsName">My Sharings</span>
           </div>
@@ -109,7 +109,7 @@
                       <span
                         v-if="item.orderStatus === 'ORDER_CANCELLED'"
                         class="paymentStatusPending"
-                        >Order Cancelled</span
+                        >Cancelled</span
                       >
                     </span>
                   </span>
@@ -210,6 +210,7 @@ export default {
   data() {
     return {
       USER: this.$store.state.auth.userData,
+      noOfSharings: [],
       totalExpenses: null,
       orders: [],
       ordersRecent: [],
@@ -224,13 +225,16 @@ export default {
       .$get(URL, {})
       .then((res) => {
         this.totalExpenses = res.result.totalExpenses
-
         const MAX = 5
         this.orders = res.result.orders
         this.ordersRecent =
           this.orders.length > MAX
             ? this.orders.slice(this.orders.length - MAX, this.orders.length)
             : this.orders
+
+        this.noOfSharings = this.orders.filter(
+          (x) => x.paymentComplete === true
+        )
       })
       .catch((e) => {
         this.ERROR_HANDLER(e)

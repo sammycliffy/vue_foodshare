@@ -33,7 +33,7 @@
           <div class="accordion" role="tablist">
             <!--Orders Awaiting Payment-->
             <div class="itemBox">
-              <div v-b-toggle.awaitingOrders block class="title">
+              <div v-b-toggle.awaitingOrders block class="text_medium">
                 Awaiting Payment
                 <span class="primary-p color-orange float-right">
                   <span v-if="awaitingOrders.length">{{
@@ -118,7 +118,7 @@
             </div>
             <!--Orders Pending Approval -->
             <div class="itemBox">
-              <div v-b-toggle.pendingOrders block class="title">
+              <div v-b-toggle.pendingOrders block class="text_medium">
                 Awaiting Confirmation
                 <span class="primary-p color-orange float-right">
                   <span v-if="pendingOrders.length">{{
@@ -203,7 +203,7 @@
             </div>
             <!--Confirmed Orders -->
             <div class="itemBox">
-              <div v-b-toggle.confirmedOrders block class="title">
+              <div v-b-toggle.confirmedOrders block class="text_medium">
                 Approved
                 <span class="primary-p color-orange float-right">
                   <span v-if="confirmedOrders.length">{{
@@ -288,7 +288,7 @@
             </div>
             <!--Cancelled Orders -->
             <div class="itemBox">
-              <div v-b-toggle.cancelledOrders block class="title">
+              <div v-b-toggle.cancelledOrders block class="text_medium">
                 Cancelled
                 <span class="primary-p color-orange float-right">
                   <span v-if="cancelledOrders.length">{{
