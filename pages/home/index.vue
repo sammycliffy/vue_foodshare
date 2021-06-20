@@ -136,6 +136,27 @@
                   </span>
                 </span>
               </div>
+              <div class="">
+                <span class="d-block text_medium color-green my-1 mini-title">
+                  Sharing day:
+                  <span class="d-block color-black text_normal">
+                    {{ item.endTimeWithDay }}
+                  </span>
+                </span>
+                <span class="d-block text_medium color-green my-1 mini-title">
+                  Sharing Location:
+                  <span class="d-block color-black text_normal">
+                    <span>{{ item.sharingAddress.lineOne }}</span
+                    >&comma;
+                    <span v-if="item.sharingAddress.lineTwo"
+                      >{{ item.sharingAddress.lineTwo }} &comma;</span
+                    >
+                    <span>{{ item.sharingAddress.town }}</span
+                    >&comma;
+                    <span>{{ item.sharingAddress.state }}</span>
+                  </span>
+                </span>
+              </div>
             </div>
           </div>
         </section>
@@ -172,20 +193,20 @@ export default {
 
       btnSpinner: null,
       numberOfPages: 1,
-      gHImages: [
-        {
-          id: 1,
-          imgSrc: '/assets/home.png',
-        },
-        {
-          id: 2,
-          imgSrc: '/assets/home-1.png',
-        },
-        {
-          id: 3,
-          imgSrc: '/assets/home-2.png',
-        },
-      ],
+      // gHImages: [
+      //   {
+      //     id: 1,
+      //     imgSrc: '/assets/home.png',
+      //   },
+      //   {
+      //     id: 2,
+      //     imgSrc: '/assets/home-1.png',
+      //   },
+      //   {
+      //     id: 3,
+      //     imgSrc: '/assets/home-2.png',
+      //   },
+      // ],
 
       searchInput: null,
       sharingRounds: [],
@@ -196,6 +217,18 @@ export default {
   },
 
   async fetch() {
+    // Fetch Banner images
+    const BANNERURL = `/unauth/banner/images`
+    await this.$axios
+      .$get(BANNERURL)
+      .then((res) => {
+        this.fetchedImages = res.result
+        this.$store.commit('round/SAVE_IMAGEPAYLOAD_DATA', this.fetchedImages)
+      })
+      .catch((e) => {
+        this.ERROR_HANDLER(e)
+      })
+
     // Fetch sharer's rounds
     const URL = `/unauth/sharing-rounds/status?name=ACTIVE&size=10&page=${
       this.currentPageNumber - 1
@@ -219,6 +252,9 @@ export default {
   },
 
   computed: {
+    fetchedImages() {
+      return this.$store.state.round.imagePayload
+    },
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1
     },

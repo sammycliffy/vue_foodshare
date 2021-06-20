@@ -37,18 +37,12 @@
           <p class="color-orange mb-0">
             Order deadline
             <span class="d-block color-black pr-2">
-              <!-- {{
-              new Date(sharingRound.cutOffTime).toLocaleString()
-            }} -->
               {{ sharingRound.cutOffTimeWithDay }}
             </span>
           </p>
           <p class="color-orange text-right mb-0">
             Sharing day
             <span class="d-block color-black pl-2">
-              <!-- {{
-              new Date(sharingRound.endTime).toLocaleString()
-            }} -->
               {{ sharingRound.endTimeWithDay }}
             </span>
           </p>
