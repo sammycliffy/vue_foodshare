@@ -33,7 +33,7 @@
             <p class="text_medium mb-0" v-text="item.name"></p>
             <p class="item_day mt-3 mb-0">
               <span>Sharing Day &colon;</span>
-              <span v-text="new Date(item.endTime).toLocaleString()"></span>
+              <span v-text="item.endTimeWithDay"></span>
             </p>
           </div>
         </div>
