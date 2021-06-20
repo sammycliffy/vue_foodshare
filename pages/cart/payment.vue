@@ -52,7 +52,6 @@
                 ></b-spinner
               ></b-btn>
             </div>
-            <div>{{ cartPayload }}</div>
           </section>
         </div>
       </div>
