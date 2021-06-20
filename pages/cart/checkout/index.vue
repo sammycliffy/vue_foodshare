@@ -273,7 +273,6 @@ export default {
         .$post(URI, this.paymentPayload)
         .then((response) => {
           const newCartPayload = response.result
-          console.log(newCartPayload)
           newCartPayload.sharedCommodities = this.cartPayload.sharedCommodities
           // Save cart data to a perstisted Vuex store
           this.$store.commit('cart/SAVE_OFFLINE_CART_DATA', newCartPayload)
@@ -288,7 +287,6 @@ export default {
         })
     },
     async callback(response) {
-      console.log(response)
       this.ps_spinner = true
       this.paymentPayload.paymentDetails.paymentType = 'PAYSTACK'
       this.paymentPayload.paymentDetails.paystackVerificationCode =
