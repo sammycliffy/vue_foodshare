@@ -1,9 +1,11 @@
 <template>
   <div class="scroll-overflow">
     <div v-if="!sharingRound">Something Occured. Please, Try Again</div>
-
     <div class="half-width">
-      <div>
+      <div v-if="$fetchState.pending" class="text-center p-5">
+        <partials-skeleton-loader />
+      </div>
+      <div v-else>
         <div class="header-overlay">
           <div class="overlay-img"></div>
           <div class="overlay-bg"></div>
@@ -11,9 +13,7 @@
             <div class="top-row d-flex justify-content-between">
               <div class="d-flex justify-content-around">
                 <partials-back-nav-button />
-                <span class=""
-                  >{{ sharingRound.name || cartPayload.sharingRoundName }}
-                </span>
+                <span class="">{{ sharingRound.name }} </span>
               </div>
             </div>
           </div>
@@ -65,36 +65,14 @@ export default {
     return {
       spinner: false,
       pn_spinner: false,
-      cartPayload: this.$store.state.cart.payload,
-      sharingRound: this.$store.state.cart.round,
+
       fetchedOrder: null,
       hashbang: this.$route.hash.split('#!/')[1] || null,
     }
   },
 
-  created() {
+  async fetch() {
     if (this.hashbang) {
-      this.saveOrderAsCart()
-
-      this.sharingRound = {
-        id: null,
-        name: null,
-      }
-      this.sharingRound.id = this.cartPayload.sharingRoundId
-      this.sharingRound.name = this.cartPayload.sharingRoundName
-    }
-  },
-
-  mounted() {
-    if (!this.cartPayload.paymentDetails) {
-      this.cartPayload.paymentDetails = {
-        paymentType: null,
-      }
-    }
-  },
-
-  methods: {
-    async saveOrderAsCart() {
       const URL = `/services/orders/sharing-rounds/orders/order/${this.hashbang}`
       await this.$axios
         .$get(URL, {})
@@ -104,13 +82,36 @@ export default {
             this.fetchedOrder.sharedCommodities = this.fetchedOrder.orderedCommodities
             delete this.fetchedOrder.orderedCommodities
           }
-
           this.$store.commit('cart/SAVE_CART_DATA', this.fetchedOrder)
         })
         .catch((e) => {
           this.ERROR_HANDLER(e)
         })
+    }
+    if (!this.sharingRound.id) {
+      this.sharingRound.id = this.cartPayload.sharingRoundId
+      this.sharingRound.name = this.cartPayload.sharingRoundName
+      this.sharingRound.sharerId = this.cartPayload.sharerId
+      this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRound)
+    }
+    if (!this.cartPayload.paymentDetails) {
+      this.cartPayload.paymentDetails = {
+        paymentType: null,
+      }
+    }
+
+    this.$forceUpdate()
+  },
+
+  computed: {
+    cartPayload() {
+      return this.$store.state.cart.payload
     },
+    sharingRound() {
+      return this.$store.state.cart.round
+    },
+  },
+  methods: {
     async payNowSelect() {
       this.pn_spinner = true
       this.cartPayload.paymentDetails.paymentType = 'PAYSTACK'
