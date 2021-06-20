@@ -375,6 +375,7 @@ export default {
           sharedCommodityId: item.id,
           sharedCommodityName: item.commodityName,
           imageUrl: item.imageUrl,
+          unitOfMeasurement: item.unitOfMeasurement,
         }
 
         // toggle drop-down

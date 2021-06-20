@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="scroll-overflow">
+  <div class="scroll-overflow">
+    <div class="half-width">
       <div class="header-overlay">
         <div class="overlay-img"></div>
         <div class="overlay-bg"></div>
@@ -92,7 +92,10 @@
                     >
                     <span v-if="item.paymentComplete === false">
                       <span
-                        v-if="item.orderStatus === 'AWAITING_PAYMENT'"
+                        v-if="
+                          item.orderStatus === 'AWAITING_PAYMENT' ||
+                          item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
+                        "
                         class="paymentStatusPending"
                         >Payment required</span
                       >
@@ -102,6 +105,11 @@
                         "
                         class="paymentStatusPending"
                         >Awaiting Approval</span
+                      >
+                      <span
+                        v-if="item.orderStatus === 'ORDER_CANCELLED'"
+                        class="paymentStatusPending"
+                        >Order Cancelled</span
                       >
                     </span>
                   </span>
@@ -136,7 +144,7 @@
               :autoplay="true"
               :responsive="{
                 0: { items: 1, nav: false },
-                600: { items: 3, nav: true },
+                600: { items: 2, nav: false },
               }"
             >
               <div
@@ -365,7 +373,7 @@ export default {
 
 .sharingRoundBox {
   border: 1px solid rgba(245, 245, 245, 0.05);
-  margin: 10px 0;
+  margin: 10px;
   padding: 22px;
   border-radius: 10px;
   background-color: rgba(79, 158, 85, 0.05);
