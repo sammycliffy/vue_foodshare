@@ -104,7 +104,7 @@
                     </div>
                     <div class="col px-0">
                       <b-form-checkbox
-                        v-if="item.paymentComplete"
+                        v-if="item.sharingDayPassed"
                         :id="item.orderId + ''"
                         v-model="checkStatus[item.orderId]"
                         class="roundBasket"
@@ -189,7 +189,7 @@
                     </div>
                     <div class="col px-0">
                       <b-form-checkbox
-                        v-if="item.paymentComplete"
+                        v-if="item.sharingDayPassed"
                         :id="item.orderId + ''"
                         v-model="checkStatus[item.orderId]"
                         class="roundBasket"
@@ -274,7 +274,7 @@
                     </div>
                     <div class="col px-0">
                       <b-form-checkbox
-                        v-if="item.paymentComplete"
+                        v-if="item.sharingDayPassed"
                         :id="item.orderId + ''"
                         v-model="checkStatus[item.orderId]"
                         class="roundBasket"
@@ -359,7 +359,7 @@
                     </div>
                     <div class="col px-0">
                       <b-form-checkbox
-                        v-if="item.orderStatus !== 'ORDER_CANCELLED'"
+                        v-if="item.sharingDayPassed"
                         :id="item.orderId + ''"
                         v-model="checkStatus[item.orderId]"
                         class="roundBasket"

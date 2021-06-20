@@ -211,7 +211,6 @@ export default {
     return {
       USER: this.$store.state.auth.userData,
       totalExpenses: null,
-
       orders: [],
       ordersRecent: [],
       sharingRoundsActive: [],
