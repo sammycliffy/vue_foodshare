@@ -19,14 +19,12 @@
               1200: { items: 1, nav: false },
             }"
             :autoplay="true"
-            :auto-width="false"
-            :auto-height="false"
             :nav="false"
           >
             <div v-for="img in fetchedImages" :key="img.id" class="gHImgHost">
               <div
                 class="gHImg"
-                :style="{ 'background-image': 'url(' + img + ')' }"
+                :style="{ 'background-image': 'url(' + img.url + ')' }"
               ></div>
             </div>
           </carousel>
@@ -139,7 +137,7 @@
               <div class="d-flex justify-content-between mt-1">
                 <span class="text_medium color-green mini-title">
                   <span class="d-block color-black text_normal">
-                    {{ item.endTimeWithDay }}
+                    {{ item.sharingDayWithoutTime }}
                   </span>
                 </span>
                 <span class="text_medium mini-title">
@@ -184,11 +182,10 @@ export default {
 
       btnSpinner: null,
       numberOfPages: 1,
-      fetchedImages: this.$store.state.round.imagePayload,
-
       searchInput: null,
       sharingRounds: [],
       sharingRoundsDefault: [],
+      fetchedImages: this.$store.state.round.imagePayload,
 
       //   USER: this.$store.state.auth.userData,
     }
@@ -200,7 +197,7 @@ export default {
     await this.$axios
       .$get(BANNERURL)
       .then((res) => {
-        this.fetchedImages = res.result.urls
+        this.fetchedImages = res.result.banners
         this.$store.commit('round/SAVE_IMAGEPAYLOAD_DATA', this.fetchedImages)
       })
       .catch((e) => {
