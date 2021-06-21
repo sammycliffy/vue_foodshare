@@ -30,13 +30,12 @@
             <div v-for="img in fetchedImages" :key="img.id" class="gHImgHost">
               <div
                 class="gHImg"
-                :style="{ 'background-image': 'url(' + img.imgSrc + ')' }"
+                :style="{ 'background-image': 'url(' + img + ')' }"
               ></div>
             </div>
           </carousel>
         </no-ssr>
       </div>
-
       <nav>
         <b-input-group class="searchBarDiv bg-transparent poppins mt-2 mb-4">
           <b-form-input
@@ -140,24 +139,15 @@
                   </span>
                 </span>
               </div>
-              <div class="">
-                <span class="d-block text_medium color-green my-1 mini-title">
-                  Sharing day:
+              <div class="d-flex justify-content-between mt-1">
+                <span class="text_medium color-green mini-title">
                   <span class="d-block color-black text_normal">
                     {{ item.endTimeWithDay }}
                   </span>
                 </span>
-                <span class="d-block text_medium color-green my-1 mini-title">
-                  Sharing Location:
-                  <span class="d-block color-black text_normal">
-                    <span>{{ item.sharingAddress.lineOne }}</span
-                    >&comma;
-                    <span v-if="item.sharingAddress.lineTwo"
-                      >{{ item.sharingAddress.lineTwo }} &comma;</span
-                    >
-                    <span>{{ item.sharingAddress.town }}</span
-                    >&comma;
-                    <span>{{ item.sharingAddress.state }}</span>
+                <span class="text_medium mini-title">
+                  <span class="d-block color-orange text_normal">
+                    <span>{{ item.sharingAddress.lineTwo }}</span>
                   </span>
                 </span>
               </div>
@@ -411,7 +401,7 @@ export default {
       sharerRegisterModal: null,
       reviewOrderModal: false,
       changePassowrdModal: false,
-
+      fetchedImages: this.$store.state.round.imagePayload,
       numberOfPages: 1,
 
       stateOptions: [
@@ -520,7 +510,7 @@ export default {
     await this.$axios
       .$get(BANNERURL)
       .then((res) => {
-        this.fetchedImages = res.result
+        this.fetchedImages = res.result.urls
         this.$store.commit('round/SAVE_IMAGEPAYLOAD_DATA', this.fetchedImages)
       })
       .catch((e) => {
@@ -561,9 +551,6 @@ export default {
   },
 
   computed: {
-    fetchedImages() {
-      return this.$store.state.round.imagePayload
-    },
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1
     },
