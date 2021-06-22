@@ -185,9 +185,6 @@ export default {
       searchInput: null,
       sharingRounds: [],
       sharingRoundsDefault: [],
-      fetchedImages: this.$store.state.round.imagePayload,
-
-      //   USER: this.$store.state.auth.userData,
     }
   },
 
@@ -227,6 +224,15 @@ export default {
   },
 
   computed: {
+    fetchedImages: {
+      get() {
+        return this.$store.state.round.imagePayload
+      },
+      set(newValue) {
+        this.$store.state.round.imagePayload = newValue
+      },
+    },
+
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1
     },
