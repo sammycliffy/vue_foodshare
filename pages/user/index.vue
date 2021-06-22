@@ -400,7 +400,7 @@ export default {
       sharerRegisterModal: null,
       reviewOrderModal: false,
       changePassowrdModal: false,
-      fetchedImages: this.$store.state.round.imagePayload,
+      // fetchedImages: this.$store.state.round.imagePayload,
       numberOfPages: 1,
 
       stateOptions: [
@@ -448,21 +448,6 @@ export default {
       accountName: null,
       selectedBank: null,
       accountNamePlaceholder: 'Account name',
-      // gHImages: [
-      //   {
-      //     id: 1,
-      //     imgSrc: '/assets/home.png',
-      //   },
-      //   {
-      //     id: 2,
-      //     imgSrc: '/assets/home-1.png',
-      //   },
-      //   {
-      //     id: 3,
-      //     imgSrc: '/assets/home-2.png',
-      //   },
-      // ],
-
       searchInput: null,
       sharingRounds: [],
       sharingRoundsDefault: [],
@@ -550,6 +535,14 @@ export default {
   },
 
   computed: {
+    fetchedImages: {
+      get() {
+        return this.$store.state.round.imagePayload
+      },
+      set(newValue) {
+        this.$store.state.round.imagePayload = newValue
+      },
+    },
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1
     },

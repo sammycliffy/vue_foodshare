@@ -117,7 +117,7 @@ export default {
           (element) => element.status === 'PENDING'
         )
         this.sharingRoundsClosed = this.sharingRounds.filter(
-          (element) => element.closed
+          (element) => element.isClosed
         )
       })
       .catch((error) => {

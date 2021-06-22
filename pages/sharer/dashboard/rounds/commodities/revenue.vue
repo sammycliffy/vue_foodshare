@@ -114,6 +114,7 @@ export default {
 
       this.sharingRound.commoditiesDetails.forEach((element) => {
         total += element.commodityFinancials.totalProfit
+        console.log(total)
       })
 
       return total

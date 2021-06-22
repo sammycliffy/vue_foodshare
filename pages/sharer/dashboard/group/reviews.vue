@@ -100,7 +100,7 @@ export default {
       .$get(URL, {})
       .then((res) => {
         this.sharingRounds = res.result.sharingRounds.filter(
-          (element) => element.closed
+          (element) => element.isClosed
         )
       })
       .catch((e) => {
