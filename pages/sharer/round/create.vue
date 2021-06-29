@@ -52,6 +52,7 @@
                     day: '2-digit',
                     weekday: 'short',
                   }"
+                  :min="new Date()"
                   locale="en"
                 />
                 <!-- <v-calendar

@@ -288,9 +288,9 @@
         </div>
 
         <div class="">
-          <nuxt-link
-            class="card_btn d-flex justify-content-between"
-            to="/account/logout"
+          <div
+            class="card_btn d-flex justify-content-between icon-cusor"
+            @click="logUserOut"
           >
             <span>Sign Out</span>
             <span>
@@ -312,7 +312,42 @@
                 />
               </svg>
             </span>
-          </nuxt-link>
+          </div>
+          <b-overlay v-if="confirmationLogOutDialog" show no-wrap>
+            <template #overlay>
+              <!-- <div v-if="spinner" class="text-center">
+              <b-spinner variant="primary" label="deleting"></b-spinner>
+              <div class="pt-3">Logging Out. Please wait.</div>
+            </div> -->
+
+              <div
+                ref="dialog"
+                tabindex="-1"
+                role="dialog"
+                aria-modal="false"
+                aria-labelledby="form-confirm-label"
+                class="text-center p-3"
+              >
+                <p>
+                  <strong id="form-confirm-label"
+                    >Are you sure, you want to log out?</strong
+                  >
+                </p>
+                <div class="d-flex">
+                  <b-button
+                    variant="outline-danger"
+                    class="mr-3"
+                    @click="confirmationLogOutDialog = false"
+                  >
+                    Cancel
+                  </b-button>
+                  <b-button variant="outline-success" to="/account/logout"
+                    >OK</b-button
+                  >
+                </div>
+              </div>
+            </template>
+          </b-overlay>
         </div>
       </div>
     </div>
@@ -332,6 +367,7 @@ export default {
       labelText: 'Tap to change picture',
 
       USER: this.$store.state.auth.userData,
+      confirmationLogOutDialog: false,
     }
   },
 
@@ -393,6 +429,10 @@ export default {
             // Close the loader
           })
       }
+    },
+
+    logUserOut() {
+      this.confirmationLogOutDialog = true
     },
   },
 }

@@ -52,8 +52,8 @@
               v-model="
                 sharingRound.commodities[commoditiesLength].commodityName
               "
-              :options="commoditiesArr[commoditiesLength] || []"
-              :disable="!commoditiesArr[commoditiesLength]"
+              :options="commoditiesArr[commoditiesLength].name || []"
+              :disable="!commoditiesArr[commoditiesLength].name"
               placeholder="Select a product"
               class="selectVCustom"
               autocomplete="off"
@@ -294,6 +294,7 @@ export default {
     return {
       commoditiesArr: [],
       categoriesOptions: [],
+      // unitsOfMeasurements: [],
       unitsOfMeasurements: [],
 
       commoditiesLength: 0,
@@ -406,7 +407,7 @@ export default {
         {
           id: null,
           category: [],
-          unitOfMeasurement: [],
+          unitsOfMeasurement: [],
         },
       ]
 
@@ -419,12 +420,26 @@ export default {
           },
         })
         .then((res) => {
-          this.commoditiesArr[index] = res.result.commodityCreatedResults.map(
-            (el) => el.name
-          )
+          this.commoditiesArr[
+            index
+          ].name = res.result.commodityCreatedResults.map((el) => el.name)
 
           this.unitsOfMeasurements =
             res.result.commodityCreatedResults[0].unitsOfMeasurement
+          // this.commoditiesArr = res.result.commodityCreatedResults.map(
+          //   (el) => {
+          //     return { 'id': el.id, 'name': el.name, 'category': el.category, 'unitsOfMeasurement': el.unitsOfMeasurement }
+          //   }
+          // )
+          // this.commoditiesArr[index] = res.result.commodityCreatedResults.map(
+          //   (el) => {
+          //     return { 'id': el.id, 'name': el.name, 'category': el.category, 'unitsOfMeasurement': el.unitsOfMeasurement }
+          //   }
+          // )
+
+          // this.unitsOfMeasurements = res.result.commodityCreatedResults[0].unitsOfMeasurement
+
+          console.log(this.commoditiesArr[index])
         })
         .catch(() => {
           // Display  error toast notification
