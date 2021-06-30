@@ -187,7 +187,8 @@
             <b-form-input
               v-model="FORM.sharingGroupDetails.contactAddress.lineTwo"
               class="formInputGroup"
-              placeholder="Address line 2"
+              placeholder="Area"
+              maxlength="10"
             />
             <b-container>
               <b-row align-h="between">
@@ -195,7 +196,8 @@
                   <b-form-input
                     v-model="FORM.sharingGroupDetails.contactAddress.town"
                     class="formInputGroup"
-                    placeholder="Town"
+                    placeholder="City"
+                    maxlength="20"
                     required
                   />
                 </b-col>

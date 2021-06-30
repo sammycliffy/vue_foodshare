@@ -198,15 +198,15 @@ export default {
       })
 
     // Fetch sharer's review
-    URL = `/services/reviews/sharer/${this.USER.id}`
-    await this.$axios
-      .$get(URL, {})
-      .then((res) => {
-        this.totalReviews = res.result.reviews.length
-      })
-      .catch((e) => {
-        this.ERROR_HANDLER(e)
-      })
+    // URL = `/services/reviews/sharer/${this.USER.id}`
+    // await this.$axios
+    //   .$get(URL, {})
+    //   .then((res) => {
+    //     this.totalReviews = res.result.reviews.length
+    //   })
+    //   .catch((e) => {
+    //     this.ERROR_HANDLER(e)
+    //   })
   },
 }
 </script>
