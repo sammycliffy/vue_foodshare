@@ -49,6 +49,7 @@
 
           <div class="form-group">
             <v-select
+              id="selecedProductCommodity"
               v-model="
                 sharingRound.commodities[commoditiesLength].commodityName
               "
@@ -60,6 +61,7 @@
               :clearable="false"
               :filterable="true"
               required
+              @input="selectedProductName(commoditiesLength)"
             ></v-select>
           </div>
         </div>
@@ -90,7 +92,7 @@
                   sharingRound.commodities[commoditiesLength].unitOfMeasurement
                 "
                 :options="unitsOfMeasurements || []"
-                placeholder="Select a product"
+                placeholder="Select a unit of measurement"
                 class="selectVCustom"
                 autocomplete="off"
                 :clearable="false"
@@ -296,7 +298,8 @@ export default {
       categoriesOptions: [],
       // unitsOfMeasurements: [],
       unitsOfMeasurements: [],
-
+      globalUnitsofMeasurement: [],
+      arrayIndexOfGlobalUnitsofMeasurement: 0,
       commoditiesLength: 0,
 
       // fetch stuff from vuex
@@ -406,6 +409,7 @@ export default {
       this.commoditiesArr[index] = [
         {
           id: null,
+          name: [],
           category: [],
           unitsOfMeasurement: [],
         },
@@ -423,23 +427,9 @@ export default {
           this.commoditiesArr[
             index
           ].name = res.result.commodityCreatedResults.map((el) => el.name)
-
-          this.unitsOfMeasurements =
-            res.result.commodityCreatedResults[0].unitsOfMeasurement
-          // this.commoditiesArr = res.result.commodityCreatedResults.map(
-          //   (el) => {
-          //     return { 'id': el.id, 'name': el.name, 'category': el.category, 'unitsOfMeasurement': el.unitsOfMeasurement }
-          //   }
-          // )
-          // this.commoditiesArr[index] = res.result.commodityCreatedResults.map(
-          //   (el) => {
-          //     return { 'id': el.id, 'name': el.name, 'category': el.category, 'unitsOfMeasurement': el.unitsOfMeasurement }
-          //   }
-          // )
-
-          // this.unitsOfMeasurements = res.result.commodityCreatedResults[0].unitsOfMeasurement
-
-          console.log(this.commoditiesArr[index])
+          this.globalUnitsofMeasurement = res.result.commodityCreatedResults.map(
+            (el) => el.unitsOfMeasurement
+          )
         })
         .catch(() => {
           // Display  error toast notification
@@ -448,6 +438,27 @@ export default {
         .finally(() => {
           this.$forceUpdate()
         })
+    },
+
+    selectedProductName(index) {
+      const currentProductName = this.sharingRound.commodities[
+        this.commoditiesLength
+      ].commodityName
+
+      for (
+        let a = 0;
+        a < this.commoditiesArr[this.commoditiesLength].name.length;
+        a++
+      ) {
+        const element = this.commoditiesArr[this.commoditiesLength].name[a]
+        if (element === currentProductName) {
+          this.arrayIndexOfGlobalUnitsofMeasurement = a
+          break
+        }
+      }
+      this.unitsOfMeasurements = this.globalUnitsofMeasurement[
+        this.arrayIndexOfGlobalUnitsofMeasurement
+      ].map((el) => el)
     },
 
     validateFields(index) {

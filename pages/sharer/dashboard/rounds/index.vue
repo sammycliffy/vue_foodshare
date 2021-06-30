@@ -13,7 +13,27 @@
 
       <div class="body-primary half-width">
         <b-tabs class="profile_tabs">
-          <b-tab title="Active" active>
+          <b-tab title="Pending" active>
+            <div
+              v-if="sharingRoundsPending && sharingRoundsPending.length < 1"
+              class=""
+            >
+              <p class="noRoundP">You Don’t have any pending sharing round</p>
+            </div>
+            <div v-else class="">
+              <nav v-if="$fetchState.pending" class="sharingRoundListBox">
+                <partials-skeleton-loader />
+              </nav>
+              <nav v-else-if="$fetchState.error" class="noRoundP">
+                Something Occured. Please, Try Again
+              </nav>
+              <round-list-item
+                editable
+                :sharing-rounds="sharingRoundsPending"
+              />
+            </div>
+          </b-tab>
+          <b-tab title="Active">
             <div
               v-if="sharingRoundsActive && sharingRoundsActive.length < 1"
               class="text-center"
@@ -40,26 +60,6 @@
             </div>
           </b-tab>
 
-          <b-tab title="Pending">
-            <div
-              v-if="sharingRoundsPending && sharingRoundsPending.length < 1"
-              class=""
-            >
-              <p class="noRoundP">You Don’t have any pending sharing round</p>
-            </div>
-            <div v-else class="">
-              <nav v-if="$fetchState.pending" class="sharingRoundListBox">
-                <partials-skeleton-loader />
-              </nav>
-              <nav v-else-if="$fetchState.error" class="noRoundP">
-                Something Occured. Please, Try Again
-              </nav>
-              <round-list-item
-                editable
-                :sharing-rounds="sharingRoundsPending"
-              />
-            </div>
-          </b-tab>
           <b-tab title="Closed">
             <div
               v-if="sharingRoundsClosed && sharingRoundsClosed.length < 1"
