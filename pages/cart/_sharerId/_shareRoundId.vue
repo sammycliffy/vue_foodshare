@@ -527,9 +527,17 @@ export default {
         this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
       } else {
         // Display warning toast notification
-        this.ERROR_HANDLER(
-          'The slot you entered more than the available slot',
-          'warning'
+        // this.ERROR_HANDLER(
+        //   'The slot you entered is more than the available slot',
+        //   'warning'
+        // )
+        this.$bvToast.toast(
+          'The slot you entered is more than the available slot',
+          {
+            title: 'Oops!',
+            variant: 'warning',
+            solid: true,
+          }
         )
       }
       this.calculateBasketWorth()

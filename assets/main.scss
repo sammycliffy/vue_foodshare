@@ -80,6 +80,14 @@ h5{
   border: unset;
 }
 
+.sameBtnWithPrimary{
+  border: unset;
+  padding: 15px;
+  font-size: 15px;
+  line-height: 12px;
+  border-radius: 5px;
+}
+
 .primary-btn:active {
   background: #4f9e55;
 }
@@ -714,6 +722,7 @@ h5{
   margin-top: 24px;
   margin-bottom: 24px;
 }
+
 .py-14 {
   padding-top: 14px;
   padding-bottom: 14px;

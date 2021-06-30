@@ -211,7 +211,7 @@
                       <input
                         v-model="cart[index]"
                         type="number"
-                        min="0"
+                        :min="0"
                         :max="item.remainingSlots"
                         class="form-control toggle_input"
                         :placeholder="
@@ -379,7 +379,7 @@ export default {
       } else {
         // Display warning toast notification
         this.$bvToast.toast(
-          'The slot you entered more than the available slot',
+          'The slot you entered is more than the available slot',
           {
             title: 'Oops!',
             variant: 'warning',
