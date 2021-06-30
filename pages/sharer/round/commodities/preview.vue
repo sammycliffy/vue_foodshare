@@ -80,7 +80,7 @@
 
         <div v-if="!sharingRoundPayload.published" class="text-center">
           <nuxt-link to="/sharer/round/commodities/summary/">
-            <b-btn class="btn primary-btn">Procced to Summary</b-btn>
+            <b-btn class="btn primary-btn">Proceed to Summary</b-btn>
           </nuxt-link>
         </div>
 
@@ -88,7 +88,7 @@
           <nuxt-link
             :to="`/sharer/round/commodities/add/#!/update/${sharingRoundPayload.id}/`"
           >
-            <b-btn class=" ">Add More commodities</b-btn>
+            <b-btn class="btn sameBtnWithPrimary">Add More commodities</b-btn>
           </nuxt-link>
         </div>
       </div>
