@@ -241,7 +241,8 @@ export default {
       })
 
     // Fetch sharer's rounds
-    URL = '/services/sharing-rounds/status?name=ACTIVE'
+    URL = `/unauth/sharing-rounds/status?name=ACTIVE&size=6&page=0`
+    // URL = '/services/sharing-rounds/status?name=ACTIVE'
     await this.$axios
       .$get(URL, {})
       .then((res) => {

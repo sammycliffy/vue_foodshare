@@ -52,6 +52,7 @@
                     day: '2-digit',
                     weekday: 'short',
                   }"
+                  :min="new Date()"
                   locale="en"
                 />
                 <!-- <v-calendar
@@ -264,15 +265,7 @@ export default {
       })
 
     // check if round name exist and covert default-name
-    const days = [
-      'Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Friday',
-      'Saturday',
-    ]
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
     const months = [
       'January',
       'February',
@@ -288,6 +281,7 @@ export default {
       'December',
     ]
     let today = new Date()
+
     today = `${days[today.getDay()]} ${today.getDate()} ${
       months[today.getMonth()]
     } ${today.getFullYear()}`

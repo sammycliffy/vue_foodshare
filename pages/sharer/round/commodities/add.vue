@@ -49,17 +49,19 @@
 
           <div class="form-group">
             <v-select
+              id="selecedProductCommodity"
               v-model="
                 sharingRound.commodities[commoditiesLength].commodityName
               "
-              :options="commoditiesArr[commoditiesLength] || []"
-              :disable="!commoditiesArr[commoditiesLength]"
+              :options="commoditiesArr[commoditiesLength].name || []"
+              :disable="!commoditiesArr[commoditiesLength].name"
               placeholder="Select a product"
               class="selectVCustom"
               autocomplete="off"
               :clearable="false"
               :filterable="true"
               required
+              @input="selectedProductName(commoditiesLength)"
             ></v-select>
           </div>
         </div>
@@ -90,7 +92,7 @@
                   sharingRound.commodities[commoditiesLength].unitOfMeasurement
                 "
                 :options="unitsOfMeasurements || []"
-                placeholder="Select a product"
+                placeholder="Select a unit of measurement"
                 class="selectVCustom"
                 autocomplete="off"
                 :clearable="false"
@@ -294,8 +296,10 @@ export default {
     return {
       commoditiesArr: [],
       categoriesOptions: [],
+      // unitsOfMeasurements: [],
       unitsOfMeasurements: [],
-
+      globalUnitsofMeasurement: [],
+      arrayIndexOfGlobalUnitsofMeasurement: 0,
       commoditiesLength: 0,
 
       // fetch stuff from vuex
@@ -405,8 +409,9 @@ export default {
       this.commoditiesArr[index] = [
         {
           id: null,
+          name: [],
           category: [],
-          unitOfMeasurement: [],
+          unitsOfMeasurement: [],
         },
       ]
 
@@ -419,12 +424,12 @@ export default {
           },
         })
         .then((res) => {
-          this.commoditiesArr[index] = res.result.commodityCreatedResults.map(
-            (el) => el.name
+          this.commoditiesArr[
+            index
+          ].name = res.result.commodityCreatedResults.map((el) => el.name)
+          this.globalUnitsofMeasurement = res.result.commodityCreatedResults.map(
+            (el) => el.unitsOfMeasurement
           )
-
-          this.unitsOfMeasurements =
-            res.result.commodityCreatedResults[0].unitsOfMeasurement
         })
         .catch(() => {
           // Display  error toast notification
@@ -433,6 +438,27 @@ export default {
         .finally(() => {
           this.$forceUpdate()
         })
+    },
+
+    selectedProductName(index) {
+      const currentProductName = this.sharingRound.commodities[
+        this.commoditiesLength
+      ].commodityName
+
+      for (
+        let a = 0;
+        a < this.commoditiesArr[this.commoditiesLength].name.length;
+        a++
+      ) {
+        const element = this.commoditiesArr[this.commoditiesLength].name[a]
+        if (element === currentProductName) {
+          this.arrayIndexOfGlobalUnitsofMeasurement = a
+          break
+        }
+      }
+      this.unitsOfMeasurements = this.globalUnitsofMeasurement[
+        this.arrayIndexOfGlobalUnitsofMeasurement
+      ].map((el) => el)
     },
 
     validateFields(index) {

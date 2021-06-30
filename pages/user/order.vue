@@ -19,7 +19,7 @@
         </div>
       </div>
 
-      <div class="body-primary">
+      <div class="body-primary half-width">
         <nav v-if="$fetchState.pending" class="text-center p-5">
           <partials-skeleton-loader />
         </nav>
