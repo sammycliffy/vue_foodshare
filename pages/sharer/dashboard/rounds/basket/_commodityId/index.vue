@@ -73,7 +73,7 @@
                           :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
                           class="plain-link text_medium basketLink"
                         >
-                          <span>View Basket</span>
+                          <span class="mr-2">View Basket</span>
                         </nuxt-link>
                       </span>
                       <span
@@ -86,7 +86,7 @@
                           item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
                         "
                         class="paymentStatusBadge"
-                        >Awaiting Approval</span
+                        >Awaiting Payment Confirmation</span
                       >
                       <span
                         v-if="
@@ -158,7 +158,7 @@
                           :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
                           class="plain-link text_medium basketLink"
                         >
-                          <span>View Basket</span>
+                          <span class="mr-2">View Basket</span>
                         </nuxt-link>
                       </span>
                       <span
@@ -171,7 +171,7 @@
                           item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
                         "
                         class="paymentStatusBadge"
-                        >Awaiting Approval</span
+                        >Awaiting Payment Confirmation</span
                       >
                       <span
                         v-if="
@@ -243,7 +243,7 @@
                           :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
                           class="plain-link text_medium basketLink"
                         >
-                          <span>View Basket</span>
+                          <span class="mr-2">View Basket</span>
                         </nuxt-link>
                       </span>
                       <span
@@ -256,7 +256,7 @@
                           item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
                         "
                         class="paymentStatusBadge"
-                        >Awaiting Approval</span
+                        >Awaiting Payment Confirmation</span
                       >
                       <span
                         v-if="
@@ -327,7 +327,7 @@
                           :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
                           class="plain-link text_medium basketLink"
                         >
-                          <span>View Basket</span>
+                          <span class="mr-2">View Basket</span>
                         </nuxt-link>
                       </span>
                       <span
@@ -340,7 +340,7 @@
                           item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
                         "
                         class="paymentStatusBadge"
-                        >Awaiting Approval</span
+                        >Awaiting Payment Confirmation</span
                       >
                       <span
                         v-if="
@@ -606,15 +606,16 @@ export default {
   padding: 4px 12px;
   font-size: 12px;
   line-height: 22px;
+  white-space: nowrap;
   border-radius: 13px;
   background-color: rgba(254, 143, 10, 0.13);
-  margin-left: 10px;
 }
 .paymentStatusPaid {
   color: #4f9e55;
   padding: 4px 12px;
   font-size: 12px;
   line-height: 22px;
+  white-space: nowrap;
   border-radius: 13px;
   background-color: rgba(79, 158, 85, 0.13);
   margin-left: 10px;
