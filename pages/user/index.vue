@@ -400,7 +400,7 @@ export default {
       sharerRegisterModal: null,
       reviewOrderModal: false,
       changePassowrdModal: false,
-      // fetchedImages: this.$store.state.round.imagePayload,
+      fetchedImages: this.$store.state.round.imagePayload,
       numberOfPages: 1,
 
       stateOptions: [
@@ -535,14 +535,14 @@ export default {
   },
 
   computed: {
-    fetchedImages: {
-      get() {
-        return this.$store.state.round.imagePayload
-      },
-      set(newValue) {
-        this.$store.state.round.imagePayload = newValue
-      },
-    },
+    // fetchedImages: {
+    //   get() {
+    //     return this.$store.state.round.imagePayload
+    //   },
+    //   set(newValue) {
+    //     this.$store.state.round.imagePayload = newValue
+    //   },
+    // },
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1
     },

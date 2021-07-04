@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       middleware: 'public',
-
+      fetchedImages: this.$store.state.round.imagePayload,
       btnSpinner: null,
       numberOfPages: 1,
       searchInput: null,
@@ -224,14 +224,14 @@ export default {
   },
 
   computed: {
-    fetchedImages: {
-      get() {
-        return this.$store.state.round.imagePayload
-      },
-      set(newValue) {
-        this.$store.state.round.imagePayload = newValue
-      },
-    },
+    // fetchedImages: {
+    //   get() {
+    //     return this.$store.state.round.imagePayload
+    //   },
+    //   set(newValue) {
+    //     this.$store.state.round.imagePayload = newValue
+    //   },
+    // },
 
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1

@@ -3,7 +3,7 @@
     <div class="half-width">
       <header class="top-row d-flex justify-content-between">
         <partials-back-nav-button />
-        <h5 class="title">Round Basket</h5>
+        <h5 class="title">Ongoing Sharing Rounds</h5>
         <span>&nbsp;</span>
       </header>
 
@@ -25,7 +25,7 @@
         </div>
 
         <div v-if="orders.length < 1" class="bg-white text-center py-3">
-          No Member Found
+          No Order Found
         </div>
 
         <div v-else>
@@ -274,7 +274,6 @@
                     </div>
                     <div class="col px-0">
                       <b-form-checkbox
-                        v-if="item.sharingDayPassed"
                         :id="item.orderId + ''"
                         v-model="checkStatus[item.orderId]"
                         class="roundBasket"
@@ -372,19 +371,18 @@
               </b-collapse>
             </div>
           </div>
-
-          <div class="text-center mt-32">
-            <b-btn class="btn closeRound-btn" @click="closeRound()"
-              >Close Round
-              <b-spinner
-                v-if="spinner"
-                variant="white"
-                label="Spinning"
-                class="ml-3"
-                small
-              />
-            </b-btn>
-          </div>
+        </div>
+        <div class="text-center mt-32">
+          <b-btn class="btn closeRound-btn" @click="closeRound()"
+            >Close Round
+            <b-spinner
+              v-if="spinner"
+              variant="white"
+              label="Spinning"
+              class="ml-3"
+              small
+            />
+          </b-btn>
         </div>
       </section>
     </div>
@@ -476,38 +474,59 @@ export default {
     },
 
     async closeRound() {
-      const checkedItems = Object.values(this.checkStatus).filter((x) => x)
+      // const checkedItems = Object.values(this.checkStatus).filter((x) => x)
+      this.spinner = true
 
-      if (checkedItems.length > 0) {
-        this.spinner = true
+      const itemId = this.$route.params.commodityId
 
-        const itemId = this.$route.params.commodityId
-
-        // Close the particular round
-        const URL = `/services/sharing-rounds/${this.sharingRound.id}/${itemId}/close`
-        await this.$axios
-          .$put(URL, {})
-          .then(() => {
-            this.SHOW_TOAST({
-              text: 'Round Closed Successfully',
-              variant: 'success',
-              title: 'Success',
-            })
+      // Close the particular round
+      const URL = `/services/sharing-rounds/${this.sharingRound.id}/${itemId}/close`
+      await this.$axios
+        .$put(URL, {})
+        .then(() => {
+          this.SHOW_TOAST({
+            text: 'Round Closed Successfully',
+            variant: 'success',
+            title: 'Success',
           })
-          .catch((error) => {
-            this.ERROR_HANDLER(error)
-            throw error
-          })
-          .finally(() => {
-            this.spinner = false
-          })
-      } else {
-        this.SHOW_TOAST({
-          text: 'Confirm at least one payment before closing round',
-          variant: 'warning',
-          title: 'Hint',
         })
-      }
+        .catch((error) => {
+          this.ERROR_HANDLER(error)
+          throw error
+        })
+        .finally(() => {
+          this.spinner = false
+        })
+      // if (checkedItems.length > 0) {
+      //   this.spinner = true
+
+      //   const itemId = this.$route.params.commodityId
+
+      //   // Close the particular round
+      //   const URL = `/services/sharing-rounds/${this.sharingRound.id}/${itemId}/close`
+      //   await this.$axios
+      //     .$put(URL, {})
+      //     .then(() => {
+      //       this.SHOW_TOAST({
+      //         text: 'Round Closed Successfully',
+      //         variant: 'success',
+      //         title: 'Success',
+      //       })
+      //     })
+      //     .catch((error) => {
+      //       this.ERROR_HANDLER(error)
+      //       throw error
+      //     })
+      //     .finally(() => {
+      //       this.spinner = false
+      //     })
+      // } else {
+      //   this.SHOW_TOAST({
+      //     text: 'Confirm at least one order collection before closing round',
+      //     variant: 'warning',
+      //     title: 'Hint',
+      //   })
+      // }
     },
   },
 }
@@ -609,5 +628,6 @@ export default {
   box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.05);
+  font-size: 15px;
 }
 </style>

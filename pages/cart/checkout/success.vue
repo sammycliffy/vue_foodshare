@@ -81,11 +81,9 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <nuxt-link to="/user/order/" class="primary-btn-link">
-            Continue
-          </nuxt-link>
+          <nuxt-link to="/user/" class="primary-btn-link"> Continue </nuxt-link>
           <b-btn class="btn primary-btn" @click="submitReview()"
-            >Send
+            >Submit
             <b-spinner
               v-if="btnSpinner"
               variant="white"
@@ -112,7 +110,7 @@ export default {
 
       FORM: {
         comment: null,
-        rating: 0,
+        rating: 5,
         reviewContext: {
           reviewContextId: 0,
           reviewType: 'platform',
