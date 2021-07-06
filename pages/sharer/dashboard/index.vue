@@ -7,7 +7,7 @@
         <div class="top-bar">
           <div class="top-row d-flex justify-content-between">
             <span class="">
-              Hey, <span v-text="USER ? USER.firstName : ''" />
+              Hey <span v-text="USER ? USER.firstName : ''" />
             </span>
           </div>
         </div>
@@ -34,13 +34,7 @@
           <div class="text-center col">
             <span class="d-block statisticsNumber">
               <b-skeleton v-if="$fetchState.pending"></b-skeleton>
-              <span
-                v-else
-                v-text="
-                  sharingRounds.filter((x) => x.commoditiesDetails.closed)
-                    .length
-                "
-              />
+              <span v-else v-text="closedSharingRounds.length" />
             </span>
             <span class="d-block statisticsName">Completed Rounds</span>
           </div>
@@ -107,9 +101,9 @@ export default {
 
       publishLink: '#',
       totalReviews: 0,
-
       sharingRounds: [],
       sharingRoundsActive: [],
+      closedSharingRounds: [],
 
       barChartData: {
         labels: [
@@ -192,6 +186,11 @@ export default {
         this.sharingRoundsActive = this.sharingRounds.filter(
           (element) => element.status === 'ACTIVE'
         )
+        this.closedSharingRounds = this.sharingRounds.filter(
+          (x) => x.status === 'CLOSED'
+        )
+
+        console.log(this.closedSharingRounds)
       })
       .catch((e) => {
         this.ERROR_HANDLER(e)

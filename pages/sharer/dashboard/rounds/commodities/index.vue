@@ -262,7 +262,7 @@ export default {
 
   computed: {
     publishLink() {
-      const baseURL = 'https://foodsharesite.netlify.app'
+      const baseURL = 'https://app-qa.foodshare.ng'
       const publishLink = `${baseURL}/r/${this.sharingRound.sharerId}/${this.sharingRound.id}/`
       return publishLink
     },

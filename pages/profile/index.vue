@@ -107,7 +107,7 @@
                   </svg>
                 </span>
               </nuxt-link>
-              <nuxt-link
+              <!-- <nuxt-link
                 class="d-flex justify-content-between link"
                 to="/sharer/dashboard/group/reviews/"
               >
@@ -127,7 +127,7 @@
                     />
                   </svg>
                 </span>
-              </nuxt-link>
+              </nuxt-link> -->
               <nuxt-link
                 class="d-flex justify-content-between no-b-border link"
                 to="/profile/support/"
@@ -313,41 +313,28 @@
               </svg>
             </span>
           </div>
-          <b-overlay v-if="confirmationLogOutDialog" show no-wrap>
-            <template #overlay>
-              <!-- <div v-if="spinner" class="text-center">
-              <b-spinner variant="primary" label="deleting"></b-spinner>
-              <div class="pt-3">Logging Out. Please wait.</div>
-            </div> -->
-
-              <div
-                ref="dialog"
-                tabindex="-1"
-                role="dialog"
-                aria-modal="false"
-                aria-labelledby="form-confirm-label"
-                class="text-center p-3"
+          <b-modal
+            v-model="logOutModal"
+            modal-class="logOutModalStyle text-center"
+            size="md"
+            hide-footer
+            hide-header
+            no-close-on-backdrop
+          >
+            <p>Are you sure you want to log out?</p>
+            <div class="text-center mt-24">
+              <b-button
+                variant="outline-danger"
+                class="mr-2"
+                @click="logOutModal = false"
               >
-                <p>
-                  <strong id="form-confirm-label"
-                    >Are you sure, you want to log out?</strong
-                  >
-                </p>
-                <div class="d-flex">
-                  <b-button
-                    variant="outline-danger"
-                    class="mr-3"
-                    @click="confirmationLogOutDialog = false"
-                  >
-                    Cancel
-                  </b-button>
-                  <b-button variant="outline-success" to="/account/logout"
-                    >OK</b-button
-                  >
-                </div>
-              </div>
-            </template>
-          </b-overlay>
+                Cancel
+              </b-button>
+              <b-button variant="outline-success" to="/account/logout"
+                >Log out</b-button
+              >
+            </div>
+          </b-modal>
         </div>
       </div>
     </div>
@@ -368,6 +355,7 @@ export default {
 
       USER: this.$store.state.auth.userData,
       confirmationLogOutDialog: false,
+      logOutModal: false,
     }
   },
 
@@ -432,7 +420,7 @@ export default {
     },
 
     logUserOut() {
-      this.confirmationLogOutDialog = true
+      this.logOutModal = true
     },
   },
 }
@@ -582,6 +570,22 @@ export default {
 ::v-deep .profile_tabs .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
   border-color: transparent;
+}
+
+::v-deep .logOutModalStyle .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+::v-deep .logOutModalStyle .modal-body {
+  padding: 32px 0 50px;
+}
+
+::v-deep .logOutModalStyle .modal-body p {
+  margin: 0 20%;
+}
+
+::v-deep .logOutModalStyle .modal-dialog {
+  padding: 20% 42px;
 }
 
 @media (max-width: 400px) {
