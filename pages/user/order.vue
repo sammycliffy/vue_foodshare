@@ -177,6 +177,7 @@ export default {
   color: #fe8f0a;
   padding: 4px 12px;
   font-size: 12px;
+  white-space: nowrap;
   line-height: 22px;
   border-radius: 13px;
   background-color: rgba(254, 143, 10, 0.13);
