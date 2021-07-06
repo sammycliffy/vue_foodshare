@@ -53,8 +53,7 @@
         size="md"
         modal-class="reviewPurchase"
         hide-footer
-        hide-header-close
-        hide-header
+        no-close-on-backdrop
       >
         <b-img
           :src="USER.image || '/assets/empty-photo.svg'"
@@ -69,6 +68,7 @@
             no-border
             color="#ffc107"
             size="lg"
+            class="no-box"
           ></b-form-rating>
         </span>
         <div class="form-group">
@@ -81,7 +81,13 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <nuxt-link to="/user/" class="primary-btn-link"> Continue </nuxt-link>
+          <nuxt-link
+            nuxt-link
+            class="color-green primary-btn-link m-0"
+            to="/user/"
+          >
+            <img class="" src="/assets/icons/home.svg" />
+          </nuxt-link>
           <b-btn class="btn primary-btn" @click="submitReview()"
             >Submit
             <b-spinner
@@ -177,7 +183,7 @@ export default {
 }
 
 ::v-deep .reviewPurchase .modal-body {
-  padding: 33px 18px 25px;
+  padding: 18px 18px 25px;
 }
 
 ::v-deep .reviewPurchase .modal-content {
@@ -191,6 +197,17 @@ export default {
   color: #000000;
   font-weight: 500;
   margin: 8px 0;
+}
+::v-deep .reviewPurchase .modal-header {
+  margin: unset !important;
+  border: unset !important;
+  padding-bottom: unset !important;
+}
+
+::v-deep .reviewPurchase .modal-header .close {
+  color: #d6d8db;
+  margin-bottom: unset;
+  padding-bottom: unset !important;
 }
 
 .userPic {
@@ -218,5 +235,9 @@ export default {
   padding-top: 10px;
   border: unset;
   border-radius: unset;
+}
+
+.no-box {
+  box-shadow: unset !important;
 }
 </style>
