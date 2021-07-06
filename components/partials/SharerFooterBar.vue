@@ -38,7 +38,7 @@
         <nuxt-link
           v-b-tooltip.hover
           nuxt-link
-          title="Round Basket"
+          title="Ongoing Sharing Rounds "
           class="nav-link"
           to="/sharer/dashboard/rounds/basket/"
         >

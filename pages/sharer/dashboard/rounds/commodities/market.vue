@@ -49,9 +49,7 @@
             <p class="mb-0">
               <span v-text="item.participants.length"></span>
               <span>
-                {{
-                  item.participants.length > 1 ? 'Participants' : 'Participant'
-                }}
+                {{ item.participants.length > 1 ? 'Orders' : 'Order' }}
               </span>
             </p>
           </div>

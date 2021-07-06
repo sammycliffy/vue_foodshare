@@ -127,7 +127,7 @@ export default {
   },
 
   mounted() {
-    const baseURL = 'https://foodsharesite.netlify.app'
+    const baseURL = 'https://app-qa.foodshare.ng'
     this.publishLink = `${baseURL}/r/${this.linkSharingRound.sharerId}/${this.linkSharingRound.id}/`
   },
 }

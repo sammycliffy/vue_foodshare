@@ -63,7 +63,7 @@
               <span v-text="item.participants.length"></span>
               <span>
                 {{
-                  item.participants.length > 1 ? 'Participants' : 'Participant'
+                  item.participants.length > 1 ? 'Orders' : 'Order          ,'
                 }}
               </span>
             </p>
@@ -86,7 +86,7 @@
               <span
                 v-text="
                   Intl.NumberFormat().format(
-                    item.commodityFinancials.totalProfit
+                    item.purchasedSlots * item.commodityFinancials.sharingPrice
                   )
                 "
               ></span>
@@ -111,9 +111,10 @@ export default {
   computed: {
     totalProfit() {
       let total = 0
-
+      console.log(this.sharingRound)
       this.sharingRound.commoditiesDetails.forEach((element) => {
-        total += element.commodityFinancials.totalProfit
+        total +=
+          element.commodityFinancials.sharingPrice * element.purchasedSlots
         console.log(total)
       })
 
