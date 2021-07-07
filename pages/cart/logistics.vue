@@ -624,7 +624,7 @@ export default {
     },
 
     gotoLogin() {
-      this.$router.replace('/account/login/#!/cart/checkout/')
+      this.$router.replace('/account/login/#!/cart/payment/')
     },
 
     async createPassword() {

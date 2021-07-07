@@ -111,6 +111,14 @@ export default {
       return this.$store.state.cart.round
     },
   },
+  mounted() {
+    if (this.AUTH) {
+      this.cartPayload.firstName = this.USER.firstName
+      this.cartPayload.lastName = this.USER.lastName
+      this.cartPayload.phoneNumber = this.USER.phone
+      this.cartPayload.emailAddress = this.USER.user
+    }
+  },
   methods: {
     async payNowSelect() {
       this.pn_spinner = true
