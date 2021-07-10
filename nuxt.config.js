@@ -107,7 +107,9 @@ export default {
 
   publicRuntimeConfig: {
     // baseAPI: 'https://foodshare-service.eu-gb.mybluemix.net/api/v1',
-    baseAPI: 'https://foodshare-service-qa.eu-gb.mybluemix.net/api/v1',
+    baseAPI:
+      process.env.BASE_API ||
+      'https://foodshare-service-qa.eu-gb.mybluemix.net/api/v1',
   },
 
   server: {

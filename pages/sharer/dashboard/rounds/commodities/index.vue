@@ -262,7 +262,7 @@ export default {
 
   computed: {
     publishLink() {
-      const baseURL = location.host
+      const baseURL = location.protocol + '//' + location.host
       const publishLink = `${baseURL}/r/${this.sharingRound.sharerId}/${this.sharingRound.id}/`
       return publishLink
     },

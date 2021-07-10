@@ -127,7 +127,7 @@ export default {
   },
 
   mounted() {
-    const baseURL = location.host
+    const baseURL = location.protocol + '//' + location.host
     this.publishLink = `${baseURL}/r/${this.linkSharingRound.sharerId}/${this.linkSharingRound.id}/`
   },
 }
