@@ -68,6 +68,8 @@ export default {
 
       fetchedOrder: null,
       hashbang: this.$route.hash.split('#!/')[1] || null,
+      USER: this.$store.state.auth.userData,
+      AUTH: this.$store.state.auth.loggedIn,
     }
   },
 
@@ -127,7 +129,6 @@ export default {
       this.cartPayload.sharedCommodities = this.cartPayload.sharedCommodities.filter(
         (x) => x
       )
-
       const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/new-order`
 
       await this.$axios
