@@ -127,7 +127,7 @@ export default {
   },
 
   mounted() {
-    const baseURL = 'https://app-qa.foodshare.ng'
+    const baseURL = location.protocol + '//' + location.host
     this.publishLink = `${baseURL}/r/${this.sharingRoundPayload.sharerId}/${this.sharingRoundPayload.id}/`
   },
 }
