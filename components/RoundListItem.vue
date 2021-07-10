@@ -321,7 +321,7 @@ export default {
     },
 
     showShareModal(item) {
-      const baseURL = 'https://app-qa.foodshare.ng'
+      const baseURL = location.host
       this.publishLink = `${baseURL}/r/${this.USER.id}/${item.id}`
       // Pop the modal up
       this.shareRoundModal = true
@@ -355,7 +355,7 @@ export default {
         } slots\n\n`
       })
 
-      const baseURL = 'https://app-qa.foodshare.ng'
+      const baseURL = location.host
       const publishLink = `${baseURL}/r/${this.USER.id}/${item.id}`
       sharingRoundStatus += publishLink
 
