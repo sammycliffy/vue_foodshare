@@ -89,6 +89,11 @@ export default {
         .catch((e) => {
           this.ERROR_HANDLER(e)
         })
+
+      this.sharingRound.id = this.cartPayload.sharingRoundId
+      this.sharingRound.name = this.cartPayload.sharingRoundName
+      this.sharingRound.sharerId = this.cartPayload.sharerId
+      this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRound)
     }
     if (!this.sharingRound.id) {
       this.sharingRound.id = this.cartPayload.sharingRoundId
