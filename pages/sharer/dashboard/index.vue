@@ -74,8 +74,8 @@
             text="Income Chart"
             class="textBtnDropdown"
           >
-            <b-dropdown-item href="#">Commodity</b-dropdown-item>
-            <b-dropdown-item href="#">Monthly</b-dropdown-item>
+            <!-- <b-dropdown-item href="#">Commodity</b-dropdown-item> -->
+            <b-dropdown-item href="#">Income Chart</b-dropdown-item>
             <b-dropdown-item href="#">Spread Sheet View</b-dropdown-item>
           </b-dropdown>
         </div>
@@ -123,12 +123,15 @@ export default {
         datasets: [
           {
             label: 'purchase',
-            data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
+            // data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
+            data: [],
             backgroundColor: '#4f9e55',
           },
           {
             label: 'failed purchase',
-            data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+            // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+            data: [],
+
             backgroundColor: '#fe8f0a',
           },
         ],
@@ -189,8 +192,6 @@ export default {
         this.closedSharingRounds = this.sharingRounds.filter(
           (x) => x.status === 'CLOSED'
         )
-
-        console.log(this.closedSharingRounds)
       })
       .catch((e) => {
         this.ERROR_HANDLER(e)
