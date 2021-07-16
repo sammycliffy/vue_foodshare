@@ -205,7 +205,7 @@
             <div class="itemBox">
               <div v-b-toggle.confirmedOrders block class="text_medium">
                 Approved
-                <span class="primary-p color-orange float-right">
+                <span class="primary-p color-orange float-right when-closed">
                   <span v-if="confirmedOrders.length">{{
                     confirmedOrders.length
                   }}</span>
@@ -218,6 +218,19 @@
                 accordion="my-accordion"
                 role="tabpanel"
               >
+                <div class="text_medium mt-1 mb-2">
+                  <span class="primary-p color-orange when-open fs-14">
+                    <span v-if="confirmedOrders.length">{{
+                      confirmedOrders.length
+                    }}</span>
+                    <span v-if="confirmedOrders.length > 1">
+                      Orders Approved</span
+                    >
+                    <span v-if="confirmedOrders.length == 1">
+                      Order Approved</span
+                    >
+                  </span>
+                </div>
                 <div
                   v-for="item in confirmedOrders"
                   :key="item.id"
@@ -235,10 +248,10 @@
                     <div class="col-8 px-0">
                       <span class="nameBox">
                         <strong
-                          class="mb-0"
+                          class="mb-0 fs-14 d-block"
                           v-text="`${item.firstName} ${item.lastName}`"
                         ></strong>
-                        <p class="mb-0" v-text="item.emailAddress"></p>
+                        <!-- <p class="mb-0" v-text="item.emailAddress"></p> -->
                         <nuxt-link
                           :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
                           class="plain-link text_medium basketLink"
@@ -246,7 +259,7 @@
                           <span class="mr-2">View Basket</span>
                         </nuxt-link>
                       </span>
-                      <span
+                      <!-- <span
                         v-if="item.orderStatus === 'ORDER_CANCELLED'"
                         class="paymentStatusBadge"
                         >Order cancelled</span
@@ -270,7 +283,7 @@
                         v-if="item.paymentComplete"
                         class="paymentStatusPaid"
                         >Payment Confirmed</span
-                      >
+                      > -->
                     </div>
                     <div class="col px-0">
                       <b-form-checkbox
@@ -630,5 +643,14 @@ export default {
   -webkit-box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px 5px 10px 0 rgba(0, 0, 0, 0.05);
   font-size: 15px;
+}
+
+.itemBox > .not-collapsed > .when-closed {
+  display: none;
+}
+
+img {
+  height: 35px;
+  width: 35px;
 }
 </style>
