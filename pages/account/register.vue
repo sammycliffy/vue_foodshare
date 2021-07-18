@@ -127,7 +127,6 @@
             Become a Sharer
           </b-form-checkbox>
         </div>
-
         <b-btn
           v-if="sharerCheck"
           class="btn-block btn poppins mx-auto btnSharer mt-5"
@@ -137,7 +136,7 @@
 
         <b-btn
           v-else
-          class="btn-block btn poppins mx-auto btnSharer mt-5"
+          class="btn-block btn poppins mx-auto btnSharer mt-3"
           @click="submitForm"
           >Register
           <b-spinner
@@ -153,6 +152,19 @@
           <span>
             <nuxt-link class="bold-link" to="/account/login/">Login</nuxt-link>
           </span>
+        </p>
+        <p class="mt-2 fs-12">
+          By clicking Register or Continue, you are confirming that you have
+          read and agreed to FoodSHARE's
+          <span
+            ><nuxt-link class="color-green" to=""
+              >Terms and condition</nuxt-link
+            >
+            and
+            <nuxt-link class="color-green" to=""
+              >Privacy Policy</nuxt-link
+            ></span
+          >
         </p>
       </b-form>
 
