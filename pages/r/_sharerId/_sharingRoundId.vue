@@ -17,7 +17,7 @@
         <div class="top-row d-flex justify-content-between">
           <div class="d-flex justify-content-around align-items-center">
             <partials-back-nav-button v-if="USER" />
-            <partials-back-nav-button v-if="$route.path === '/home/'" />
+            <partials-back-nav-button v-if="hashbang" />
             <span>
               <img
                 :src="
@@ -282,6 +282,8 @@ export default {
       cart: [],
       cartToggle: [],
 
+      // Hashbang from home page
+      hashbang: this.$route.hash.split('#!home')[1] || null,
       // sharerLogo
       FILE_BLOB: null,
 
