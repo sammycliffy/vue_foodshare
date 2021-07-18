@@ -173,7 +173,10 @@ export default {
         // Redirect user to the specified URL in the #!HashBang
         this.$router.replace(this.hashbang)
       } else if (userData.roles.some((el) => el === 'ROLE_SHARER')) {
-        if (userData.isSharerGroupActivated === true) {
+        if (userData.isSharerGroupActivated === false) {
+          this.$router.replace('/account/inactive/')
+        } else {
+          console.log('Running Activated  sharing group')
           // If user if SHARER redirect to sharer
           const URL = `/services/sharing-rounds/${userData.id}`
           await this.$axios.$get(URL, {}).then((res) => {
@@ -183,8 +186,6 @@ export default {
               rounds.length > 0 ? '/sharer/dashboard/' : '/sharer/'
             )
           })
-        } else {
-          this.$router.replace('/account/inactive/')
         }
       } else {
         this.$router.replace('/user/')
