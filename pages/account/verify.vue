@@ -21,8 +21,6 @@
 
 <script>
 export default {
-  middleware: 'public',
-
   data() {
     return {
       //  no data

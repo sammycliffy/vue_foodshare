@@ -98,9 +98,7 @@
             <div class="d-flex flex-row">
               <div class="item__image">
                 <img
-                  :src="
-                    commodity.sharedCommodityImage || '/assets/empty-photo.svg'
-                  "
+                  :src="commodity.imageUrl || '/assets/empty-photo.svg'"
                   class="itemImage"
                 />
               </div>

@@ -93,7 +93,7 @@
             v-for="item in sharingRounds"
             :key="item.id"
             class="col-12 col-md-6 col-lg-6 py-2 px-1"
-            @click="$router.push(`/r/${item.sharerId}/${item.id}/`)"
+            @click="$router.push(`/r/${item.sharerId}/${item.id}/#!home`)"
           >
             <div
               class="sRoundBox h-100 d-flex flex-column justify-content-between"
@@ -179,7 +179,7 @@ export default {
   data() {
     return {
       middleware: 'public',
-      fetchedImages: this.$store.state.round.imagePayload,
+      // fetchedImages: this.$store.state.round.imagePayload,
       btnSpinner: null,
       numberOfPages: 1,
       searchInput: null,
@@ -224,14 +224,14 @@ export default {
   },
 
   computed: {
-    // fetchedImages: {
-    //   get() {
-    //     return this.$store.state.round.imagePayload
-    //   },
-    //   set(newValue) {
-    //     this.$store.state.round.imagePayload = newValue
-    //   },
-    // },
+    fetchedImages: {
+      get() {
+        return this.$store.state.round.imagePayload
+      },
+      set(newValue) {
+        this.$store.state.round.imagePayload = newValue
+      },
+    },
 
     currentPageNumber() {
       return this.$route.hash.replace('#!/', '') || 1
