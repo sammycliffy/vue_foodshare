@@ -41,7 +41,13 @@
           </p>
         </div>
 
-        <b-tabs v-if="USER.roles.includes('ROLE_SHARER')" class="profile_tabs">
+        <b-tabs
+          v-if="
+            USER.roles.includes('ROLE_SHARER') &&
+            USER.isSharerGroupActivated === true
+          "
+          class="profile_tabs"
+        >
           <b-tab title="Profile" active>
             <div class="link_list">
               <nuxt-link
