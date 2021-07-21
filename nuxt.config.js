@@ -62,6 +62,7 @@ export default {
     // https://go.nuxtjs.dev/eslint
     // '@nuxtjs/eslint-module',
     '@nuxtjs/pwa',
+    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -80,6 +81,11 @@ export default {
 
   bootstrapVue: {
     icons: false,
+  },
+
+  //  Google Analytics
+  googleAnalytics: {
+    id: 'G-CNXSC2PM6J',
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
