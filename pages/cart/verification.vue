@@ -51,7 +51,7 @@ export default {
       invalidCode: false,
       OTP: null,
 
-      countDownTime: 10 * 60, // I.e, i10 minutes
+      countDownTime: 30 * 60, // I.e, i10 minutes
       COUNTDOWN: '00:00',
     }
   },
@@ -129,7 +129,7 @@ export default {
           this.$axios.setToken(accessToken, 'Bearer')
           // Redirect User To CART page
 
-          this.$router.replace('/cart/checkout/')
+          this.$router.replace('/cart/payment/')
         })
         .catch((e) => {
           this.ERROR_HANDLER(e)
