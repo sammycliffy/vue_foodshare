@@ -32,7 +32,13 @@
           <div class="pl-3 pr-2 col">
             <h6 class="mb-1 text_semiBold color-orange">
               &#8358;
-              <span v-text="Intl.NumberFormat().format(totalCost)"></span>
+              <span
+                v-text="
+                  Intl.NumberFormat().format(
+                    sharingRound.sharingRoundFinancials.totalCost
+                  )
+                "
+              ></span>
             </h6>
             <p>Cost Price</p>
           </div>
@@ -93,13 +99,13 @@ export default {
   },
 
   computed: {
-    totalCost() {
-      let total = 0
-      this.sharingRound.commoditiesDetails.forEach((element) => {
-        total += element.commodityFinancials.totalCost
-      })
-      return total
-    },
+    // totalCost() {
+    //   let total = 0
+    //   this.sharingRound.commoditiesDetails.forEach((element) => {
+    //     total += element.commodityFinancials.totalCost
+    //   })
+    //   return total
+    // },
     // totalCost() {
     //   let total = 0
     //   this.sharingRound.commoditiesDetails.forEach((element) => {
