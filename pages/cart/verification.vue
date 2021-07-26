@@ -51,7 +51,7 @@ export default {
       invalidCode: false,
       OTP: null,
 
-      countDownTime: 10 * 60, // I.e, i10 minutes
+      countDownTime: 30 * 60, // I.e, i10 minutes
       COUNTDOWN: '00:00',
     }
   },
