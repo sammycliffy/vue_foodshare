@@ -129,7 +129,7 @@ export default {
           this.$axios.setToken(accessToken, 'Bearer')
           // Redirect User To CART page
 
-          this.$router.replace('/cart/checkout/')
+          this.$router.replace('/cart/payment/')
         })
         .catch((e) => {
           this.ERROR_HANDLER(e)
