@@ -54,7 +54,10 @@
 
       <h6 class="text_medium mt-4 mb-0">Commodity List &amp; Details</h6>
       <div v-for="item in sharingRound.commoditiesDetails" :key="item.id">
-        <div class="itemBox mt-3 d-flex justify-content-between">
+        <div
+          v-if="item.participants.length >= 1"
+          class="itemBox mt-3 d-flex justify-content-between"
+        >
           <div class="">
             <p class="itemTitle mb-1">
               <span v-text="item.commodityName"></span>
