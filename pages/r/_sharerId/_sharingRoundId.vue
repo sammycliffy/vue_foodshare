@@ -255,23 +255,22 @@
             </div>
           </section>
 
-          <div class="text-center">
+          <div class="text-center float-div">
             <b-btn
-              :disabled="totalItems < 1"
-              class="btn primary-btn padded-btn"
+              v-show="calculateSlot.length >= 1"
+              class="btn primary-btn"
               @click="
-                $router.replace(
-                  '/cart/' + sharerId + '/' + sharingRoundId + '/'
-                )
+                $router.push('/cart/' + sharerId + '/' + sharingRoundId + '/')
               "
-              >Next</b-btn
+              >Checkout</b-btn
             >
+            <!-- <div>{{ calculateSlot.length }}</div> -->
           </div>
         </template>
       </div>
     </div>
 
-    <partials-footer />
+    <!-- <partials-footer /> -->
   </div>
 </template>
 
@@ -281,7 +280,8 @@ export default {
     return {
       cart: [],
       cartToggle: [],
-
+      addedSlots: 0,
+      calculateSlot: [],
       // Hashbang from home page
       hashbang: this.$route.hash.split('#!home')[1] || null,
       // sharerLogo
@@ -335,6 +335,9 @@ export default {
       this.cart.forEach((item) => {
         items += item - 0
       })
+      // this.cart.forEach((item) => {
+      //   items += item - 0
+      // })
       return items > 0
     },
   },
@@ -376,6 +379,20 @@ export default {
 
         // toggle drop-down
         this.toggleDropDown(index)
+
+        // Counting total selected slots
+        // this.addedSlots = this.cartPayload.sharedCommodities.filter(
+        //     (x) => x.numberOfSlots > 0
+        // )
+        this.calculateSlot = this.cartPayload.sharedCommodities.map(
+          (el) => el.numberOfSlots
+        )
+
+        console.log(this.calculateSlot)
+
+        // this.addedSlots +=
+        console.log('This is Items when it is higier than 1', this.addedSlots)
+
         // Save cart data to a perstisted Vuex store
         this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
       } else {
@@ -541,5 +558,13 @@ export default {
 .toggle_img_host > .item__image {
   height: 100px;
   width: 100px;
+}
+
+.float-div {
+  position: fixed;
+  bottom: 0;
+  padding: 10px 0;
+  left: 0;
+  width: 100%;
 }
 </style>
