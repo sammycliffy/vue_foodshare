@@ -638,7 +638,10 @@ export default {
       // Make request to the API
       await this.$axios
         .$post(URL, payload)
-        .then(() => {
+        .then((res) => {
+          const saveOTP = res.result.token
+          this.$store.commit('cart/SAVE_OTP', saveOTP)
+
           this.$router.push('/cart/verification/')
         })
         .catch((error) => {
