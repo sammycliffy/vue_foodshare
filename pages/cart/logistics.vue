@@ -561,6 +561,20 @@ export default {
 
     async submitAddress() {
       if (this.validateFields() && !this.spinner) {
+        if (
+          this.cartPayload.phoneNumber.length < 11 ||
+          this.cartPayload.phoneNumber.length === 12 ||
+          this.cartPayload.phoneNumber.length === 13 ||
+          this.cartPayload.phoneNumber.length > 14
+        ) {
+          this.SHOW_TOAST({
+            text:
+              'Phone number must be 11 digits or complete 13 digits number with + at the beginning.',
+            title: 'Wrong phone number!',
+            variant: 'warning',
+          })
+          return
+        }
         if (this.cartPayload.phoneNumber.length === 11) {
           const updateNumber = this.cartPayload.phoneNumber.substring(1)
           this.cartPayload.phoneNumber = updateNumber
@@ -578,15 +592,28 @@ export default {
         // Make request to the API
         await this.$axios
           .$get(URL, {})
-          .then(() => {
+          .then((response) => {
             if (this.AUTH) {
               this.$router.replace('/cart/payment/')
             } else {
               this.userAlreadyExist = true
             }
           })
-          .catch(() => {
-            this.sendOTP()
+          .catch((error) => {
+            if (error.response.status === 400) {
+              this.sendOTP()
+            } else if (error.response.status === 409) {
+              this.SHOW_TOAST({
+                text:
+                  'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
+                title: 'Wrong Details!',
+                variant: 'warning',
+              })
+            } else {
+              this.ERROR_HANDLER(error)
+            }
+            // this.ERROR_HANDLER(error)
+            // this.sendOTP()
           })
           .finally(() => {
             // Close the loader
