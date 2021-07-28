@@ -52,7 +52,6 @@
                 ></b-spinner
               ></b-btn>
             </div>
-            <div v-text="cartPayload.deliveryDetails.deliveryMethod"></div>
           </section>
         </div>
       </div>
