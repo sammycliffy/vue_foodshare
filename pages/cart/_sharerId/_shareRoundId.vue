@@ -95,7 +95,11 @@
           :key="item.commodityName + '-' + index"
         >
           <template v-if="cartPayload.sharedCommodities[index]">
-            <div v-if="!cartToggle[index]" class="round_commodity">
+            <div
+              v-if="!cartToggle[index]"
+              class="round_commodity"
+              @click="toggleCartDropDown(index)"
+            >
               <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-around">
                   <div class="item__image">
@@ -116,7 +120,6 @@
                       class="mb-0 mt-2"
                     >
                       {{ cartPayload.sharedCommodities[index].numberOfSlots }}
-                      &nbsp;Selected&nbsp;
                       <span
                         v-text="
                           cartPayload.sharedCommodities[index].numberOfSlots > 1
@@ -124,14 +127,21 @@
                             : 'slot'
                         "
                       />
+                      &nbsp;Added&nbsp;
+                    </p>
+                    <p
+                      v-if="
+                        cartPayload.sharedCommodities[index] &&
+                        cartPayload.sharedCommodities[index].numberOfSlots > 0
+                      "
+                      class="mb-0 mt-2"
+                    >
+                      <span class="color-orange text-semiBold">Edit</span>
                     </p>
                   </div>
                 </div>
-                <span
-                  class="align-self-center toggle_icon text-right"
-                  @click="toggleCartDropDown(index)"
-                >
-                  <svg
+                <span class="align-self-center toggle_icon text-right">
+                  <!-- <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
@@ -142,6 +152,18 @@
                     <path
                       fill-rule="evenodd"
                       d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                    />
+                  </svg> -->
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    fill="currentColor"
+                    class="bi bi-check-lg color-green text-center"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"
                     />
                   </svg>
                 </span>
@@ -258,7 +280,7 @@
             >Next</b-btn
           >
         </div>
-        <header class="mb_15">
+        <header class="mb_15 mt-4">
           <span class="">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -292,6 +314,7 @@
                 ? 'd-none'
                 : ''
             "
+            @click="toggleRoundDropDown(index)"
           >
             <div class="d-flex justify-content-between">
               <div class="d-flex justify-content-around">
@@ -306,8 +329,9 @@
                     item.commodityName
                   }}</span>
                   <p class="mb-0 mt-2">
-                    <span>{{ item.remainingSlots }} &nbsp;Available&nbsp;</span>
+                    <span>{{ item.remainingSlots }}</span>
                     <span v-text="item.remainingSlots > 1 ? 'slots' : 'slot'" />
+                    &nbsp;Available&nbsp;
                   </p>
                   <p
                     v-if="
@@ -317,7 +341,6 @@
                     class="mb-0 mt-2"
                   >
                     {{ cartPayload.sharedCommodities[index].numberOfSlots }}
-                    &nbsp;Selected&nbsp;
                     <span
                       v-text="
                         cartPayload.sharedCommodities[index].numberOfSlots > 1
@@ -325,16 +348,13 @@
                           : 'slot'
                       "
                     />
+                    &nbsp;Added&nbsp;
                   </p>
                 </div>
               </div>
               <span class="align-self-center text-right">
-                <span
-                  v-if="item.remainingSlots >= 1"
-                  class="toggle_icon"
-                  @click="toggleRoundDropDown(index)"
-                >
-                  <svg
+                <span v-if="item.remainingSlots >= 1" class="toggle_icon">
+                  <!-- <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
                     height="20"
@@ -346,7 +366,8 @@
                       fill-rule="evenodd"
                       d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                     />
-                  </svg>
+                  </svg> -->
+                  <span class="btn primary-btn">Pick</span>
                 </span>
                 <span v-else class="toggle_icon color-orange">Sold Out</span>
               </span>
