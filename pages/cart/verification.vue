@@ -26,7 +26,7 @@
         />
       </div>
       <p class="text-center mb-0 fs-14">
-        The above <span class="text_semiBold">Code</span> has been sent to your
+        The <span class="text_semiBold">Code</span> above has been sent to your
         email and phone number for your referrence.
       </p>
 

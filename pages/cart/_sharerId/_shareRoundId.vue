@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <div class="d-flex justify-content-between mt-3 text_medium">
+        <div class="d-flex justify-content-between mt-3">
           <p class="color-orange mb-0">
             Order deadline
             <span class="d-block color-black pr-2">
@@ -252,7 +252,7 @@
         </section>
         <div class="text-center mb-2">
           <b-btn
-            class="btn primary-btn padded-btn"
+            class="btn primary-btn padded-btn btn-block"
             :disabled="!basketWorth"
             @click="gotoLogistics"
             >Next</b-btn
