@@ -54,7 +54,7 @@
         <div class="form-row">
           <div class="col input-l-seperator input-col">
             <div class="form-group">
-              <label class="createFormLabel" for="sharingUnits">Size</label>
+              <label class="createFormLabel" for="sharingUnits">Unit</label>
 
               <b-form-input
                 id="sharingUnits"
@@ -70,7 +70,7 @@
 
           <div class="col input-r-seperator input-col">
             <div class="form-group">
-              <label class="createFormLabel" for="productSize">Size type</label>
+              <label class="createFormLabel" for="productSize">Measure</label>
 
               <v-select
                 id="productSize"
@@ -91,7 +91,6 @@
           <div class="col input-l-seperator input-col">
             <div class="form-group">
               <label class="createFormLabel">Cost price</label>
-              {{ commodity.costPrice }}
               <input
                 v-model.number="commodity.costPrice"
                 type="number"
@@ -334,6 +333,7 @@ export default {
         this.commodity.sharingPrice &&
         this.commodity.numberOfSlots
       ) {
+        console.log(this.commodity)
         return true
       } else {
         // Display  error toast notification
