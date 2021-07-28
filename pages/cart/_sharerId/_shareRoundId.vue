@@ -250,7 +250,14 @@
             </div>
           </template>
         </section>
-
+        <div class="text-center mb-2">
+          <b-btn
+            class="btn primary-btn padded-btn"
+            :disabled="!basketWorth"
+            @click="gotoLogistics"
+            >Next</b-btn
+          >
+        </div>
         <header class="mb_15">
           <span class="">
             <svg
@@ -442,15 +449,6 @@
             </div>
           </div>
         </section>
-
-        <div class="text-center">
-          <b-btn
-            class="btn primary-btn padded-btn"
-            :disabled="!basketWorth"
-            @click="gotoLogistics"
-            >Next</b-btn
-          >
-        </div>
       </div>
     </div>
 

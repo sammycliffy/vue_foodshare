@@ -32,7 +32,13 @@
           <div class="pl-3 pr-2 col">
             <h6 class="mb-1 text_semiBold color-orange">
               &#8358;
-              <span v-text="Intl.NumberFormat().format(totalCost)"></span>
+              <span
+                v-text="
+                  Intl.NumberFormat().format(
+                    sharingRound.sharingRoundFinancials.totalCost
+                  )
+                "
+              ></span>
             </h6>
             <p>Cost Price</p>
           </div>
@@ -41,7 +47,10 @@
 
       <h6 class="text_medium mt-4 mb-0">Commodities</h6>
       <div v-for="item in sharingRound.commoditiesDetails" :key="item.id">
-        <div class="itemBox mt-3 d-flex justify-content-between">
+        <div
+          v-if="item.participants.length >= 1"
+          class="itemBox mt-3 d-flex justify-content-between"
+        >
           <div class="">
             <p class="itemTitle mb-1">
               <span v-text="item.commodityName"></span>
@@ -93,13 +102,13 @@ export default {
   },
 
   computed: {
-    totalCost() {
-      let total = 0
-      this.sharingRound.commoditiesDetails.forEach((element) => {
-        total += element.commodityFinancials.totalCost
-      })
-      return total
-    },
+    // totalCost() {
+    //   let total = 0
+    //   this.sharingRound.commoditiesDetails.forEach((element) => {
+    //     total += element.commodityFinancials.totalCost
+    //   })
+    //   return total
+    // },
     // totalCost() {
     //   let total = 0
     //   this.sharingRound.commoditiesDetails.forEach((element) => {

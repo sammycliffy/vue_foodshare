@@ -10,17 +10,26 @@
       </div>
       <div class="text-center successMessage">
         <h6>Verify Account</h6>
-        <p>Verification code sent to your phone &amp; email.</p>
+        <p>
+          Please save the <span class="text_semiBold">Code</span> below as your
+          referrence password.
+        </p>
+        <!-- <p>Verification code sent to your phone &amp; email.</p> -->
       </div>
-      <div class="vefiryCodeBox d-flex justify-content-center">
+      <div class="vefiryCodeBox d-flex justify-content-center mb-0">
         <b-form-input
           v-model="OTP"
-          class="codeBoxItem"
+          class="codeBoxItem text_semiBold color-orange"
           maxlength="6"
           type="text"
           required
         />
       </div>
+      <p class="text-center mb-0 fs-14">
+        The above <span class="text_semiBold">Code</span> has been sent to your
+        email and phone number for your referrence.
+      </p>
+
       <div v-if="invalidCode" class="errorCode text-center">
         <span>Verification code invalid</span>
       </div>
@@ -28,17 +37,28 @@
         <b-btn
           class="btn-block btn poppins mx-auto btnSharer"
           @click="verifyCode"
-          >Verify</b-btn
+          >Click to Verify</b-btn
         >
       </div>
       <div class="countdownBox text-center">
-        <div class="py-3">
+        <!-- <div class="py-3">
           <time class="count-down px-3 py-2 rounded-pill">
             <i class="far fa-clock mr-2" />
             {{ COUNTDOWN }}</time
           >
-        </div>
-        <span><a @click="resendCode">Resend verification Code</a></span>
+        </div> -->
+        <!-- <span>
+          <a @click="resendCode"
+            >Resend verification Code
+            <b-spinner
+              v-if="spinner"
+              variant="white"
+              label="Spinning"
+              class="ml-3"
+              small
+            />
+          </a>
+        </span> -->
       </div>
     </div>
   </div>
@@ -49,33 +69,41 @@ export default {
   data() {
     return {
       invalidCode: false,
-      OTP: null,
+      // OTP: null,
+      // OTP: this.$store.state.cart.receivedOtp,
 
-      countDownTime: 30 * 60, // I.e, i10 minutes
-      COUNTDOWN: '00:00',
+      spinner: false,
+
+      cartPayload: this.$store.state.cart.payload,
+      // countDownTime: 30 * 60, // I.e, i10 minutes
+      // COUNTDOWN: '00:00',
     }
   },
 
-  watch: {
-    countDownTime: {
-      handler(value) {
-        if (value > 0) {
-          setTimeout(() => {
-            this.countDownTime--
+  // watch: {
+  //   countDownTime: {
+  //     handler(value) {
+  //       if (value > 0) {
+  //         setTimeout(() => {
+  //           this.countDownTime--
 
-            const minute = Math.floor(this.countDownTime / 60 || 0)
-            const second = Math.floor(this.countDownTime % 60 || 0)
+  //           const minute = Math.floor(this.countDownTime / 60 || 0)
+  //           const second = Math.floor(this.countDownTime % 60 || 0)
 
-            this.COUNTDOWN = `${minute} : ${second}`
-          }, 1000)
-        } else {
-          this.COUNTDOWN = 'OTP Expired'
-        }
-      },
-      immediate: true, // This ensures the watcher is triggered upon creation
+  //           this.COUNTDOWN = `${minute} : ${second}`
+  //         }, 1000)
+  //       } else {
+  //         this.COUNTDOWN = ''
+  //       }
+  //     },
+  //     immediate: true, // This ensures the watcher is triggered upon creation
+  //   },
+  // },
+  computed: {
+    OTP() {
+      return this.$store.state.cart.receivedOtp
     },
   },
-
   methods: {
     async verifyCode() {
       // populate the API URI
@@ -136,8 +164,39 @@ export default {
         })
     },
 
-    resendCode() {
-      this.$router.back()
+    async resendCode() {
+      // Trigger the loader
+      this.spinner = true
+
+      // populate the API URI
+      const URL = `/account/account-verification`
+      // Setup the Request Payload
+      const payload = {
+        firstName: this.cartPayload.firstName,
+        lastName: this.cartPayload.lastName,
+        emailAddress: this.cartPayload.emailAddress,
+        phone: this.cartPayload.phoneNumber,
+      }
+      // Make request to the API
+      await this.$axios
+        .$post(URL, payload)
+        .then((res) => {
+          const OTPResult = res.result
+          const saveOTP = OTPResult.token
+          this.$store.commit('cart/SAVE_OTP', saveOTP)
+          this.SHOW_TOAST({
+            text: OTPResult.message,
+            title: 'OTP Resent success!',
+            variant: 'success',
+          })
+        })
+        .catch((error) => {
+          this.ERROR_HANDLER(error)
+        })
+        .finally(() => {
+          // Close the loader
+          this.spinner = false
+        })
     },
   },
 }
