@@ -12,7 +12,7 @@
         <h6>Verify Account</h6>
         <p>
           Please save the <span class="text_semiBold">Code</span> below as your
-          referrence password.
+          reference password.
         </p>
         <!-- <p>Verification code sent to your phone &amp; email.</p> -->
       </div>
@@ -27,7 +27,7 @@
       </div>
       <p class="text-center mb-0 fs-14">
         The <span class="text_semiBold">Code</span> above has been sent to your
-        email and phone number for your referrence.
+        email and phone number for your reference.
       </p>
 
       <div v-if="invalidCode" class="errorCode text-center">
