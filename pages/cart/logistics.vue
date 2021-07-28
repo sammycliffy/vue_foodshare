@@ -414,8 +414,6 @@
                   small
                 />
               </b-btn>
-
-              <div v-text="cartPayload.deliveryDetails.deliveryMethod"></div>
             </div>
           </section>
         </div>
