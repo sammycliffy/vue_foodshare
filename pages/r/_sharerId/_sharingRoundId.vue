@@ -33,7 +33,7 @@
             </span>
           </div>
         </div>
-        <div class="d-flex justify-content-between mt-3 text_medium">
+        <div class="d-flex justify-content-between mt-3">
           <p class="color-orange mb-0">
             Order deadline
             <span class="d-block color-black pr-2">
@@ -258,7 +258,7 @@
           <div class="text-center float-div">
             <b-btn
               v-show="calculateSlot.length >= 1"
-              class="btn primary-btn"
+              class="btn primary-btn btn-block py-20"
               @click="
                 $router.push('/cart/' + sharerId + '/' + sharingRoundId + '/')
               "
@@ -563,7 +563,7 @@ export default {
 .float-div {
   position: fixed;
   bottom: 0;
-  padding: 10px 0;
+  padding: 20px 16px;
   left: 0;
   width: 100%;
 }
