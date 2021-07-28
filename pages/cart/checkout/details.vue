@@ -88,6 +88,7 @@
       <div class="text-center">
         <b-btn
           v-if="countDownTime > 0"
+          :disabled="verifClicked === true"
           class="btn primary-btn"
           @click="uploadProof()"
           >Confirm Payment</b-btn
@@ -119,6 +120,8 @@
 export default {
   data() {
     return {
+      // check button clicked
+      verifClicked: false,
       // fetch stuff from vuex
       sharingRound: this.$store.state.cart.round,
       cartPayload: this.$store.state.cart.payload,
@@ -235,6 +238,8 @@ export default {
         const formData = new FormData()
         formData.append('file', this.FILE)
 
+        this.verifClicked = true
+
         const URI = `/services/orders/${this.cartPayload.orderId}/proof`
         await this.$axios
           .$put(URI, formData)
@@ -244,6 +249,7 @@ export default {
           .catch((error) => {
             this.fetchError = true
             this.ERROR_HANDLER(error)
+            this.verifClicked = false
           })
       }
     },
