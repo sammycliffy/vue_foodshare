@@ -43,6 +43,7 @@ export const state = () => ({
   round: {
     sharingRounds: [],
   },
+  receivedOtp: null,
 })
 
 export const mutations = {
@@ -54,6 +55,9 @@ export const mutations = {
   },
   SAVE_OFFLINE_CART_DATA(state, payload) {
     state.payload = payload
+  },
+  SAVE_OTP(state, payload) {
+    state.receivedOtp = payload
   },
   RESET_CART_DATA(state) {
     state.payload = {

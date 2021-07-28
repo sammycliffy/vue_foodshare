@@ -450,6 +450,20 @@ export default {
           })
         }
       } else {
+        if (
+          this.FORM.phone.length < 11 ||
+          this.FORM.phone.length === 12 ||
+          this.FORM.phone.length === 13 ||
+          this.FORM.phone.length > 14
+        ) {
+          this.SHOW_TOAST({
+            text:
+              'Phone number must be 11 digits or complete 13 digits number with + at the beginning.',
+            title: 'Wrong phone number!',
+            variant: 'warning',
+          })
+          return
+        }
         if (this.FORM.phone.length === 11) {
           const updateNumber = this.FORM.phone.substring(1)
           this.FORM.phone = updateNumber
