@@ -45,7 +45,7 @@
         </div>
         <div class="body-primary half-width">
           <section>
-            <p class="shipping_title mt-2">Shipping Details</p>
+            <p class="shipping_title mt-2">Delivery Details</p>
             <div class="shippingDetailsBox">
               <span class="map_link"></span>
               <label
@@ -402,7 +402,9 @@
               </b-btn>
             </div> -->
             <div class="text-center mt-3">
-              <b-btn class="btn primary-btn padded-btn" @click="submitAddress"
+              <b-btn
+                class="btn primary-btn padded-btn btn-block"
+                @click="submitAddress"
                 >Next
                 <b-spinner
                   v-if="spinner"
@@ -412,6 +414,8 @@
                   small
                 />
               </b-btn>
+
+              <div v-text="cartPayload.deliveryDetails.deliveryMethod"></div>
             </div>
           </section>
         </div>
@@ -594,7 +598,7 @@ export default {
           .$get(URL, {})
           .then((response) => {
             if (this.AUTH) {
-              this.$router.replace('/cart/payment/')
+              this.$router.push('/cart/payment/')
             } else {
               this.userAlreadyExist = true
             }
@@ -654,7 +658,7 @@ export default {
     },
 
     gotoLogin() {
-      this.$router.replace('/account/login/#!/cart/payment/')
+      this.$router.push('/account/login/#!/cart/payment/')
     },
 
     async createPassword() {
@@ -668,7 +672,7 @@ export default {
       await this.$axios
         .$post(URL, {})
         .then(() => {
-          this.$router.replace('/account/password/reset/#!/cart/checkout/')
+          this.$router.push('/account/password/reset/#!/cart/checkout/')
         })
         .catch((error) => {
           this.ERROR_HANDLER(error)

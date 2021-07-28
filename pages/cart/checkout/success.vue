@@ -55,6 +55,14 @@
         hide-footer
         no-close-on-backdrop
       >
+        <nuxt-link
+          slot="modal-title"
+          nuxt-link
+          class="primary-btn-link m-0"
+          to="/user/"
+        >
+          <img class="" src="/assets/icons/home.svg" />
+        </nuxt-link>
         <b-img
           :src="USER.image || '/assets/empty-photo.svg'"
           center
@@ -75,20 +83,13 @@
           <input
             v-model="FORM.comment"
             type="text"
-            class="form-control createFormInput"
-            placeholder="write a review"
+            class="form-control createFormInput text-center"
+            placeholder="Write a review"
           />
         </div>
 
         <div class="d-flex justify-content-between">
-          <nuxt-link
-            nuxt-link
-            class="color-green primary-btn-link m-0"
-            to="/user/"
-          >
-            <img class="" src="/assets/icons/home.svg" />
-          </nuxt-link>
-          <b-btn class="btn primary-btn" @click="submitReview()"
+          <b-btn class="btn primary-btn btn-block" @click="submitReview()"
             >Submit
             <b-spinner
               v-if="btnSpinner"
@@ -205,7 +206,9 @@ export default {
 }
 
 ::v-deep .reviewPurchase .modal-header .close {
-  color: #d6d8db;
+  color: #111111;
+  opacity: 1;
+  font-size: 30px;
   margin-bottom: unset;
   padding-bottom: unset !important;
 }
@@ -235,6 +238,10 @@ export default {
   padding-top: 10px;
   border: unset;
   border-radius: unset;
+}
+
+.primary-btn {
+  border-radius: 10px !important;
 }
 
 .no-box {

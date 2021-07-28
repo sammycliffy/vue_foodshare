@@ -26,7 +26,7 @@
         />
       </div>
       <p class="text-center mb-0 fs-14">
-        The above <span class="text_semiBold">Code</span> has been sent to your
+        The <span class="text_semiBold">Code</span> above has been sent to your
         email and phone number for your referrence.
       </p>
 
@@ -35,6 +35,7 @@
       </div>
       <div class="text-center">
         <b-btn
+          :disabled="verifClicked === true"
           class="btn-block btn poppins mx-auto btnSharer"
           @click="verifyCode"
           >Click to Verify</b-btn
@@ -68,6 +69,9 @@
 export default {
   data() {
     return {
+      // check button clicked
+      verifClicked: false,
+
       invalidCode: false,
       // OTP: null,
       // OTP: this.$store.state.cart.receivedOtp,
@@ -114,6 +118,9 @@ export default {
           token: this.OTP,
         },
       }
+
+      this.verifClicked = true
+
       // Make request to the API
       await this.$axios
         .$get(URL, payload)
@@ -122,6 +129,7 @@ export default {
         })
         .catch((e) => {
           this.ERROR_HANDLER(e)
+          this.verifClicked = false
         })
     },
 
