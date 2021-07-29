@@ -71,6 +71,7 @@
           >Login
           <b-spinner
             v-if="loginSpinner"
+            :disabled="verifClicked === true"
             variant="white"
             label="Spinning"
             class="ml-3"
@@ -98,6 +99,7 @@ export default {
     return {
       passwordToggle: true,
       loginSpinner: false,
+      verifClicked: false,
 
       FORM: {
         username: null,
@@ -131,6 +133,7 @@ export default {
         }
         // Display spinning spinner icon
         this.loginSpinner = true
+        this.verifClicked = true
 
         // Make login request to the API
         const URI = `/auth/login`

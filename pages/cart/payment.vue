@@ -26,6 +26,7 @@
 
             <div class="text-center mt-3">
               <b-btn
+                :disabled="clickedOnline || clickedBank === true"
                 class="btn primary-btn padded-btn m-2"
                 @click="payNowSelect"
                 >Pay Online
@@ -39,6 +40,7 @@
                 ></b-spinner>
               </b-btn>
               <b-btn
+                :disabled="clickedOnline || clickedBank === true"
                 class="btn primary-btn padded-btn m-2"
                 @click="payLaterSelect"
                 >Bank Transfer
@@ -70,6 +72,9 @@ export default {
       hashbang: this.$route.hash.split('#!/')[1] || null,
       USER: this.$store.state.auth.userData,
       AUTH: this.$store.state.auth.loggedIn,
+
+      clickedBank: false,
+      clickedOnline: false,
     }
   },
 
@@ -128,6 +133,7 @@ export default {
   },
   methods: {
     async payNowSelect() {
+      this.clickedOnline = true
       this.pn_spinner = true
       this.cartPayload.paymentDetails.paymentType = 'PAYSTACK'
 
@@ -151,10 +157,12 @@ export default {
         })
         .finally(() => {
           this.pn_spinner = false
+          this.clickedOnline = false
         })
     },
 
     async payLaterSelect() {
+      this.clickedBank = true
       this.spinner = true
       this.cartPayload.paymentDetails.paymentType = 'OFFLINE'
 
@@ -178,6 +186,7 @@ export default {
         })
         .finally(() => {
           this.spinner = false
+          this.clickedBank = false
         })
     },
   },

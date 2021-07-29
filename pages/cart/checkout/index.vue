@@ -106,6 +106,7 @@
           <div class="text-center">
             <paystack
               v-if="cartPayload.paymentDetails.paymentType === 'PAYSTACK'"
+              :disabled="verifClicked === true"
               :amount="amount"
               :email="email"
               :paystackkey="paystackkey"
@@ -126,6 +127,7 @@
             </paystack>
             <b-btn
               v-if="cartPayload.paymentDetails.paymentType === 'OFFLINE'"
+              :disabled="verifClicked === true"
               class="btn primary-btn padded-btn ml-2"
               @click="payLater()"
               >Complete Payment
@@ -215,6 +217,8 @@ export default {
   },
   data() {
     return {
+      // disable button on-click
+      verifClicked: false,
       sharingRound: this.$store.state.cart.round,
       cartPayload: this.$store.state.cart.payload,
       paymentPayload: this.$store.state.cart.payment,
@@ -263,6 +267,7 @@ export default {
 
     async payLater() {
       this.spinner = true
+      this.verifClicked = true
       this.paymentPayload.paymentDetails.paymentType = 'OFFLINE'
       this.paymentPayload.orderId = this.cartPayload.orderId
       // this.cartPayload.sharedCommodities = this.cartPayload.sharedCommodities.filter(
@@ -285,10 +290,12 @@ export default {
         })
         .finally(() => {
           this.spinner = false
+          this.verifClicked = false
         })
     },
     async callback(response) {
       this.ps_spinner = true
+      this.verifClicked = true
       this.paymentPayload.paymentDetails.paymentType = 'PAYSTACK'
       this.paymentPayload.paymentDetails.paystackVerificationCode =
         response.reference
@@ -309,6 +316,7 @@ export default {
         })
         .finally(() => {
           this.spinner = false
+          this.verifClicked = false
         })
     },
     close() {

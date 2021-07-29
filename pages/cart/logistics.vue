@@ -403,6 +403,7 @@
             </div> -->
             <div class="text-center mt-3">
               <b-btn
+                :disabled="verifClicked === true"
                 class="btn primary-btn padded-btn btn-block"
                 @click="submitAddress"
                 >Next
@@ -483,6 +484,9 @@ export default {
         // 'Yobe',
         // 'Zamfara',
       ],
+
+      // disable button on-click
+      verifClicked: false,
     }
   },
 
@@ -503,6 +507,12 @@ export default {
           this.ERROR_HANDLER(e)
         })
     }
+  },
+
+  computed: {
+    OTP() {
+      return this.$store.state.cart.receivedOtp
+    },
   },
 
   mounted() {
@@ -532,7 +542,6 @@ export default {
     // this.cartPayload.proxyUserDetails.phone = this.cartPayload.phoneNumber
     // this.cartPayload.proxyUserDetails.email = this.cartPayload.emailAddress
   },
-
   methods: {
     TOGGLE_DELIVERY_MODE(deliveryMethod) {
       this.cartPayload.deliveryDetails.deliveryMethod = deliveryMethod
@@ -585,6 +594,9 @@ export default {
           this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
         }
 
+        // Disable button
+        this.verifClicked = true
+
         // Trigger the loader
         this.spinner = true
 
@@ -611,20 +623,27 @@ export default {
                 title: 'Wrong Details!',
                 variant: 'warning',
               })
+              // Activate button
+              this.verifClicked = false
+              this.spinner = false
             } else {
               this.ERROR_HANDLER(error)
+              this.verifClicked = false
+              this.spinner = false
             }
             // this.ERROR_HANDLER(error)
             // this.sendOTP()
           })
           .finally(() => {
             // Close the loader
-            this.spinner = false
           })
       }
     },
 
     async sendOTP() {
+      // Disable button
+      this.verifClicked = true
+
       // Trigger the loader
       this.spinner = true
 
@@ -643,15 +662,76 @@ export default {
         .then((res) => {
           const saveOTP = res.result.token
           this.$store.commit('cart/SAVE_OTP', saveOTP)
-
-          this.$router.push('/cart/verification/')
+          this.verifyCode()
+          // this.$router.push('/cart/verification/')
         })
         .catch((error) => {
           this.ERROR_HANDLER(error)
         })
-        .finally(() => {
-          // Close the loader
+        .finally(() => {})
+    },
+    async verifyCode() {
+      // populate the API URI
+      const URL = `/account/registration-verification`
+      // Setup the Request Payload
+      const payload = {
+        params: {
+          token: this.OTP,
+        },
+      }
+
+      // Make request to the API
+      await this.$axios
+        .$get(URL, payload)
+        .then((res) => {
+          this.logUserIn(res.result.emailAddress)
+        })
+        .catch((e) => {
+          this.ERROR_HANDLER(e)
           this.spinner = false
+          this.verifClicked = false
+        })
+    },
+
+    async logUserIn(username) {
+      // populate the API URI
+      const URL = `/auth/login`
+      // Setup the Request Payload
+      const payload = {
+        username,
+        password: this.OTP,
+      }
+
+      // Make login request to the API
+      await this.$axios
+        .$post(URL, payload)
+        .then((response) => {
+          // Show 'success' Toast
+          this.SHOW_TOAST({
+            text: 'OTP Verified! Please Wait.',
+            title: 'Success!',
+            variant: 'success',
+          })
+
+          // Get the accessToken from login
+          const accessToken = response.result.accessToken
+          // Decode the Token
+          const userData = JSON.parse(atob(accessToken.split('.')[1]))
+          // Save token to a perstisted Vuex store
+          this.$store.commit('auth/SAVE_TOKEN', accessToken)
+          // Save User Data to a perstisted Vuex store
+          this.$store.commit('auth/LOG_USER_IN', userData)
+          // Adds header: `Authorization: Bearer {accessToken}` to requests
+          this.$axios.setToken(accessToken, 'Bearer')
+          // Redirect User To CART page
+
+          this.$router.push('/cart/payment/')
+        })
+        .catch((e) => {
+          this.ERROR_HANDLER(e)
+
+          this.spinner = false
+          this.verifClicked = false
         })
     },
 
