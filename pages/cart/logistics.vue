@@ -17,14 +17,33 @@
               <img src="/assets/options.svg" class="verifyImg" />
             </div>
             <div class="text-center mx-45">
-              <p>The email address and phone already exist, kindly proceed</p>
+              <p>
+                The email address or phone number already exist, kindly proceed
+              </p>
             </div>
             <div class="text-center my-24">
               <b-btn
                 class="btn primary-btn padded-btn px-2"
+                :disabled="verifClicked === true"
                 @click="gotoLogin()"
                 >Login</b-btn
               >
+              <br />
+              <span class="text_semiBold">or</span>
+              <br />
+              <b-btn
+                class="btn primary-btn padded-btn px-2"
+                :disabled="verifClicked === true"
+                @click="continueAsGuest()"
+                >Continue as Guest
+                <!-- <b-spinner
+                  v-if="spinner"
+                  variant="white"
+                  label="Spinning"
+                  class="ml-3"
+                  small
+              /> -->
+              </b-btn>
             </div>
           </section>
         </div>
@@ -611,22 +630,26 @@ export default {
               this.$router.push('/cart/payment/')
             } else {
               this.userAlreadyExist = true
+              this.verifClicked = false
+              this.spinner = false
             }
           })
           .catch((error) => {
             if (error.response.status === 400) {
               this.sendOTP()
-            } else if (error.response.status === 409) {
-              this.SHOW_TOAST({
-                text:
-                  'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
-                title: 'Wrong Details!',
-                variant: 'warning',
-              })
-              // Activate button
-              this.verifClicked = false
-              this.spinner = false
-            } else {
+            }
+            // else if (error.response.status === 409) {
+            //   // this.sendOTP()
+            //   this.SHOW_TOAST({
+            //     text:
+            //       'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
+            //     title: 'Wrong Details!',
+            //     variant: 'warning',
+            //   })
+            //   this.verifClicked = false
+            //   this.spinner = false
+            // }
+            else {
               this.ERROR_HANDLER(error)
               this.verifClicked = false
               this.spinner = false
@@ -641,11 +664,12 @@ export default {
     },
 
     async sendOTP() {
-      // Disable button
-      this.verifClicked = true
+      console.log('I got here')
+      // // Disable button
+      // this.verifClicked = true
 
-      // Trigger the loader
-      this.spinner = true
+      // // Trigger the loader
+      // this.spinner = true
 
       // populate the API URI
       const URL = `/account/account-verification`
@@ -671,6 +695,8 @@ export default {
         .finally(() => {})
     },
     async verifyCode() {
+      console.log('I verified here')
+
       // populate the API URI
       const URL = `/account/registration-verification`
       // Setup the Request Payload
@@ -694,6 +720,8 @@ export default {
     },
 
     async logUserIn(username) {
+      console.log('I Logged in')
+
       // populate the API URI
       const URL = `/auth/login`
       // Setup the Request Payload
@@ -708,7 +736,7 @@ export default {
         .then((response) => {
           // Show 'success' Toast
           this.SHOW_TOAST({
-            text: 'OTP Verified! Please Wait.',
+            text: 'Access Code Sent! Please Wait.',
             title: 'Success!',
             variant: 'success',
           })
@@ -737,6 +765,10 @@ export default {
 
     gotoLogin() {
       this.$router.push('/account/login/#!/cart/payment/')
+    },
+
+    continueAsGuest() {
+      this.$router.push('/cart/payment/')
     },
 
     async createPassword() {

@@ -67,11 +67,11 @@
 
         <b-button
           class="btn-block btn poppins mx-auto btnSharer mt-5"
+          :disabled="verifClicked === true"
           @click="submitLogin"
           >Login
           <b-spinner
             v-if="loginSpinner"
-            :disabled="verifClicked === true"
             variant="white"
             label="Spinning"
             class="ml-3"
@@ -166,6 +166,7 @@ export default {
           })
           .finally(() => {
             // Close the loader
+            this.verifClicked = false
             this.loginSpinner = false
           })
       }
