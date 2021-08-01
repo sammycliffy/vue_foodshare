@@ -17,14 +17,33 @@
               <img src="/assets/options.svg" class="verifyImg" />
             </div>
             <div class="text-center mx-45">
-              <p>The email address and phone already exist, kindly proceed</p>
+              <p>
+                The email address or phone number already exist, kindly proceed
+              </p>
             </div>
             <div class="text-center my-24">
               <b-btn
                 class="btn primary-btn padded-btn px-2"
+                :disabled="verifClicked === true"
                 @click="gotoLogin()"
                 >Login</b-btn
               >
+              <br />
+              <span class="text_semiBold">or</span>
+              <br />
+              <b-btn
+                class="btn primary-btn padded-btn px-2"
+                :disabled="verifClicked === true"
+                @click="continueAsGuest()"
+                >Continue as Guest
+                <!-- <b-spinner
+                  v-if="spinner"
+                  variant="white"
+                  label="Spinning"
+                  class="ml-3"
+                  small
+              /> -->
+              </b-btn>
             </div>
           </section>
         </div>
@@ -403,6 +422,7 @@
             </div> -->
             <div class="text-center mt-3">
               <b-btn
+                :disabled="verifClicked === true"
                 class="btn primary-btn padded-btn btn-block"
                 @click="submitAddress"
                 >Next
@@ -483,6 +503,9 @@ export default {
         // 'Yobe',
         // 'Zamfara',
       ],
+
+      // disable button on-click
+      verifClicked: false,
     }
   },
 
@@ -503,6 +526,12 @@ export default {
           this.ERROR_HANDLER(e)
         })
     }
+  },
+
+  computed: {
+    OTP() {
+      return this.$store.state.cart.receivedOtp
+    },
   },
 
   mounted() {
@@ -532,7 +561,6 @@ export default {
     // this.cartPayload.proxyUserDetails.phone = this.cartPayload.phoneNumber
     // this.cartPayload.proxyUserDetails.email = this.cartPayload.emailAddress
   },
-
   methods: {
     TOGGLE_DELIVERY_MODE(deliveryMethod) {
       this.cartPayload.deliveryDetails.deliveryMethod = deliveryMethod
@@ -585,6 +613,9 @@ export default {
           this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
         }
 
+        // Disable button
+        this.verifClicked = true
+
         // Trigger the loader
         this.spinner = true
 
@@ -599,34 +630,46 @@ export default {
               this.$router.push('/cart/payment/')
             } else {
               this.userAlreadyExist = true
+              this.verifClicked = false
+              this.spinner = false
             }
           })
           .catch((error) => {
             if (error.response.status === 400) {
               this.sendOTP()
-            } else if (error.response.status === 409) {
-              this.SHOW_TOAST({
-                text:
-                  'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
-                title: 'Wrong Details!',
-                variant: 'warning',
-              })
-            } else {
+            }
+            // else if (error.response.status === 409) {
+            //   // this.sendOTP()
+            //   this.SHOW_TOAST({
+            //     text:
+            //       'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
+            //     title: 'Wrong Details!',
+            //     variant: 'warning',
+            //   })
+            //   this.verifClicked = false
+            //   this.spinner = false
+            // }
+            else {
               this.ERROR_HANDLER(error)
+              this.verifClicked = false
+              this.spinner = false
             }
             // this.ERROR_HANDLER(error)
             // this.sendOTP()
           })
           .finally(() => {
             // Close the loader
-            this.spinner = false
           })
       }
     },
 
     async sendOTP() {
-      // Trigger the loader
-      this.spinner = true
+      console.log('I got here')
+      // // Disable button
+      // this.verifClicked = true
+
+      // // Trigger the loader
+      // this.spinner = true
 
       // populate the API URI
       const URL = `/account/account-verification`
@@ -643,20 +686,89 @@ export default {
         .then((res) => {
           const saveOTP = res.result.token
           this.$store.commit('cart/SAVE_OTP', saveOTP)
-
-          this.$router.push('/cart/verification/')
+          this.verifyCode()
+          // this.$router.push('/cart/verification/')
         })
         .catch((error) => {
           this.ERROR_HANDLER(error)
         })
-        .finally(() => {
-          // Close the loader
+        .finally(() => {})
+    },
+    async verifyCode() {
+      console.log('I verified here')
+
+      // populate the API URI
+      const URL = `/account/registration-verification`
+      // Setup the Request Payload
+      const payload = {
+        params: {
+          token: this.OTP,
+        },
+      }
+
+      // Make request to the API
+      await this.$axios
+        .$get(URL, payload)
+        .then((res) => {
+          this.logUserIn(res.result.emailAddress)
+        })
+        .catch((e) => {
+          this.ERROR_HANDLER(e)
           this.spinner = false
+          this.verifClicked = false
+        })
+    },
+
+    async logUserIn(username) {
+      console.log('I Logged in')
+
+      // populate the API URI
+      const URL = `/auth/login`
+      // Setup the Request Payload
+      const payload = {
+        username,
+        password: this.OTP,
+      }
+
+      // Make login request to the API
+      await this.$axios
+        .$post(URL, payload)
+        .then((response) => {
+          // Show 'success' Toast
+          this.SHOW_TOAST({
+            text: 'Access Code Sent! Please Wait.',
+            title: 'Success!',
+            variant: 'success',
+          })
+
+          // Get the accessToken from login
+          const accessToken = response.result.accessToken
+          // Decode the Token
+          const userData = JSON.parse(atob(accessToken.split('.')[1]))
+          // Save token to a perstisted Vuex store
+          this.$store.commit('auth/SAVE_TOKEN', accessToken)
+          // Save User Data to a perstisted Vuex store
+          this.$store.commit('auth/LOG_USER_IN', userData)
+          // Adds header: `Authorization: Bearer {accessToken}` to requests
+          this.$axios.setToken(accessToken, 'Bearer')
+          // Redirect User To CART page
+
+          this.$router.push('/cart/payment/')
+        })
+        .catch((e) => {
+          this.ERROR_HANDLER(e)
+
+          this.spinner = false
+          this.verifClicked = false
         })
     },
 
     gotoLogin() {
       this.$router.push('/account/login/#!/cart/payment/')
+    },
+
+    continueAsGuest() {
+      this.$router.push('/cart/payment/')
     },
 
     async createPassword() {

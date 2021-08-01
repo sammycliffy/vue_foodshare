@@ -56,6 +56,15 @@
       </div>
 
       <div v-else-if="fetchError">Can't Load Account Details. . .</div>
+      <h4>Total Cost</h4>
+      <p class="text_semiBold">
+        &#8358;
+        {{
+          Intl.NumberFormat().format(
+            cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
+          )
+        }}
+      </p>
 
       <div
         class="uploadProof text-center my-5"

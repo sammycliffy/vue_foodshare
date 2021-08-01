@@ -67,6 +67,7 @@
 
         <b-button
           class="btn-block btn poppins mx-auto btnSharer mt-5"
+          :disabled="verifClicked === true"
           @click="submitLogin"
           >Login
           <b-spinner
@@ -98,6 +99,7 @@ export default {
     return {
       passwordToggle: true,
       loginSpinner: false,
+      verifClicked: false,
 
       FORM: {
         username: null,
@@ -131,6 +133,7 @@ export default {
         }
         // Display spinning spinner icon
         this.loginSpinner = true
+        this.verifClicked = true
 
         // Make login request to the API
         const URI = `/auth/login`
@@ -163,6 +166,7 @@ export default {
           })
           .finally(() => {
             // Close the loader
+            this.verifClicked = false
             this.loginSpinner = false
           })
       }
