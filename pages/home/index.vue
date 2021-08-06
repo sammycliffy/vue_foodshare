@@ -12,6 +12,7 @@
       <div class="sharingRoundCarouselHost">
         <no-ssr>
           <carousel
+            v-if="fetchedImages.length > 0"
             :responsive="{
               0: { items: 1, nav: false },
               600: { items: 1, nav: false },
@@ -180,6 +181,7 @@ export default {
     return {
       middleware: 'public',
       // fetchedImages: this.$store.state.round.imagePayload,
+
       btnSpinner: null,
       numberOfPages: 1,
       searchInput: null,

@@ -65,15 +65,15 @@
         <div class="body-primary half-width">
           <section>
             <p class="shipping_title mt-2">Delivery Details</p>
-            <div class="shippingDetailsBox">
-              <span class="map_link"></span>
+            <div class="shippingDetailsBox align-items-right">
+              <!-- <span class="map_link"></span> -->
               <label
                 for="deliveryMethod"
                 class="custom-control custom-radio labelHost"
               >
-                <span class="maker"
+                <!-- <span class="maker"
                   ><i class="fas fa-map-marker-alt color-orange"></i
-                ></span>
+                ></span> -->
                 <input
                   id="byPickUp"
                   v-model="cartPayload.deliveryDetails.deliveryMethod"
@@ -96,9 +96,9 @@
                 class="custom-control custom-radio labelHost"
                 @click="cartPayload.deliveryDetails.deliveryMethod = 'delivery'"
               >
-                <span class="maker"
+                <!-- <span class="maker"
                   ><i class="fas fa-map-marker-alt color-orange"></i
-                ></span>
+                ></span> -->
                 <input
                   id="byDelivery"
                   v-model="cartPayload.deliveryDetails.deliveryMethod"
@@ -253,7 +253,7 @@
                           v-for="address in recentAddresses"
                           :key="address.currentAddressId"
                           :value="address.currentAddressId"
-                          class="text-nowrap text-truncate p-3 pl-4"
+                          class="text-break p-3 pl-4"
                           stacked
                         >
                           {{
@@ -832,8 +832,9 @@ export default {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
-  width: 80%;
+  width: 90%;
   background-color: #ffffff;
+  margin-bottom: 20px;
 }
 
 .location-type_inner {
@@ -979,6 +980,27 @@ b-form-input::placeholder {
 .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #4f9e55 !important;
   background-color: #4f9e55 !important;
+}
+
+.labelHost > .custom-control-label::before {
+  top: 1rem;
+  border: 1px solid rgba(79, 158, 85, 1);
+  right: unset;
+  left: -2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.labelHost > .custom-control-label::after {
+  top: 1rem;
+  right: unset;
+  left: -2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.labelHost .location-type {
+  float: right;
 }
 
 .custom-control-label::before {

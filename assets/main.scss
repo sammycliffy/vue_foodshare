@@ -598,16 +598,16 @@ h5{
   font-weight: lighter;
 }
 .text_normal{
-  font-weight: 400;
+  font-weight: 400 !important;
 }
 .text_medium {
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 .text_semiBold {
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 .text_bold {
-  font-weight: 800;
+  font-weight: 800 !important;
 }
 
 .shareRoundModal .modal-backdrop {
