@@ -639,7 +639,7 @@ export default {
           })
           .catch((error) => {
             if (error.response.status === 400) {
-              this.continueAsGuest()
+              this.sendOTP()
             }
             // else if (error.response.status === 409) {
             //   // this.sendOTP()
@@ -666,36 +666,36 @@ export default {
       }
     },
 
-    // async sendOTP() {
-    //   // // Disable button
-    //   // this.verifClicked = true
+    async sendOTP() {
+      // // Disable button
+      // this.verifClicked = true
 
-    //   // // Trigger the loader
-    //   // this.spinner = true
+      // // Trigger the loader
+      // this.spinner = true
 
-    //   // populate the API URI
-    //   const URL = `/account/account-verification`
-    //   // Setup the Request Payload
-    //   const payload = {
-    //     firstName: this.cartPayload.firstName,
-    //     lastName: this.cartPayload.lastName,
-    //     emailAddress: this.cartPayload.emailAddress,
-    //     phone: this.cartPayload.phoneNumber,
-    //   }
-    //   // Make request to the API
-    //   await this.$axios
-    //     .$post(URL, payload)
-    //     .then((res) => {
-    //       const saveOTP = res.result.token
-    //       this.$store.commit('cart/SAVE_OTP', saveOTP)
-    //       this.verifyCode()
-    //       // this.$router.push('/cart/verification/')
-    //     })
-    //     .catch((error) => {
-    //       this.ERROR_HANDLER(error)
-    //     })
-    //     .finally(() => {})
-    // },
+      // populate the API URI
+      const URL = `/account/account-verification`
+      // Setup the Request Payload
+      const payload = {
+        firstName: this.cartPayload.firstName,
+        lastName: this.cartPayload.lastName,
+        emailAddress: this.cartPayload.emailAddress,
+        phone: this.cartPayload.phoneNumber,
+      }
+      // Make request to the API
+      await this.$axios
+        .$post(URL, payload)
+        .then((res) => {
+          const saveOTP = res.result.token
+          this.$store.commit('cart/SAVE_OTP', saveOTP)
+          this.$router.push('/cart/payment/')
+          // this.$router.push('/cart/verification/')
+        })
+        .catch((error) => {
+          this.ERROR_HANDLER(error)
+        })
+        .finally(() => {})
+    },
     // async verifyCode() {
     //   console.log('I verified here')
 
