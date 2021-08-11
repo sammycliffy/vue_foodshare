@@ -191,7 +191,7 @@
                 </span>
               </div>
               <div class="">
-                <b-row class="my-2">
+                <b-row class="my-2 mx-0">
                   <b-col>
                     <div class="toggle_img_host text-center">
                       <div class="item__image">
@@ -217,7 +217,7 @@
                     </span>
                   </b-col>
                 </b-row>
-                <b-row class="">
+                <b-row class="mx-0">
                   <b-col class="input-r-seperator input-col">
                     <div class="form-group">
                       <label class="toggle_label" for="remainingSlots">
@@ -250,6 +250,16 @@
                 </b-row>
               </div>
               <hr />
+              <div class="">
+                <div class="d-flex justify-content-between mb-10">
+                  <p class="mb-0">Savings</p>
+                  <p class="mb-0 color-orange text_semiBold fs-14"></p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-0">Market Name</p>
+                  <p class="mb-0 color-black text_semiBold"></p>
+                </div>
+              </div>
               <div v-if="item.topMarkets" class="">
                 <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
                 <div
@@ -367,7 +377,7 @@
                       d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                     />
                   </svg> -->
-                  <span class="btn primary-btn">Pick</span>
+                  <span class="btn select-btn">Select</span>
                 </span>
                 <span v-else class="toggle_icon color-orange">Sold Out</span>
               </span>
@@ -395,7 +405,7 @@
               </span>
             </div>
             <div class="">
-              <b-row class="my-2">
+              <b-row class="my-2 mx-0">
                 <b-col>
                   <div class="toggle_img_host text-center">
                     <div class="item__image">
@@ -418,7 +428,7 @@
                   >
                 </b-col>
               </b-row>
-              <b-row class="">
+              <b-row class="mx-0">
                 <b-col class="input-r-seperator input-col">
                   <div class="form-group">
                     <label class="toggle_label" for="remainingSlots">
@@ -453,6 +463,16 @@
               </b-row>
             </div>
             <hr />
+            <div class="">
+              <div class="d-flex justify-content-between mb-10">
+                <p class="mb-0">Savings</p>
+                <p class="mb-0 color-orange text_semiBold fs-14"></p>
+              </div>
+              <div class="d-flex justify-content-between">
+                <p class="mb-0">Open Market Price</p>
+                <p class="mb-0 color-black text_semiBold"></p>
+              </div>
+            </div>
             <div v-if="item.topMarkets" class="">
               <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
               <div v-for="market in item.topMarkets" :key="market.id" class="">
@@ -652,7 +672,7 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 20px 17px 40px;
+  padding: 20px 17px 25px;
   margin-bottom: 25px;
   border: 1px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
@@ -753,5 +773,9 @@ export default {
   vertical-align: middle;
   font-size: 15px;
   line-height: 22px;
+}
+hr {
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 </style>

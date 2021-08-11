@@ -173,7 +173,9 @@
                         </svg>
                         <!-- Added -->
                       </span>
-                      <span v-else class="btn primary-btn">Pick</span>
+                      <span v-else class="btn select-btn text_medium"
+                        >Select</span
+                      >
                     </span>
                   </span>
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
@@ -204,7 +206,7 @@
               </div>
 
               <div class="">
-                <b-row class="my-2">
+                <b-row class="my-2 mx-0">
                   <b-col>
                     <div class="toggle_img_host text-center">
                       <div class="item__image">
@@ -215,7 +217,7 @@
                       </div>
                     </div>
                   </b-col>
-                  <b-col>
+                  <b-col class="">
                     <p class="toggle_text m-0">Sharing Price</p>
                     <span class="toggle_price text_bold d-block">
                       &#8358;
@@ -230,7 +232,7 @@
                     >
                   </b-col>
                 </b-row>
-                <b-row class="">
+                <b-row class="mx-0">
                   <b-col class="input-r-seperator input-col">
                     <div class="form-group">
                       <label class="toggle_label" for="remainingSlots">
@@ -262,7 +264,16 @@
                 </b-row>
               </div>
               <hr />
-
+              <div class="">
+                <div class="d-flex justify-content-between mb-10">
+                  <p class="mb-0">Savings</p>
+                  <p class="mb-0 color-orange text_semiBold fs-14"></p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-0">Open Market Price</p>
+                  <p class="mb-0 color-black text_semiBold"></p>
+                </div>
+              </div>
               <div v-if="item.topMarkets" class="">
                 <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
                 <div
@@ -497,7 +508,7 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 20px 17px 40px;
+  padding: 20px 17px 25px;
   margin-bottom: 25px;
   border: 2px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
@@ -596,5 +607,9 @@ export default {
   padding: 20px 16px;
   left: 0;
   width: 100%;
+}
+hr {
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 </style>

@@ -65,15 +65,11 @@
         <div class="body-primary half-width">
           <section>
             <p class="shipping_title mt-2">Delivery Details</p>
-            <div class="shippingDetailsBox align-items-right">
-              <!-- <span class="map_link"></span> -->
+            <div class="shippingDetailsBox">
               <label
                 for="deliveryMethod"
                 class="custom-control custom-radio labelHost"
               >
-                <!-- <span class="maker"
-                  ><i class="fas fa-map-marker-alt color-orange"></i
-                ></span> -->
                 <input
                   id="byPickUp"
                   v-model="cartPayload.deliveryDetails.deliveryMethod"
@@ -86,6 +82,11 @@
                 <label
                   class="custom-control-label location-type"
                   for="byPickUp"
+                  :class="
+                    cartPayload.deliveryDetails.deliveryMethod === 'pickup'
+                      ? 'bg_selected'
+                      : ''
+                  "
                 >
                   <div class="location-type_inner">Pick up</div>
                 </label>
@@ -96,9 +97,6 @@
                 class="custom-control custom-radio labelHost"
                 @click="cartPayload.deliveryDetails.deliveryMethod = 'delivery'"
               >
-                <!-- <span class="maker"
-                  ><i class="fas fa-map-marker-alt color-orange"></i
-                ></span> -->
                 <input
                   id="byDelivery"
                   v-model="cartPayload.deliveryDetails.deliveryMethod"
@@ -111,6 +109,11 @@
                 <label
                   class="custom-control-label location-type"
                   for="byDelivery"
+                  :class="
+                    cartPayload.deliveryDetails.deliveryMethod === 'delivery'
+                      ? 'bg_selected'
+                      : ''
+                  "
                 >
                   <div class="location-type_inner">Delivery</div>
                 </label>
@@ -218,11 +221,11 @@
                 <div v-if="recentAddresses.length" class="">
                   <div class="row mx-0">
                     <div class="col-8 pl-0">
-                      <span
+                      <!-- <span
                         ><i
                           class="fas fa-map-marker-alt color-green address-pinter"
                         ></i
-                      ></span>
+                      ></span> -->
                       <span class="locationQuestion text_medium ml-1"
                         >Use Recent Location?</span
                       >
@@ -272,7 +275,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineOne
                       "
                       class="formInputGroup"
-                      placeholder="Contact address"
+                      placeholder="Example; 123 School Road"
                       required
                     />
                     <b-form-input
@@ -280,7 +283,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineTwo
                       "
                       class="formInputGroup"
-                      placeholder="Address line 2"
+                      placeholder="Example; Abuloma"
                     />
                     <b-container>
                       <b-row align-h="between">
@@ -290,7 +293,7 @@
                               cartPayload.deliveryDetails.deliveryAddress.town
                             "
                             class="formInputGroup"
-                            placeholder="Town"
+                            placeholder="Port Harourt"
                             required
                           />
                         </b-col>
@@ -318,7 +321,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineOne
                       "
                       class="formInputGroup"
-                      placeholder="Contact address"
+                      placeholder="Example; 123 School Road"
                       required
                     />
                     <b-form-input
@@ -326,7 +329,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineTwo
                       "
                       class="formInputGroup"
-                      placeholder="Address line 2"
+                      placeholder="Example; Abuloma"
                     />
                     <b-container>
                       <b-row align-h="between">
@@ -336,7 +339,7 @@
                               cartPayload.deliveryDetails.deliveryAddress.town
                             "
                             class="formInputGroup"
-                            placeholder="Town"
+                            placeholder="Port Harourt"
                             required
                           />
                         </b-col>
@@ -364,7 +367,7 @@
                     cartPayload.deliveryDetails.deliveryAddress.lineOne
                   "
                   class="formInputGroup"
-                  placeholder="Contact address"
+                  placeholder="Example; 123 School Road"
                   required
                 />
                 <b-form-input
@@ -372,7 +375,7 @@
                     cartPayload.deliveryDetails.deliveryAddress.lineTwo
                   "
                   class="formInputGroup"
-                  placeholder="Address line 2"
+                  placeholder="Example; Abuloma"
                 />
                 <b-container>
                   <b-row align-h="between">
@@ -382,7 +385,7 @@
                           cartPayload.deliveryDetails.deliveryAddress.town
                         "
                         class="formInputGroup"
-                        placeholder="Town"
+                        placeholder="Port Harourt"
                         required
                       />
                     </b-col>
@@ -832,9 +835,8 @@ export default {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
-  width: 90%;
+  width: 100%;
   background-color: #ffffff;
-  margin-bottom: 20px;
 }
 
 .location-type_inner {
@@ -972,6 +974,7 @@ b-form-input::placeholder {
   line-height: 22px;
   color: rgba(0, 0, 0, 0.3) !important;
 }
+
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   border-color: #4f9e55 !important;
   background-color: #4f9e55 !important;
@@ -982,38 +985,21 @@ b-form-input::placeholder {
   background-color: #4f9e55 !important;
 }
 
-.labelHost > .custom-control-label::before {
-  top: 1rem;
-  border: 1px solid rgba(79, 158, 85, 1);
-  right: unset;
-  left: -2rem;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.labelHost > .custom-control-label::after {
-  top: 1rem;
-  right: unset;
-  left: -2rem;
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.labelHost .location-type {
-  float: right;
-}
-
 .custom-control-label::before {
-  top: 1.25rem;
+  top: 1rem;
   border: 1px solid rgba(79, 158, 85, 1);
-  right: -2rem;
+  right: 1rem;
   left: unset;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .custom-control-label::after {
-  top: 1.25rem;
-  right: -2rem;
+  top: 1rem;
+  right: 1rem;
   left: unset;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .custom-control {
