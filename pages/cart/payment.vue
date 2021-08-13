@@ -77,8 +77,8 @@ export default {
 
       fetchedOrder: null,
       hashbang: this.$route.hash.split('#!/')[1] || null,
-      USER: this.$store.state.auth.userData,
-      AUTH: this.$store.state.auth.loggedIn,
+      // USER: this.$store.state.auth.userData,
+      // AUTH: this.$store.state.auth.loggedIn,
 
       // disable button on-click
       verifClicked: false,
