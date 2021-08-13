@@ -205,7 +205,7 @@
         </div>
       </div>
     </section>
-    <partials-footer />
+    <partials-footer v-if="AUTH" />
   </main>
 </template>
 
@@ -217,6 +217,7 @@ export default {
   },
   data() {
     return {
+      AUTH: this.$store.state.auth.loggedIn,
       // disable button on-click
       verifClicked: false,
       sharingRound: this.$store.state.cart.round,

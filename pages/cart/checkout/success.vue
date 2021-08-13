@@ -101,7 +101,7 @@
         </div>
       </b-modal>
     </div>
-    <partials-footer />
+    <partials-footer v-if="AUTH" />
   </div>
 </template>
 <script>
@@ -109,7 +109,7 @@ export default {
   data() {
     return {
       btnSpinner: false,
-
+      AUTH: this.$store.state.auth.loggedIn,
       USER: this.$store.state.auth.userData,
       cartPayload: this.$store.state.cart.payload,
 

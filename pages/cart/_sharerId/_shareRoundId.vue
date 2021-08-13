@@ -493,7 +493,7 @@
       </div>
     </div>
 
-    <partials-footer />
+    <partials-footer v-if="AUTH" />
   </div>
 </template>
 
@@ -501,6 +501,7 @@
 export default {
   data() {
     return {
+      AUTH: this.$store.state.auth.loggedIn,
       cart: [],
       cartToggle: [],
       roundToggle: [],
