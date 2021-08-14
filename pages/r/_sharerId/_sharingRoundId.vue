@@ -33,9 +33,9 @@
             </span>
           </div>
         </div>
-        <div class="d-flex justify-content-between mt-3">
+        <div class="mt-3">
           <p class="color-orange mb-0">
-            Order deadline
+            Order by
             <span class="d-block color-black pr-2">
               {{ sharingRound.cutOffTimeWithDay }}
             </span>
