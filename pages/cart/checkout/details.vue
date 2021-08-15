@@ -249,7 +249,7 @@ export default {
 
         this.verifClicked = true
 
-        const URI = `/services/orders/${this.cartPayload.orderId}/proof`
+        const URI = `/unauth/orders/${this.cartPayload.orderId}/proof`
         await this.$axios
           .$put(URI, formData)
           .then((response) => {
