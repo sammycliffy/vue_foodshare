@@ -146,7 +146,7 @@ export default {
       this.cartPayload.sharedCommodities = this.cartPayload.sharedCommodities.filter(
         (x) => x
       )
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/new-order`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/new-order`
 
       await this.$axios
         .$post(URI, this.cartPayload)
@@ -176,7 +176,7 @@ export default {
         (x) => x
       )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/new-order`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/new-order`
 
       await this.$axios
         .$post(URI, this.cartPayload)

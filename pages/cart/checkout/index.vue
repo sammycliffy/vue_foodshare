@@ -275,7 +275,7 @@ export default {
       //   (x) => x
       // )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {
@@ -305,7 +305,7 @@ export default {
       //   (x) => x
       // )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {
