@@ -151,7 +151,7 @@ export default {
   },
 
   async fetch() {
-    const URL = `/services/orders/sharing-rounds/orders/order/${this.cartPayload.orderId}/waitTime`
+    const URL = `/unauth/orders/sharing-rounds/orders/order/${this.cartPayload.orderId}/waitTime`
     await this.$axios
       .$get(URL)
       .then((response) => {
@@ -202,7 +202,7 @@ export default {
 
   async created() {
     // Set the countdown time
-    const URI = `/services/sharing-groups/${this.sharingRound.sharerId}`
+    const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
     await this.$axios
       .$get(URI)
       .then((response) => {

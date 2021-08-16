@@ -133,7 +133,7 @@ export default {
       this.FORM.reviewContext.userId = this.USER.id
 
       // Fetch sharer's review
-      const URL = `/services/reviews`
+      const URL = `/unauth/reviews`
       await this.$axios
         .$post(URL, this.FORM)
         .then((res) => {
