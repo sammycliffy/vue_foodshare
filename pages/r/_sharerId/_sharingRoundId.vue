@@ -33,16 +33,16 @@
             </span>
           </div>
         </div>
-        <div class="d-flex justify-content-between mt-3">
+        <div class="mt-3">
           <p class="color-orange mb-0">
-            Order deadline
+            Order by
             <span class="d-block color-black pr-2">
               {{ sharingRound.cutOffTimeWithDay }}
             </span>
           </p>
-          <p class="color-orange text-right mb-0">
+          <p class="color-orange mb-0">
             Sharing day
-            <span class="d-block color-black pl-2">
+            <span class="d-block color-black">
               {{ sharingRound.endTimeWithDay }}
             </span>
           </p>
@@ -83,9 +83,10 @@
               :class="
                 cartPayload.sharedCommodities[index] &&
                 cartPayload.sharedCommodities[index].numberOfSlots > 0
-                  ? 'border border-primary'
+                  ? 'border-2x border-primary'
                   : ''
               "
+              @click="toggleDropDown(index)"
             >
               <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-around">
@@ -108,7 +109,6 @@
                       class="mb-0 mt-2"
                     >
                       {{ cartPayload.sharedCommodities[index].numberOfSlots }}
-                      Selected
                       <span
                         v-text="
                           cartPayload.sharedCommodities[index].numberOfSlots > 1
@@ -116,23 +116,29 @@
                             : 'slot'
                         "
                       />
+                      Added
                     </p>
                     <p v-else class="mb-0 mt-2">
                       {{ item.remainingSlots }}
-                      Available
                       <span
                         v-text="item.remainingSlots > 1 ? 'slots' : 'slot'"
                       />
+                      Available
+                    </p>
+                    <p
+                      v-if="
+                        cartPayload.sharedCommodities[index] &&
+                        cartPayload.sharedCommodities[index].numberOfSlots > 0
+                      "
+                      class="mb-0 mt-2"
+                    >
+                      <span class="color-orange text-semiBold">Edit</span>
                     </p>
                   </div>
                 </div>
                 <span class="align-self-center text-right">
-                  <span
-                    v-if="item.remainingSlots >= 1"
-                    class="toggle_icon"
-                    @click="toggleDropDown(index)"
-                  >
-                    <svg
+                  <span v-if="item.remainingSlots >= 1" class="toggle_icon">
+                    <!-- <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
                       height="20"
@@ -144,7 +150,33 @@
                         fill-rule="evenodd"
                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                       />
-                    </svg>
+                    </svg> -->
+                    <span class="">
+                      <span
+                        v-if="
+                          cartPayload.sharedCommodities[index] &&
+                          cartPayload.sharedCommodities[index].numberOfSlots > 0
+                        "
+                        class=""
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20"
+                          fill="currentColor"
+                          class="bi bi-check-lg color-green text-center"
+                          viewBox="0 0 16 16"
+                        >
+                          <path
+                            d="M13.485 1.431a1.473 1.473 0 0 1 2.104 2.062l-7.84 9.801a1.473 1.473 0 0 1-2.12.04L.431 8.138a1.473 1.473 0 0 1 2.084-2.083l4.111 4.112 6.82-8.69a.486.486 0 0 1 .04-.045z"
+                          />
+                        </svg>
+                        <!-- Added -->
+                      </span>
+                      <span v-else class="btn select-btn text_medium"
+                        >Select</span
+                      >
+                    </span>
                   </span>
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
                 </span>
@@ -174,7 +206,7 @@
               </div>
 
               <div class="">
-                <b-row class="my-2">
+                <b-row class="my-2 mx-0">
                   <b-col>
                     <div class="toggle_img_host text-center">
                       <div class="item__image">
@@ -185,7 +217,7 @@
                       </div>
                     </div>
                   </b-col>
-                  <b-col>
+                  <b-col class="">
                     <p class="toggle_text m-0">Sharing Price</p>
                     <span class="toggle_price text_bold d-block">
                       &#8358;
@@ -200,7 +232,7 @@
                     >
                   </b-col>
                 </b-row>
-                <b-row class="">
+                <b-row class="mx-0">
                   <b-col class="input-r-seperator input-col">
                     <div class="form-group">
                       <label class="toggle_label" for="remainingSlots">
@@ -217,7 +249,7 @@
                         :placeholder="
                           cartPayload.sharedCommodities[index]
                             ? cartPayload.sharedCommodities[index].numberOfSlots
-                            : 'Enter NO. of slots'
+                            : 'Enter number of slots'
                         "
                       />
                     </div>
@@ -232,7 +264,16 @@
                 </b-row>
               </div>
               <hr />
-
+              <div class="">
+                <div class="d-flex justify-content-between mb-10">
+                  <p class="mb-0">Savings</p>
+                  <p class="mb-0 color-orange text_semiBold fs-14"></p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-0">Open Market Price</p>
+                  <p class="mb-0 color-black text_semiBold"></p>
+                </div>
+              </div>
               <div v-if="item.topMarkets" class="">
                 <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
                 <div
@@ -467,9 +508,9 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 20px 17px 40px;
+  padding: 20px 17px 25px;
   margin-bottom: 25px;
-  border: 1px solid rgba(183, 185, 197, 0.27);
+  border: 2px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
@@ -566,5 +607,9 @@ export default {
   padding: 20px 16px;
   left: 0;
   width: 100%;
+}
+hr {
+  margin-bottom: 25px;
+  margin-top: 25px;
 }
 </style>

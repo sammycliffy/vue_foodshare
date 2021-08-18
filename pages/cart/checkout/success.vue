@@ -42,7 +42,7 @@
         </p>
       </div>
       <div class="text-center mt-4">
-        <b-btn class="btn primary-btn padded-btn" to="/user/order/"
+        <b-btn v-if="AUTH" class="btn primary-btn padded-btn" to="/user/order/"
           >Go to Orders</b-btn
         >
       </div>
@@ -56,6 +56,7 @@
         no-close-on-backdrop
       >
         <nuxt-link
+          v-if="AUTH"
           slot="modal-title"
           nuxt-link
           class="primary-btn-link m-0"
@@ -64,6 +65,7 @@
           <img class="" src="/assets/icons/home.svg" />
         </nuxt-link>
         <b-img
+          v-if="AUTH"
           :src="USER.image || '/assets/empty-photo.svg'"
           center
           class="userPic mx-auto"
@@ -101,7 +103,7 @@
         </div>
       </b-modal>
     </div>
-    <partials-footer />
+    <partials-footer v-if="AUTH" />
   </div>
 </template>
 <script>
@@ -109,7 +111,7 @@ export default {
   data() {
     return {
       btnSpinner: false,
-
+      AUTH: this.$store.state.auth.loggedIn,
       USER: this.$store.state.auth.userData,
       cartPayload: this.$store.state.cart.payload,
 
@@ -133,7 +135,7 @@ export default {
       this.FORM.reviewContext.userId = this.USER.id
 
       // Fetch sharer's review
-      const URL = `/services/reviews`
+      const URL = `/unauth/reviews`
       await this.$axios
         .$post(URL, this.FORM)
         .then((res) => {
