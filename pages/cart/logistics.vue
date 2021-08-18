@@ -17,9 +17,7 @@
               <img src="/assets/options.svg" class="verifyImg" />
             </div>
             <div class="text-center mx-45">
-              <p>
-                The email address or phone number already exist, kindly proceed
-              </p>
+              <p>The email address or phone number is linked to an account.</p>
             </div>
             <div class="text-center my-24">
               <b-btn
@@ -36,13 +34,6 @@
                 :disabled="verifClicked === true"
                 @click="continueAsGuest()"
                 >Continue as Guest
-                <!-- <b-spinner
-                  v-if="spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-              /> -->
               </b-btn>
             </div>
           </section>
@@ -640,19 +631,12 @@ export default {
           .catch((error) => {
             if (error.response.status === 400) {
               this.sendOTP()
-            }
-            // else if (error.response.status === 409) {
-            //   // this.sendOTP()
-            //   this.SHOW_TOAST({
-            //     text:
-            //       'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
-            //     title: 'Wrong Details!',
-            //     variant: 'warning',
-            //   })
-            //   this.verifClicked = false
-            //   this.spinner = false
-            // }
-            else {
+            } else if (error.response.status === 409) {
+              // this.sendOTP()
+              this.userAlreadyExist = true
+              this.verifClicked = false
+              this.spinner = false
+            } else {
               this.ERROR_HANDLER(error)
               this.verifClicked = false
               this.spinner = false

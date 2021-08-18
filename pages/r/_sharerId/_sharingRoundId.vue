@@ -40,9 +40,9 @@
               {{ sharingRound.cutOffTimeWithDay }}
             </span>
           </p>
-          <p class="color-orange text-right mb-0">
+          <p class="color-orange mb-0">
             Sharing day
-            <span class="d-block color-black pl-2">
+            <span class="d-block color-black">
               {{ sharingRound.endTimeWithDay }}
             </span>
           </p>
