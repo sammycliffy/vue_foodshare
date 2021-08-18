@@ -17,7 +17,7 @@
             v-model.trim="FORM.username"
             class="input"
             type="email"
-            placeholder="Email Address/Phone number"
+            placeholder="Email Address/Phone Number"
             required
           />
         </b-input-group>
@@ -31,7 +31,7 @@
             v-model="FORM.password"
             class="input"
             :type="passwordToggle ? 'password' : 'text'"
-            placeholder="Password/Otp"
+            placeholder="Password/Access Code"
             required
           />
           <b-input-group-append>
@@ -59,7 +59,7 @@
             </b-col>
             <b-col xs="6" class="input-l-seperator input-col text-right">
               <nuxt-link to="/account/password/" class="link"
-                >Forgot password?</nuxt-link
+                >Forgot Password?</nuxt-link
               >
             </b-col>
           </b-row>
@@ -67,6 +67,7 @@
 
         <b-button
           class="btn-block btn poppins mx-auto btnSharer mt-5"
+          :disabled="verifClicked === true"
           @click="submitLogin"
           >Login
           <b-spinner
@@ -98,6 +99,7 @@ export default {
     return {
       passwordToggle: true,
       loginSpinner: false,
+      verifClicked: false,
 
       FORM: {
         username: null,
@@ -131,6 +133,7 @@ export default {
         }
         // Display spinning spinner icon
         this.loginSpinner = true
+        this.verifClicked = true
 
         // Make login request to the API
         const URI = `/auth/login`
@@ -163,6 +166,7 @@ export default {
           })
           .finally(() => {
             // Close the loader
+            this.verifClicked = false
             this.loginSpinner = false
           })
       }

@@ -6,53 +6,61 @@
         <partials-skeleton-loader />
       </div>
       <div v-else>
-        <div class="header-overlay">
-          <div class="overlay-img"></div>
-          <div class="overlay-bg"></div>
-          <div class="top-bar">
-            <div class="top-row d-flex justify-content-between">
-              <div class="d-flex justify-content-around">
-                <partials-back-nav-button />
-                <span class="">{{ sharingRound.name }} </span>
-              </div>
-            </div>
+        <div class="d-flex">
+          <partials-back-nav-button />
+          <div class="ml-2">
+            <h4>Payment method</h4>
+            <p>Select one of the payment methods</p>
           </div>
         </div>
-
-        <div class="body-primary half-width">
-          <section>
-            <p class="shipping_title mt-2">Choose Payment Method</p>
-            <p>How do you want to make your payment?</p>
-
-            <div class="text-center mt-3">
-              <b-btn
-                class="btn primary-btn padded-btn m-2"
-                @click="payNowSelect"
-                >Pay Online
-
-                <b-spinner
-                  v-if="pn_spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-                ></b-spinner>
-              </b-btn>
-              <b-btn
-                class="btn primary-btn padded-btn m-2"
-                @click="payLaterSelect"
-                >Bank Transfer
-
-                <b-spinner
-                  v-if="spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-                ></b-spinner
-              ></b-btn>
+        <b-form-radio-group
+          v-model="selectedPaymentMethod"
+          class="radioBtns mt-20"
+        >
+          <b-form-radio value="bankPay">
+            <div
+              class="paymentOption_label d-flex justify-content-start mb-20"
+              :class="selectedPaymentMethod === 'bankPay' ? 'bg_selected' : ''"
+            >
+              <img src="/assets/icons/bank.svg" />
+              <div class="label_textBox">
+                <span class="d-block labelTitle">Bank</span>
+                <span class="d-block labelDesc"
+                  >Pay directly to bank account</span
+                >
+              </div>
             </div>
-          </section>
+          </b-form-radio>
+          <b-form-radio value="cardPay">
+            <div
+              class="paymentOption_label d-flex justify-content-start mt-10 mb-20"
+              :class="selectedPaymentMethod === 'cardPay' ? 'bg_selected' : ''"
+            >
+              <img src="/assets/icons/credit-card.svg" />
+              <div class="label_textBox">
+                <span class="d-block labelTitle">Debit Card</span>
+                <span class="d-block labelDesc"
+                  >Pay with MasterCard or Visa
+                </span>
+              </div>
+            </div>
+          </b-form-radio>
+        </b-form-radio-group>
+        <div class="text-center mt-20">
+          <b-btn
+            :disabled="verifClicked === true"
+            class="btn primary-btn padded-btn m-2"
+            @click="payForOrder"
+            >Continue
+
+            <b-spinner
+              v-if="spinner"
+              variant="white"
+              label="Spinning"
+              class="ml-1"
+              small
+            ></b-spinner
+          ></b-btn>
         </div>
       </div>
     </div>
@@ -65,11 +73,15 @@ export default {
     return {
       spinner: false,
       pn_spinner: false,
+      selectedPaymentMethod: 'bankPay',
 
       fetchedOrder: null,
       hashbang: this.$route.hash.split('#!/')[1] || null,
-      USER: this.$store.state.auth.userData,
-      AUTH: this.$store.state.auth.loggedIn,
+      // USER: this.$store.state.auth.userData,
+      // AUTH: this.$store.state.auth.loggedIn,
+
+      // disable button on-click
+      verifClicked: false,
     }
   },
 
@@ -118,23 +130,23 @@ export default {
       return this.$store.state.cart.round
     },
   },
-  mounted() {
-    if (this.AUTH) {
-      this.cartPayload.firstName = this.USER.firstName
-      this.cartPayload.lastName = this.USER.lastName
-      this.cartPayload.phoneNumber = this.USER.phone
-      this.cartPayload.emailAddress = this.USER.user
-    }
-  },
   methods: {
+    payForOrder() {
+      if (this.selectedPaymentMethod === 'bankPay') {
+        this.payLaterSelect()
+      } else {
+        this.payNowSelect()
+      }
+    },
     async payNowSelect() {
-      this.pn_spinner = true
+      this.verifClicked = true
+      this.spinner = true
       this.cartPayload.paymentDetails.paymentType = 'PAYSTACK'
 
       this.cartPayload.sharedCommodities = this.cartPayload.sharedCommodities.filter(
         (x) => x
       )
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/new-order`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/new-order`
 
       await this.$axios
         .$post(URI, this.cartPayload)
@@ -150,11 +162,13 @@ export default {
           this.ERROR_HANDLER(error)
         })
         .finally(() => {
-          this.pn_spinner = false
+          this.spinner = false
+          this.verifClicked = false
         })
     },
 
     async payLaterSelect() {
+      this.verifClicked = true
       this.spinner = true
       this.cartPayload.paymentDetails.paymentType = 'OFFLINE'
 
@@ -162,7 +176,7 @@ export default {
         (x) => x
       )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/new-order`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/new-order`
 
       await this.$axios
         .$post(URI, this.cartPayload)
@@ -178,6 +192,7 @@ export default {
         })
         .finally(() => {
           this.spinner = false
+          this.verifClicked = false
         })
     },
   },
@@ -185,225 +200,66 @@ export default {
 </script>
 
 <style scoped>
-.body-primary {
-  /* background-color: #ffffff; */
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 125px;
-  z-index: 20;
-  overflow-y: auto;
+.scroll-overflow {
+  padding: 34px;
 }
-
-.top-bar {
-  color: #ffffff;
-  z-index: 20;
-  position: relative;
+.paymentOption_label {
+  background-color: rgba(79, 158, 85, 0.06);
+  padding: 11px;
+  margin-left: 10px;
 }
-
-.primary-btn {
-  height: 50px;
-}
-
-.shipping_title {
-  font-size: 15px;
+h4 {
+  font-size: 18px;
   line-height: 42px;
+  letter-spacing: 0.05px;
   font-weight: bold;
-  color: #000000;
-  letter-spacing: 0.04px;
-  margin-bottom: 24px;
+  margin-bottom: unset;
 }
-
-.location-type {
-  border-radius: 5px;
-  box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
-  -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
-  -moz-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
-  width: 80%;
-  background-color: #ffffff;
-}
-
-.location-type_inner {
-  text-align: center;
-  font-size: 16px;
+p {
+  font-size: 15px;
   line-height: 20px;
   letter-spacing: 0.05px;
-  padding: 16px;
-}
-
-.labelHost {
-  margin-bottom: 30px;
-}
-
-.shippingDetailsBox {
-  position: relative;
-}
-
-.maker {
-  height: 21px;
-  width: 14px;
-  margin-right: 21px;
-  vertical-align: sub;
-}
-.map_link {
-  height: 50px;
-  border: dashed 2px rgba(254, 143, 10, 1);
-  position: absolute;
-  left: 3px;
-  top: 30px;
-}
-
-label {
-  font-size: 15px;
-  line-height: 22px;
-  color: #000000;
-}
-
-.formInputGroup {
-  font-size: 15px;
-  line-height: 22px;
-  background-color: rgba(255, 255, 255, 0.96);
-  color: #000000;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  height: 50px;
-}
-.formInputGroup .input {
-  font-size: 15px;
-  line-height: 22px;
-  color: #000000;
-  background-color: #ffffff;
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  height: inherit !important;
-  border: unset;
-  padding: unset;
-}
-.input:focus {
-  box-shadow: unset;
-}
-.input-addon {
   margin-bottom: unset;
-  font-size: inherit;
-  font-weight: inherit;
-  font-size: inherit;
-  line-height: inherit;
+}
+label {
+  display: block;
+  margin: 20px 0 30px;
+}
+.label_textBox {
+  margin-left: 15px;
+}
+.labelTitle {
+  font-size: 15px;
+  /* line-height: 15px; */
+  letter-spacing: 0.32px;
   color: #000000;
-  background-color: #ffffff;
-  border: unset;
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  font-weight: 500;
 }
-
-.form-control {
-  border: unset;
-}
-.custom-select {
-  border: unset;
-}
-.input-radius {
-  border-radius: 8px;
-}
-
-.input-sub-text {
-  font-size: 10px;
-  line-height: 22px;
-  color: rgba(0, 0, 0, 0.2);
-}
-
-.locationQuestion {
-  font-size: 18px;
-  line-height: 22px;
-}
-
-.radioBtns .custom-control-inline {
-  margin-right: 5px;
-  font-size: 15px;
-  line-height: 22px;
-}
-
-.address-pinter {
-  font-size: 20px;
-}
-
-.defaultNameBox {
-  background-color: rgba(79, 158, 85, 0.3);
-  border-color: transparent;
-  padding: 15px;
+.labelDesc {
   font-size: 14px;
-  line-height: 22px;
+  /* line-height: 48px; */
+  letter-spacing: 0.04px;
+  color: rgba(108, 115, 138, 0.52);
 }
 
-.defaultNameBox span {
-  color: #070606;
-  opacity: 60%;
+.custom-control-label {
+  width: 100% !important;
 }
-
-b-form-input::-webkit-input-placeholder {
-  /* Edge */
-  font-size: 15px;
-  line-height: 22px;
-  color: rgba(0, 0, 0, 0.3) !important;
-}
-
-b-form-input:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  font-size: 15px;
-  line-height: 22px;
-  color: rgba(0, 0, 0, 0.3) !important;
-}
-
-b-form-input::placeholder {
-  font-size: 15px;
-  line-height: 22px;
-  color: rgba(0, 0, 0, 0.3) !important;
-}
-.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
-  border-color: #4f9e55 !important;
-  background-color: #4f9e55 !important;
-}
-
-.custom-control-input:checked ~ .custom-control-label::before {
-  border-color: #4f9e55 !important;
-  background-color: #4f9e55 !important;
-}
-
-.custom-control-label::before {
-  top: 1.25rem;
+::v-deep .radioBtns .custom-control-label::before {
+  top: 1.5rem !important;
   border: 1px solid rgba(79, 158, 85, 1);
-  right: -2rem;
-  left: unset;
+  width: 1.5rem !important;
+  right: unset;
+  height: 1.5rem !important;
 }
+/* .custom-control-inline{
 
-.custom-control-label::after {
-  top: 1.25rem;
-  right: -2rem;
-  left: unset;
-}
+} */
 
-.custom-control {
-  padding-left: unset;
-}
-
-.input-l-seperator {
-  padding-right: 6.5px !important;
-}
-
-.input-r-seperator {
-  padding-left: 6.5px !important;
-}
-.input-col {
-  padding-left: unset;
-  padding-right: unset;
-}
-
-.verifyImg {
-  width: 215.73px;
-  margin: 40px auto 24px;
-}
-
-.pad-options {
-  padding: 25px 16px 30px;
+::v-deep .radioBtns .custom-control-label::after {
+  top: 1.5rem !important;
+  right: unset;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
 }
 </style>

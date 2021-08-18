@@ -6,7 +6,7 @@
         <h4>Payment Details</h4>
       </div>
 
-      <div class="text-center my-4">
+      <div class="text-center my-4 d-none">
         <span class="maker"
           ><i class="fas fa-map-marker-alt color-orange"></i
         ></span>
@@ -33,7 +33,7 @@
           <img src="/assets/icons/check-mark.svg" />
         </span>
       </div>
-      <h4>Account Details</h4>
+      <h4 class="mt-2">Account Details</h4>
       <div v-if="sharerDetails.financialDetails" class="mb-4 poppins">
         <p>
           Name:
@@ -56,6 +56,15 @@
       </div>
 
       <div v-else-if="fetchError">Can't Load Account Details. . .</div>
+      <h4 class="mb-0">Total Cost</h4>
+      <h4 class="text_semiBold color-orange">
+        &#8358;
+        {{
+          Intl.NumberFormat().format(
+            cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
+          )
+        }}
+      </h4>
 
       <div
         class="uploadProof text-center my-5"
@@ -142,7 +151,7 @@ export default {
   },
 
   async fetch() {
-    const URL = `/services/orders/sharing-rounds/orders/order/${this.cartPayload.orderId}/waitTime`
+    const URL = `/unauth/orders/sharing-rounds/orders/order/${this.cartPayload.orderId}/waitTime`
     await this.$axios
       .$get(URL)
       .then((response) => {
@@ -193,7 +202,7 @@ export default {
 
   async created() {
     // Set the countdown time
-    const URI = `/services/sharing-groups/${this.sharingRound.sharerId}`
+    const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
     await this.$axios
       .$get(URI)
       .then((response) => {
@@ -240,7 +249,7 @@ export default {
 
         this.verifClicked = true
 
-        const URI = `/services/orders/${this.cartPayload.orderId}/proof`
+        const URI = `/unauth/orders/${this.cartPayload.orderId}/proof`
         await this.$axios
           .$put(URI, formData)
           .then((response) => {
@@ -301,10 +310,14 @@ p {
 }
 
 .uploadProof {
-  border-radius: 5px;
+  min-width: 240px;
+}
+
+.uploadProof > label {
   padding: 30px 16px;
   background-color: rgba(79, 158, 85, 0.06);
-  min-width: 240px;
+  border-radius: 5px;
+  display: block;
 }
 
 .uploadProof .description {

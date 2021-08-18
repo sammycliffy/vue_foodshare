@@ -106,6 +106,7 @@
           <div class="text-center">
             <paystack
               v-if="cartPayload.paymentDetails.paymentType === 'PAYSTACK'"
+              :disabled="verifClicked === true"
               :amount="amount"
               :email="email"
               :paystackkey="paystackkey"
@@ -126,6 +127,7 @@
             </paystack>
             <b-btn
               v-if="cartPayload.paymentDetails.paymentType === 'OFFLINE'"
+              :disabled="verifClicked === true"
               class="btn primary-btn padded-btn ml-2"
               @click="payLater()"
               >Complete Payment
@@ -203,7 +205,7 @@
         </div>
       </div>
     </section>
-    <partials-footer />
+    <partials-footer v-if="AUTH" />
   </main>
 </template>
 
@@ -215,6 +217,9 @@ export default {
   },
   data() {
     return {
+      AUTH: this.$store.state.auth.loggedIn,
+      // disable button on-click
+      verifClicked: false,
       sharingRound: this.$store.state.cart.round,
       cartPayload: this.$store.state.cart.payload,
       paymentPayload: this.$store.state.cart.payment,
@@ -263,13 +268,14 @@ export default {
 
     async payLater() {
       this.spinner = true
+      this.verifClicked = true
       this.paymentPayload.paymentDetails.paymentType = 'OFFLINE'
       this.paymentPayload.orderId = this.cartPayload.orderId
       // this.cartPayload.sharedCommodities = this.cartPayload.sharedCommodities.filter(
       //   (x) => x
       // )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {
@@ -285,10 +291,12 @@ export default {
         })
         .finally(() => {
           this.spinner = false
+          this.verifClicked = false
         })
     },
     async callback(response) {
       this.ps_spinner = true
+      this.verifClicked = true
       this.paymentPayload.paymentDetails.paymentType = 'PAYSTACK'
       this.paymentPayload.paymentDetails.paystackVerificationCode =
         response.reference
@@ -297,7 +305,7 @@ export default {
       //   (x) => x
       // )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {
@@ -309,6 +317,7 @@ export default {
         })
         .finally(() => {
           this.spinner = false
+          this.verifClicked = false
         })
     },
     close() {

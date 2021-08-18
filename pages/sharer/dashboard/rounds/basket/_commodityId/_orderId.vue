@@ -99,7 +99,9 @@
                   <div
                     v-if="
                       roundBasket.orderStatus ===
-                      'AWAITING_PAYMENT_CONFIRMATION'
+                        'AWAITING_PAYMENT_CONFIRMATION' ||
+                      'AWAITING_PROOF_OF_PAYMENT' ||
+                      'AWAITING_PAYMENT'
                     "
                     class="mt-20 btnBox d-flex"
                   >
