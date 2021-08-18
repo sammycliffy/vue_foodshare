@@ -17,9 +17,7 @@
               <img src="/assets/options.svg" class="verifyImg" />
             </div>
             <div class="text-center mx-45">
-              <p>
-                The email address or phone number already exist, kindly proceed
-              </p>
+              <p>The email address or phone number is linked to an account.</p>
             </div>
             <div class="text-center my-24">
               <b-btn
@@ -36,13 +34,6 @@
                 :disabled="verifClicked === true"
                 @click="continueAsGuest()"
                 >Continue as Guest
-                <!-- <b-spinner
-                  v-if="spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-              /> -->
               </b-btn>
             </div>
           </section>
@@ -66,14 +57,10 @@
           <section>
             <p class="shipping_title mt-2">Delivery Details</p>
             <div class="shippingDetailsBox">
-              <span class="map_link"></span>
               <label
                 for="deliveryMethod"
                 class="custom-control custom-radio labelHost"
               >
-                <span class="maker"
-                  ><i class="fas fa-map-marker-alt color-orange"></i
-                ></span>
                 <input
                   id="byPickUp"
                   v-model="cartPayload.deliveryDetails.deliveryMethod"
@@ -86,6 +73,11 @@
                 <label
                   class="custom-control-label location-type"
                   for="byPickUp"
+                  :class="
+                    cartPayload.deliveryDetails.deliveryMethod === 'pickup'
+                      ? 'bg_selected'
+                      : ''
+                  "
                 >
                   <div class="location-type_inner">Pick up</div>
                 </label>
@@ -96,9 +88,6 @@
                 class="custom-control custom-radio labelHost"
                 @click="cartPayload.deliveryDetails.deliveryMethod = 'delivery'"
               >
-                <span class="maker"
-                  ><i class="fas fa-map-marker-alt color-orange"></i
-                ></span>
                 <input
                   id="byDelivery"
                   v-model="cartPayload.deliveryDetails.deliveryMethod"
@@ -111,6 +100,11 @@
                 <label
                   class="custom-control-label location-type"
                   for="byDelivery"
+                  :class="
+                    cartPayload.deliveryDetails.deliveryMethod === 'delivery'
+                      ? 'bg_selected'
+                      : ''
+                  "
                 >
                   <div class="location-type_inner">Delivery</div>
                 </label>
@@ -218,11 +212,11 @@
                 <div v-if="recentAddresses.length" class="">
                   <div class="row mx-0">
                     <div class="col-8 pl-0">
-                      <span
+                      <!-- <span
                         ><i
                           class="fas fa-map-marker-alt color-green address-pinter"
                         ></i
-                      ></span>
+                      ></span> -->
                       <span class="locationQuestion text_medium ml-1"
                         >Use Recent Location?</span
                       >
@@ -253,7 +247,7 @@
                           v-for="address in recentAddresses"
                           :key="address.currentAddressId"
                           :value="address.currentAddressId"
-                          class="text-nowrap text-truncate p-3 pl-4"
+                          class="text-break p-3 pl-4"
                           stacked
                         >
                           {{
@@ -272,7 +266,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineOne
                       "
                       class="formInputGroup"
-                      placeholder="Contact address"
+                      placeholder="Example; 123 School Road"
                       required
                     />
                     <b-form-input
@@ -280,7 +274,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineTwo
                       "
                       class="formInputGroup"
-                      placeholder="Address line 2"
+                      placeholder="Example; Abuloma"
                     />
                     <b-container>
                       <b-row align-h="between">
@@ -290,7 +284,7 @@
                               cartPayload.deliveryDetails.deliveryAddress.town
                             "
                             class="formInputGroup"
-                            placeholder="Town"
+                            placeholder="Port Harourt"
                             required
                           />
                         </b-col>
@@ -318,7 +312,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineOne
                       "
                       class="formInputGroup"
-                      placeholder="Contact address"
+                      placeholder="Example; 123 School Road"
                       required
                     />
                     <b-form-input
@@ -326,7 +320,7 @@
                         cartPayload.deliveryDetails.deliveryAddress.lineTwo
                       "
                       class="formInputGroup"
-                      placeholder="Address line 2"
+                      placeholder="Example; Abuloma"
                     />
                     <b-container>
                       <b-row align-h="between">
@@ -336,7 +330,7 @@
                               cartPayload.deliveryDetails.deliveryAddress.town
                             "
                             class="formInputGroup"
-                            placeholder="Town"
+                            placeholder="Port Harourt"
                             required
                           />
                         </b-col>
@@ -364,7 +358,7 @@
                     cartPayload.deliveryDetails.deliveryAddress.lineOne
                   "
                   class="formInputGroup"
-                  placeholder="Contact address"
+                  placeholder="Example; 123 School Road"
                   required
                 />
                 <b-form-input
@@ -372,7 +366,7 @@
                     cartPayload.deliveryDetails.deliveryAddress.lineTwo
                   "
                   class="formInputGroup"
-                  placeholder="Address line 2"
+                  placeholder="Example; Abuloma"
                 />
                 <b-container>
                   <b-row align-h="between">
@@ -382,7 +376,7 @@
                           cartPayload.deliveryDetails.deliveryAddress.town
                         "
                         class="formInputGroup"
-                        placeholder="Town"
+                        placeholder="Port Harourt"
                         required
                       />
                     </b-col>
@@ -528,11 +522,11 @@ export default {
     }
   },
 
-  computed: {
-    OTP() {
-      return this.$store.state.cart.receivedOtp
-    },
-  },
+  // computed: {
+  //   OTP() {
+  //     return this.$store.state.cart.receivedOtp
+  //   },
+  // },
 
   mounted() {
     // Set Default Delivery Method
@@ -637,19 +631,12 @@ export default {
           .catch((error) => {
             if (error.response.status === 400) {
               this.sendOTP()
-            }
-            // else if (error.response.status === 409) {
-            //   // this.sendOTP()
-            //   this.SHOW_TOAST({
-            //     text:
-            //       'Please kindly cross-check the phone number/email address you entered, as one of them already exist.',
-            //     title: 'Wrong Details!',
-            //     variant: 'warning',
-            //   })
-            //   this.verifClicked = false
-            //   this.spinner = false
-            // }
-            else {
+            } else if (error.response.status === 409) {
+              // this.sendOTP()
+              this.userAlreadyExist = true
+              this.verifClicked = false
+              this.spinner = false
+            } else {
               this.ERROR_HANDLER(error)
               this.verifClicked = false
               this.spinner = false
@@ -664,7 +651,6 @@ export default {
     },
 
     async sendOTP() {
-      console.log('I got here')
       // // Disable button
       // this.verifClicked = true
 
@@ -686,7 +672,7 @@ export default {
         .then((res) => {
           const saveOTP = res.result.token
           this.$store.commit('cart/SAVE_OTP', saveOTP)
-          this.verifyCode()
+          this.$router.push('/cart/payment/')
           // this.$router.push('/cart/verification/')
         })
         .catch((error) => {
@@ -694,74 +680,74 @@ export default {
         })
         .finally(() => {})
     },
-    async verifyCode() {
-      console.log('I verified here')
+    // async verifyCode() {
+    //   console.log('I verified here')
 
-      // populate the API URI
-      const URL = `/account/registration-verification`
-      // Setup the Request Payload
-      const payload = {
-        params: {
-          token: this.OTP,
-        },
-      }
+    //   // populate the API URI
+    //   const URL = `/account/registration-verification`
+    //   // Setup the Request Payload
+    //   const payload = {
+    //     params: {
+    //       token: this.OTP,
+    //     },
+    //   }
 
-      // Make request to the API
-      await this.$axios
-        .$get(URL, payload)
-        .then((res) => {
-          this.logUserIn(res.result.emailAddress)
-        })
-        .catch((e) => {
-          this.ERROR_HANDLER(e)
-          this.spinner = false
-          this.verifClicked = false
-        })
-    },
+    //   // Make request to the API
+    //   await this.$axios
+    //     .$get(URL, payload)
+    //     .then((res) => {
+    //       this.logUserIn(res.result.emailAddress)
+    //     })
+    //     .catch((e) => {
+    //       this.ERROR_HANDLER(e)
+    //       this.spinner = false
+    //       this.verifClicked = false
+    //     })
+    // },
 
-    async logUserIn(username) {
-      console.log('I Logged in')
+    // async logUserIn(username) {
+    //   console.log('I Logged in')
 
-      // populate the API URI
-      const URL = `/auth/login`
-      // Setup the Request Payload
-      const payload = {
-        username,
-        password: this.OTP,
-      }
+    //   // populate the API URI
+    //   const URL = `/auth/login`
+    //   // Setup the Request Payload
+    //   const payload = {
+    //     username,
+    //     password: this.OTP,
+    //   }
 
-      // Make login request to the API
-      await this.$axios
-        .$post(URL, payload)
-        .then((response) => {
-          // Show 'success' Toast
-          this.SHOW_TOAST({
-            text: 'Access Code Sent! Please Wait.',
-            title: 'Success!',
-            variant: 'success',
-          })
+    //   // Make login request to the API
+    //   await this.$axios
+    //     .$post(URL, payload)
+    //     .then((response) => {
+    //       // Show 'success' Toast
+    //       this.SHOW_TOAST({
+    //         text: 'Access Code Sent! Please Wait.',
+    //         title: 'Success!',
+    //         variant: 'success',
+    //       })
 
-          // Get the accessToken from login
-          const accessToken = response.result.accessToken
-          // Decode the Token
-          const userData = JSON.parse(atob(accessToken.split('.')[1]))
-          // Save token to a perstisted Vuex store
-          this.$store.commit('auth/SAVE_TOKEN', accessToken)
-          // Save User Data to a perstisted Vuex store
-          this.$store.commit('auth/LOG_USER_IN', userData)
-          // Adds header: `Authorization: Bearer {accessToken}` to requests
-          this.$axios.setToken(accessToken, 'Bearer')
-          // Redirect User To CART page
+    //       // Get the accessToken from login
+    //       const accessToken = response.result.accessToken
+    //       // Decode the Token
+    //       const userData = JSON.parse(atob(accessToken.split('.')[1]))
+    //       // Save token to a perstisted Vuex store
+    //       this.$store.commit('auth/SAVE_TOKEN', accessToken)
+    //       // Save User Data to a perstisted Vuex store
+    //       this.$store.commit('auth/LOG_USER_IN', userData)
+    //       // Adds header: `Authorization: Bearer {accessToken}` to requests
+    //       this.$axios.setToken(accessToken, 'Bearer')
+    //       // Redirect User To CART page
 
-          this.$router.push('/cart/payment/')
-        })
-        .catch((e) => {
-          this.ERROR_HANDLER(e)
+    //       this.$router.push('/cart/payment/')
+    //     })
+    //     .catch((e) => {
+    //       this.ERROR_HANDLER(e)
 
-          this.spinner = false
-          this.verifClicked = false
-        })
-    },
+    //       this.spinner = false
+    //       this.verifClicked = false
+    //     })
+    // },
 
     gotoLogin() {
       this.$router.push('/account/login/#!/cart/payment/')
@@ -832,7 +818,7 @@ export default {
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   -webkit-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
   -moz-box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.16);
-  width: 80%;
+  width: 100%;
   background-color: #ffffff;
 }
 
@@ -971,6 +957,7 @@ b-form-input::placeholder {
   line-height: 22px;
   color: rgba(0, 0, 0, 0.3) !important;
 }
+
 .custom-control-input:not(:disabled):active ~ .custom-control-label::before {
   border-color: #4f9e55 !important;
   background-color: #4f9e55 !important;
@@ -982,16 +969,20 @@ b-form-input::placeholder {
 }
 
 .custom-control-label::before {
-  top: 1.25rem;
+  top: 1rem;
   border: 1px solid rgba(79, 158, 85, 1);
-  right: -2rem;
+  right: 1rem;
   left: unset;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .custom-control-label::after {
-  top: 1.25rem;
-  right: -2rem;
+  top: 1rem;
+  right: 1rem;
   left: unset;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .custom-control {

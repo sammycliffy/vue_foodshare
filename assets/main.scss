@@ -80,6 +80,16 @@ h5{
   border: unset;
 }
 
+.select-btn{
+  border-radius: 2px;
+  font-size: 14px;
+  border: 1px solid #4f9e55;
+  text-align: center;
+  color: #4F9E55;
+  line-height: 22px;
+  padding: 4px 13px;
+}
+
 .sameBtnWithPrimary{
   border: unset;
   padding: 15px;
@@ -419,6 +429,10 @@ h5{
   background-color: #4f9e55 !important;
 }
 
+.bg_selected{
+  background-color: #C1F8C5 !important;
+}
+
 .bg-transparent{
   background-color: transparent;
   background: transparent;
@@ -598,16 +612,16 @@ h5{
   font-weight: lighter;
 }
 .text_normal{
-  font-weight: 400;
+  font-weight: 400 !important;
 }
 .text_medium {
-  font-weight: 600;
+  font-weight: 600 !important;
 }
 .text_semiBold {
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 .text_bold {
-  font-weight: 800;
+  font-weight: 800 !important;
 }
 
 .shareRoundModal .modal-backdrop {
@@ -689,7 +703,12 @@ h5{
   height: 48px;
   width: 48px;
 }
-
+.mb-10{
+  margin-bottom: 10px;
+}
+.mt-10{
+  margin-top: 10px;
+}
 .mb-20 {
   margin-bottom: 20px;
 }

@@ -205,7 +205,7 @@
         </div>
       </div>
     </section>
-    <partials-footer />
+    <partials-footer v-if="AUTH" />
   </main>
 </template>
 
@@ -217,6 +217,7 @@ export default {
   },
   data() {
     return {
+      AUTH: this.$store.state.auth.loggedIn,
       // disable button on-click
       verifClicked: false,
       sharingRound: this.$store.state.cart.round,
@@ -274,7 +275,7 @@ export default {
       //   (x) => x
       // )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {
@@ -304,7 +305,7 @@ export default {
       //   (x) => x
       // )
 
-      const URI = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
+      const URI = `/unauth/orders/sharing-rounds/${this.sharingRound.id}/order/pay`
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {

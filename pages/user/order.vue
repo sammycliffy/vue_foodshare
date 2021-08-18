@@ -41,7 +41,7 @@
         </section>
       </div>
     </div>
-    <partials-user-footer-bar />
+    <partials-user-footer-bar v-if="AUTH" />
   </div>
 </template>
 
@@ -49,6 +49,7 @@
 export default {
   data() {
     return {
+      AUTH: this.$store.state.auth.loggedIn,
       toggleActive: [],
       toggleClosed: [],
 

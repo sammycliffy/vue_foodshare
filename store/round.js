@@ -75,7 +75,7 @@ export const state = () => ({
     },
   },
 
-  imagePayload: {},
+  imagePayload: [],
 })
 
 export const mutations = {

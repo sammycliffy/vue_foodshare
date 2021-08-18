@@ -17,7 +17,7 @@
             v-model.trim="FORM.username"
             class="input"
             type="email"
-            placeholder="Email Address/Phone number"
+            placeholder="Email Address/Phone Number"
             required
           />
         </b-input-group>
@@ -31,7 +31,7 @@
             v-model="FORM.password"
             class="input"
             :type="passwordToggle ? 'password' : 'text'"
-            placeholder="Password/Otp"
+            placeholder="Password/Access Code"
             required
           />
           <b-input-group-append>
@@ -59,7 +59,7 @@
             </b-col>
             <b-col xs="6" class="input-l-seperator input-col text-right">
               <nuxt-link to="/account/password/" class="link"
-                >Forgot password?</nuxt-link
+                >Forgot Password?</nuxt-link
               >
             </b-col>
           </b-row>

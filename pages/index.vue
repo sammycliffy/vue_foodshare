@@ -33,6 +33,24 @@ export default {
         this.$router.replace('/account/login/')
       }, 3000)
     }
+
+    this.promptAppInstall()
+  },
+
+  methods: {
+    promptAppInstall() {
+      const isIos = () => {
+        const userAgent = window.navigator.userAgent.toLocaleLowerCase()
+        return /iphone|ipad|ipod/.test(userAgent)
+      }
+
+      const isInStandaloneMode = () =>
+        'standalone' in window.navigator && window.navigator.standalone
+
+      if (isIos() && !isInStandaloneMode()) {
+        this.setState({ showInstallMessage: true })
+      }
+    },
   },
 }
 </script>
