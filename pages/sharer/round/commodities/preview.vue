@@ -78,7 +78,7 @@
           </template>
         </b-overlay>
 
-        <div v-if="!sharingRoundPayload.published" class="text-center">
+        <div v-if="!sharingRoundPayload.isPublished" class="text-center">
           <nuxt-link to="/sharer/round/commodities/summary/">
             <b-btn class="btn primary-btn">Proceed to Summary</b-btn>
           </nuxt-link>
@@ -93,6 +93,7 @@
         </div>
       </div>
     </div>
+    <div>{{ sharingRoundPayload }}</div>
 
     <partials-sharer-footer-bar />
   </div>
