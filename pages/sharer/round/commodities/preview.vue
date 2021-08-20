@@ -93,8 +93,6 @@
         </div>
       </div>
     </div>
-    <div>{{ sharingRoundPayload }}</div>
-
     <partials-sharer-footer-bar />
   </div>
 </template>
