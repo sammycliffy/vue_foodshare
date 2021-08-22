@@ -87,6 +87,14 @@
           </span>
         </p>
       </div>
+      <div v-if="hashbang" class="text-center float-div">
+        <b-btn
+          class="btn primary-btn light-btn btn-block py-20"
+          @click="$router.push('/cart/payment')"
+          >Continue as Guest</b-btn
+        >
+        <!-- <div>{{ calculateSlot.length }}</div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -338,5 +346,13 @@ b-form-input::placeholder {
 .primary-link {
   color: #4f9e55;
   font-weight: 500;
+}
+
+.float-div {
+  position: fixed;
+  top: 0;
+  padding: 20px 16px;
+  left: 0;
+  width: 100%;
 }
 </style>
