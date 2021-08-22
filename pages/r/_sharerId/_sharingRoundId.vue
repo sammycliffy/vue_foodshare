@@ -264,7 +264,7 @@
                 </b-row>
               </div>
               <hr />
-              <div class="">
+              <div class="d-none">
                 <div class="d-flex justify-content-between mb-10">
                   <p class="mb-0">Savings</p>
                   <p class="mb-0 color-orange text_semiBold fs-14"></p>
