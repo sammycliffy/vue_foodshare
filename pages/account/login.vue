@@ -87,6 +87,18 @@
           </span>
         </p>
       </div>
+      <div v-if="hashbang" class="text-center float-div">
+        <div class="must-hash">
+          <span>Or</span>
+        </div>
+
+        <b-btn
+          class="btn must-border primary-btn light-btn btn-block py-20"
+          @click="$router.push('/cart/payment')"
+          >Continue as Guest</b-btn
+        >
+        <!-- <div>{{ calculateSlot.length }}</div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -201,7 +213,7 @@ export default {
 
 <style scoped lang="css">
 .bodyBox {
-  padding-top: 130px;
+  padding-top: 100px;
   min-height: 100vh;
 }
 
@@ -338,5 +350,20 @@ b-form-input::placeholder {
 .primary-link {
   color: #4f9e55;
   font-weight: 500;
+}
+
+.float-div {
+  position: fixed;
+  bottom: 0;
+  padding: 20px 16px;
+  left: 0;
+  width: 100%;
+}
+.must-border {
+  border: 1px solid #4f9e55;
+}
+.must-hash {
+  color: #646464;
+  margin-bottom: 15px;
 }
 </style>

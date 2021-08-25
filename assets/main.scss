@@ -796,13 +796,21 @@ h5{
 .border-2x{
   border-width: 2px !important;
 }
-
-
+@media (max-width: 321px) {
+  .mt-sub{
+    font-size: 11px !important;
+  }
+}
 @media (max-width: 361px) {
   .createFormLabel {
     font-size: 13px;
   }
+  .mt-sub{
+    margin-top: 47px !important;
+    padding: 10px;
+  }
 }
+
 
 @media (min-width: 768px) {
   .half-width{
