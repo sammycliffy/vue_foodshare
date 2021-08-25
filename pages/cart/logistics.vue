@@ -446,7 +446,6 @@ export default {
 
       defaultAddress: {},
       recentAddresses: [],
-
       cartPayload: this.$store.state.cart.payload,
       sharingRound: this.$store.state.cart.round,
       USER: this.$store.state.auth.userData,
@@ -607,6 +606,10 @@ export default {
           this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
         }
 
+        const encodePhone = window.btoa(this.cartPayload.phoneNumber)
+        const encodeEmail = window.btoa(this.cartPayload.emailAddress)
+
+        // Percentage 2B for
         // Disable button
         this.verifClicked = true
 
@@ -614,7 +617,7 @@ export default {
         this.spinner = true
 
         // populate the API URI
-        const URL = `/unauth/users/user?email=${this.cartPayload.emailAddress}&phone=${this.cartPayload.phoneNumber}`
+        const URL = `/unauth/users/user?email=${encodeEmail}&phone=${encodePhone}`
 
         // Make request to the API
         await this.$axios
@@ -631,11 +634,6 @@ export default {
           .catch((error) => {
             if (error.response.status === 400) {
               this.sendOTP()
-            } else if (error.response.status === 409) {
-              // this.sendOTP()
-              this.userAlreadyExist = true
-              this.verifClicked = false
-              this.spinner = false
             } else {
               this.ERROR_HANDLER(error)
               this.verifClicked = false
@@ -670,8 +668,8 @@ export default {
       await this.$axios
         .$post(URL, payload)
         .then((res) => {
-          const saveOTP = res.result.token
-          this.$store.commit('cart/SAVE_OTP', saveOTP)
+          // const saveOTP = res.result.token
+          // this.$store.commit('cart/SAVE_OTP', saveOTP)
           this.$router.push('/cart/payment/')
           // this.$router.push('/cart/verification/')
         })
