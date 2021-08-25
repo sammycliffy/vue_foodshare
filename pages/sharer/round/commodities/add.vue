@@ -534,6 +534,7 @@ export default {
     },
 
     async addRound() {
+      console.log('Adding a round:', this.sharingRound)
       this.spinner = true
       const URI = `/services/sharing-rounds/${this.USER.id}`
       await this.$axios
@@ -567,41 +568,42 @@ export default {
     },
 
     async updateRound() {
-      if (this.sharingRound.published) {
-        this.updateExistingRound()
-      } else {
-        this.spinner = true
-        const hashbang = this.$route.hash.split('/')
-        const URI = `/services/sharing-rounds/${this.USER.id}/${hashbang[2]}`
-        await this.$axios
-          .$put(URI, this.sharingRound)
-          .then((res) => {
-            // Display Sucess toast notification
-            this.$bvToast.toast(`Round Successfully Updated`, {
-              title: 'Success!',
-              variant: 'success',
-              solid: true,
-            })
+      // if (this.sharingRound.isPublished === true) {
+      //   console.log('UUpdate a Published round:', this.sharingRound)
+      //   this.updateExistingRound()
+      // } else {
+      this.spinner = true
+      const hashbang = this.$route.hash.split('/')
+      const URI = `/services/sharing-rounds/${this.USER.id}/${hashbang[2]}`
+      await this.$axios
+        .$put(URI, this.sharingRound)
+        .then((res) => {
+          // Display Sucess toast notification
+          this.$bvToast.toast(`Round Successfully Updated`, {
+            title: 'Success!',
+            variant: 'success',
+            solid: true,
+          })
 
-            // Save round form data to a perstisted Vuex store
-            this.$store.commit('round/SAVE_PAYLOAD_DATA', res.result)
-            // Redirect to the Preview page
-            this.$router.replace(`/sharer/round/commodities/preview/`)
-          })
-          .catch((error) => {
-            if (error.response && error.response.status === 401) {
-              // Re-log users in upon session expiration
-              this.REFRESH_TOKEN(this.accessToken)
-            } else {
-              // Display Toast Notifications
-              this.ERROR_HANDLER(error)
-            }
-          })
-          .finally(() => {
-            // Close the loader
-            this.spinner = false
-          })
-      }
+          // Save round form data to a perstisted Vuex store
+          this.$store.commit('round/SAVE_PAYLOAD_DATA', res.result)
+          // Redirect to the Preview page
+          this.$router.replace(`/sharer/round/commodities/preview/`)
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            // Re-log users in upon session expiration
+            this.REFRESH_TOKEN(this.accessToken)
+          } else {
+            // Display Toast Notifications
+            this.ERROR_HANDLER(error)
+          }
+        })
+        .finally(() => {
+          // Close the loader
+          this.spinner = false
+        })
+      // }
     },
 
     async updateExistingRound() {

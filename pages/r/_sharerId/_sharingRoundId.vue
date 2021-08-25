@@ -264,7 +264,7 @@
                 </b-row>
               </div>
               <hr />
-              <div class="">
+              <div class="d-none">
                 <div class="d-flex justify-content-between mb-10">
                   <p class="mb-0">Savings</p>
                   <p class="mb-0 color-orange text_semiBold fs-14"></p>
@@ -438,14 +438,11 @@ export default {
         this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
       } else {
         // Display warning toast notification
-        this.$bvToast.toast(
-          'The slot you entered is more than the available slot',
-          {
-            title: 'Oops!',
-            variant: 'warning',
-            solid: true,
-          }
-        )
+        this.$bvToast.toast('Please enter at least one slot to proceed', {
+          title: 'No slot entered!',
+          variant: 'warning',
+          solid: true,
+        })
       }
     },
   },
