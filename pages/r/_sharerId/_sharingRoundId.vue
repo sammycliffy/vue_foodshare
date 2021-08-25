@@ -438,14 +438,11 @@ export default {
         this.$store.commit('cart/SAVE_CART_DATA', this.cartPayload)
       } else {
         // Display warning toast notification
-        this.$bvToast.toast(
-          'The slot you entered is more than the available slot',
-          {
-            title: 'Oops!',
-            variant: 'warning',
-            solid: true,
-          }
-        )
+        this.$bvToast.toast('Please enter at least one slot to proceed', {
+          title: 'No slot entered!',
+          variant: 'warning',
+          solid: true,
+        })
       }
     },
   },

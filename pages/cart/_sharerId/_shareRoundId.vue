@@ -568,17 +568,14 @@ export default {
       } else {
         // Display warning toast notification
         // this.ERROR_HANDLER(
-        //   'The slot you entered is more than the available slot',
+        //   'Please enter at least one slot to proceed',
         //   'warning'
         // )
-        this.$bvToast.toast(
-          'The slot you entered is more than the available slot',
-          {
-            title: 'Oops!',
-            variant: 'warning',
-            solid: true,
-          }
-        )
+        this.$bvToast.toast('Please enter at least one slot to proceed', {
+          title: 'No slot entered!',
+          variant: 'warning',
+          solid: true,
+        })
       }
       this.calculateBasketWorth()
     },
@@ -699,6 +696,7 @@ export default {
   font-size: 12px;
   line-height: 22px;
   color: rgba(100, 100, 100, 0.81);
+  word-break: break-all;
 }
 
 .toggle_input:-ms-input-placeholder {
@@ -706,12 +704,14 @@ export default {
   font-size: 12px;
   line-height: 22px;
   color: rgba(100, 100, 100, 0.81);
+  word-break: break-all;
 }
 
 .toggle_input::placeholder {
   font-size: 12px;
   line-height: 22px;
   color: rgba(100, 100, 100, 0.81);
+  word-break: break-all;
 }
 
 .mt-sub {

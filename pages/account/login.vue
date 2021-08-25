@@ -88,8 +88,12 @@
         </p>
       </div>
       <div v-if="hashbang" class="text-center float-div">
+        <div class="must-hash">
+          <span>Or</span>
+        </div>
+
         <b-btn
-          class="btn primary-btn light-btn btn-block py-20"
+          class="btn must-border primary-btn light-btn btn-block py-20"
           @click="$router.push('/cart/payment')"
           >Continue as Guest</b-btn
         >
@@ -209,7 +213,7 @@ export default {
 
 <style scoped lang="css">
 .bodyBox {
-  padding-top: 130px;
+  padding-top: 100px;
   min-height: 100vh;
 }
 
@@ -350,9 +354,16 @@ b-form-input::placeholder {
 
 .float-div {
   position: fixed;
-  top: 0;
+  bottom: 0;
   padding: 20px 16px;
   left: 0;
   width: 100%;
+}
+.must-border {
+  border: 1px solid #4f9e55;
+}
+.must-hash {
+  color: #646464;
+  margin-bottom: 15px;
 }
 </style>
