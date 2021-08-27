@@ -113,6 +113,7 @@
           >Go To Checkout</b-btn
         >
       </div>
+      <p class="mt-3 text-center">Make payment within</p>
       <div class="text-center countDownBox">
         <div class="py-3">
           <time class="count-down px-3 py-2 rounded-pill">
@@ -121,6 +122,10 @@
           >
         </div>
       </div>
+      <p class="mt-1 text-center fs-12">
+        Order will be cancelled if proof of payment is not uploaded within the
+        abve countdown.
+      </p>
     </div>
   </div>
 </template>
@@ -346,5 +351,9 @@ p {
   margin-left: 3px;
   font-size: 15px;
   line-height: 36px;
+}
+
+.fs-12 {
+  line-height: 12px;
 }
 </style>
