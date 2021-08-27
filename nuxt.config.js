@@ -36,7 +36,7 @@ export default {
     ],
     script: [
       {
-        src: 'https://script.crazyegg.com/pages/scripts/0107/5303.js',
+        src: 'https://script.crazyegg.com/pages/scripts/0108/0597.js',
         async: true,
       },
     ],
