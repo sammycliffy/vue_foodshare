@@ -113,50 +113,52 @@
 
             <div v-if="!AUTH">
               <b-container>
-                <b-row align-h="between">
-                  <b-col xs="6" class="input-l-seperator input-col">
-                    <b-input-group class="formInputGroup poppins">
-                      <b-input-group-prepend
-                        class="input-radius border-right-0 bg-white"
-                      >
-                        <b-input-group-text
-                          class="input-addon border-right-0 bg-white"
+                <b-form>
+                  <b-row align-h="between">
+                    <b-col xs="6" class="input-l-seperator input-col">
+                      <b-input-group class="formInputGroup poppins">
+                        <b-input-group-prepend
+                          class="input-radius border-right-0 bg-white"
                         >
-                          <img src="/assets/icons/user.svg" />
-                        </b-input-group-text>
-                      </b-input-group-prepend>
-                      <b-form-input
-                        v-model="cartPayload.firstName"
-                        class="input border-left-0"
-                        placeholder="First Name"
-                        type="text"
-                        required
-                        :readonly="AUTH"
-                      />
-                    </b-input-group>
-                  </b-col>
-                  <b-col xs="6" class="input-r-seperator input-col">
-                    <b-input-group class="formInputGroup poppins">
-                      <b-input-group-prepend
-                        class="input-radius border-right-0 bg-white"
-                      >
-                        <b-input-group-text
-                          class="input-addon border-right-0 bg-white"
+                          <b-input-group-text
+                            class="input-addon border-right-0 bg-white"
+                          >
+                            <img src="/assets/icons/user.svg" />
+                          </b-input-group-text>
+                        </b-input-group-prepend>
+                        <b-form-input
+                          v-model="cartPayload.firstName"
+                          class="input border-left-0"
+                          placeholder="First Name"
+                          type="text"
+                          required
+                          :readonly="AUTH"
+                        />
+                      </b-input-group>
+                    </b-col>
+                    <b-col xs="6" class="input-r-seperator input-col">
+                      <b-input-group class="formInputGroup poppins">
+                        <b-input-group-prepend
+                          class="input-radius border-right-0 bg-white"
                         >
-                          <img src="/assets/icons/user.svg" />
-                        </b-input-group-text>
-                      </b-input-group-prepend>
-                      <b-form-input
-                        v-model="cartPayload.lastName"
-                        class="input border-left-0"
-                        placeholder="Last Name"
-                        type="text"
-                        required
-                        :readonly="AUTH"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
+                          <b-input-group-text
+                            class="input-addon border-right-0 bg-white"
+                          >
+                            <img src="/assets/icons/user.svg" />
+                          </b-input-group-text>
+                        </b-input-group-prepend>
+                        <b-form-input
+                          v-model="cartPayload.lastName"
+                          class="input border-left-0"
+                          placeholder="Last Name"
+                          type="text"
+                          required
+                          :readonly="AUTH"
+                        />
+                      </b-input-group>
+                    </b-col>
+                  </b-row>
+                </b-form>
               </b-container>
               <b-input-group class="formInputGroup poppins">
                 <b-input-group-prepend

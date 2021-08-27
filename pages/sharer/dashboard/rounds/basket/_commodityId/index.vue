@@ -386,7 +386,10 @@
           </div>
         </div>
         <div class="text-center mt-32">
-          <b-btn class="btn closeRound-btn" @click="closeRound()"
+          <b-btn
+            v-if="!roundClosed"
+            class="btn closeRound-btn"
+            @click="closeRound()"
             >Close Round
             <b-spinner
               v-if="spinner"
@@ -396,6 +399,9 @@
               small
             />
           </b-btn>
+          <div v-if="roundClosed" class="badge badge-warning text-wrap p-2">
+            Round Closed
+          </div>
         </div>
       </section>
     </div>
@@ -413,6 +419,7 @@ export default {
       spinner: false,
       checkStatus: [],
       orders: [],
+      roundClosed: false,
 
       awaitingOrders: [],
       pendingOrders: [],
@@ -497,6 +504,7 @@ export default {
       await this.$axios
         .$put(URL, {})
         .then(() => {
+          this.roundClosed = true
           this.SHOW_TOAST({
             text: 'Round Closed Successfully',
             variant: 'success',

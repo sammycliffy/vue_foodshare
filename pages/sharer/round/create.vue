@@ -287,6 +287,11 @@ export default {
     } ${today.getFullYear()}`
 
     this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${today}`
+    // if(this.sharingRound.effectivity.endTime){
+    //   this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${this.sharingRound.effectivity.endTime}`
+    // }
+
+    // console.log(this.defaultRoundName)
 
     const URI = `/services/sharing-rounds/${this.USER.id}/${this.defaultRoundName}`
     await this.$axios
