@@ -82,8 +82,8 @@
                 class="paymentProveBox"
               >
                 <p>Proof of Payment</p>
-                <div v-if="paymentProof">
-                  <div class="">
+                <div v-if="!roundBasket.paymentComplete">
+                  <div v-if="paymentProof" class="">
                     <img
                       v-if="paymentProof"
                       :src="paymentProof"
@@ -256,11 +256,15 @@ export default {
       this.spinner1 = true
 
       const orderId = this.$route.params.orderId
-
+      // if(this.roundBasket.orderStatus === 'AWAITING_PROOF_OF_PAYMENT' ||'AWAITING_PAYMENT'){
+      //   this.roundBasket.paymentReference = `APPROVED_BY_SHARER_${this.roundBasket.sharerId}`
+      //   console.log(this.roundBasket.paymentReference)
+      // }
       const PAYLOAD = {
         paymentConfirmed: true,
         paymentReference: this.roundBasket.paymentReference,
       }
+
       // Fetch user's rounds
       const URL = `/services/orders/sharing-rounds/${this.sharingRound.id}/order/${orderId}`
       await this.$axios

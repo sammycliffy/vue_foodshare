@@ -387,7 +387,7 @@
         </div>
         <div class="text-center mt-32">
           <b-btn
-            v-if="!roundClosed"
+            v-if="!roundClosed && sharingRound.sharingDayPassed"
             class="btn closeRound-btn"
             @click="closeRound()"
             >Close Round

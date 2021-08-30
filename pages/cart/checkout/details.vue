@@ -124,7 +124,7 @@
       </div>
       <p class="mt-1 text-center fs-12">
         Order will be cancelled if proof of payment is not uploaded within the
-        abve countdown.
+        above countdown.
       </p>
     </div>
   </div>
@@ -190,14 +190,14 @@ export default {
         } else {
           this.COUNTDOWN = 'Countdown elapsed'
           this.SHOW_TOAST({
-            text: 'Order has being cancelled due to no payment proof upload!',
+            text: 'Order is awaiting payment due to no payment proof upload!',
             variant: 'warning',
-            title: 'Order Expired',
+            title: 'Order pending',
           })
 
-          this.$router.replace(
-            `/r/${this.sharerDetails.sharerId}/${this.cartPayload.sharingRoundId}/`
-          )
+          // this.$router.replace(
+          //   `/r/${this.sharerDetails.sharerId}/${this.cartPayload.sharingRoundId}/`
+          // )
           // this.cancelOrder()
         }
       },
