@@ -77,10 +77,7 @@
           </div>
           <div class="row mx-0">
             <div class="col-7 px-0">
-              <div
-                v-if="roundBasket.paymentMethod === 'OFFLINE'"
-                class="paymentProveBox"
-              >
+              <div class="paymentProveBox">
                 <p>Proof of Payment</p>
                 <div v-if="!roundBasket.paymentComplete">
                   <div v-if="paymentProof" class="">
