@@ -27,14 +27,12 @@
                 >Login</b-btn
               >
               <br />
-              <span class="text_semiBold">or</span>
-              <br />
-              <b-btn
-                class="btn primary-btn padded-btn px-2"
+              <span
+                class="primary-link"
                 :disabled="verifClicked === true"
                 @click="continueAsGuest()"
-                >Continue as Guest
-              </b-btn>
+                >Continue as Guest</span
+              >
             </div>
           </section>
         </div>
@@ -1008,5 +1006,9 @@ b-form-input::placeholder {
 
 .pad-options {
   padding: 25px 16px 30px;
+}
+.primary-link {
+  color: #4f9e55;
+  font-weight: 500;
 }
 </style>
