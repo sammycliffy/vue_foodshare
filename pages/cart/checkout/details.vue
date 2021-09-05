@@ -37,19 +37,24 @@
       <div v-if="sharerDetails.financialDetails" class="mb-4 poppins">
         <p>
           Name:
-          <span class="ml-3">{{
+          <span class="ml-3" @click="COPY_CLIPBOARD(copyAccName)">{{
             sharerDetails.financialDetails.accountName
           }}</span>
         </p>
         <p>
           Number:
-          <span class="ml-3">{{
+          <span class="ml-3" @click="COPY_CLIPBOARD(copyAccNum)">{{
             sharerDetails.financialDetails.accountNumber
-          }}</span>
+          }}</span
+          ><span
+            class="ml-2 fs-12 btn btn-primary p-1"
+            @click="COPY_CLIPBOARD(copyAccNum)"
+            >copy</span
+          >
         </p>
         <p>
           Bank Name:
-          <span class="ml-3">{{
+          <span class="ml-3" @click="COPY_CLIPBOARD(copyBankName)">{{
             sharerDetails.financialDetails.bankName
           }}</span>
         </p>
@@ -57,13 +62,17 @@
 
       <div v-else-if="fetchError">Can't Load Account Details. . .</div>
       <h4 class="mb-0">Total Cost</h4>
-      <h4 class="text_semiBold color-orange">
+      <h4
+        class="text_semiBold color-orange"
+        @click="COPY_CLIPBOARD(copyTotalBal)"
+      >
         &#8358;
         {{
           Intl.NumberFormat().format(
             cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
           )
         }}
+        <span class="ml-2 fs-12 btn btn-primary p-1">copy</span>
       </h4>
 
       <div
@@ -79,7 +88,7 @@
         <label>
           <div :class="FILE_BLOB ? 'invisible' : 'visible'">
             <div class="text-primary display-2">
-              <i class="fas fa-cloud-upload-alt"></i>
+              <i class="fas fa-paperclip"></i>
             </div>
             <span class="d-block description">
               {{ FILE ? FILE.name : 'Upload Proof of payment' }}</span
@@ -144,7 +153,7 @@ export default {
 
       fetchError: false,
 
-      sharerDetails: {},
+      // sharerDetails: {},
       FILE: null,
       FILE_BLOB: null,
 
@@ -152,6 +161,11 @@ export default {
 
       // countDownTime: 1 * 3600, // I.e, 1 hour
       COUNTDOWN: '00:00',
+
+      copyAccName: null,
+      copyAccNum: null,
+      copyBankName: null,
+      copyTotalBal: null,
     }
   },
 
@@ -166,6 +180,32 @@ export default {
         this.fetchError = true
         this.ERROR_HANDLER(error)
       })
+
+    // const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
+    // await this.$axios
+    //   .$get(URI)
+    //   .then((response) => {
+    //     this.sharerDetails = response.result
+    //   })
+    //   .catch((error) => {
+    //     this.fetchError = true
+    //     this.ERROR_HANDLER(error)
+    //   })
+  },
+
+  // mounted() {
+
+  // },
+  computed: {
+    sharerDetails: {
+      get() {
+        return this.$store.state.cart.sharerBankDetails
+        // this.$store.commit('cart/SAVE_OTP', saveOTP)
+      },
+      set(newValue) {
+        this.$store.state.cart.sharerBankDetails = newValue
+      },
+    },
   },
 
   watch: {
@@ -212,13 +252,19 @@ export default {
       .$get(URI)
       .then((response) => {
         this.sharerDetails = response.result
+        this.$store.commit('cart/SAVE_SHARER_BANK', this.sharerDetails)
+        this.copyAccName = this.sharerDetails.financialDetails.accountName
+        this.copyAccNum = this.sharerDetails.financialDetails.accountNumber
+        this.copyBankName = this.sharerDetails.financialDetails.bankName
+        this.copyTotalBal = Intl.NumberFormat().format(
+          this.cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
+        )
       })
       .catch((error) => {
         this.fetchError = true
         this.ERROR_HANDLER(error)
       })
   },
-
   methods: {
     filePicked() {
       // Convert photo to base64 format (i.e data url)

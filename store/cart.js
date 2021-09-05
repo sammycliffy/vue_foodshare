@@ -44,6 +44,7 @@ export const state = () => ({
     sharingRounds: [],
   },
   receivedOtp: null,
+  sharerBankDetails: null,
 })
 
 export const mutations = {
@@ -58,6 +59,9 @@ export const mutations = {
   },
   SAVE_OTP(state, payload) {
     state.receivedOtp = payload
+  },
+  SAVE_SHARER_BANK(state, payload) {
+    state.sharerBankDetails = payload
   },
   RESET_CART_DATA(state) {
     state.payload = {
