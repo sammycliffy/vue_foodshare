@@ -218,40 +218,41 @@ export default {
         { label: 'Percentage', option: 'percentage' },
       ],
 
+      // sharingRound: this.$store.state.round.data,
+
       // request payload data & form template
-      sharingRound: {
-        name: null,
-        serviceCharge: {
-          serviceChargeAmount: null,
-          serviceChargeType: null,
-        },
-        effectivity: {
-          cutOffTime: null,
-          endTime: null,
-        },
-        waitingTime: null,
-        waitingTimeUnit: 'minutes',
-        commodities: [
-          {
-            commodityName: null,
-            costPrice: null,
-            sharingPrice: null,
-            numberOfSlots: null,
-            marketPrice: null,
-          },
-        ],
-        sharingAddress: {
-          country: null,
-          currentAddressId: 0,
-          lineOne: null,
-          lineTwo: null,
-          state: null,
-          town: null,
-        },
-      },
+      // sharingRound: {
+      //   name: null,
+      //   serviceCharge: {
+      //     serviceChargeAmount: null,
+      //     serviceChargeType: null,
+      //   },
+      //   effectivity: {
+      //     cutOffTime: null,
+      //     endTime: null,
+      //   },
+      //   waitingTime: null,
+      //   waitingTimeUnit: 'minutes',
+      //   commodities: [
+      //     {
+      //       commodityName: null,
+      //       costPrice: null,
+      //       sharingPrice: null,
+      //       numberOfSlots: null,
+      //       marketPrice: null,
+      //     },
+      //   ],
+      //   sharingAddress: {
+      //     country: null,
+      //     currentAddressId: 0,
+      //     lineOne: null,
+      //     lineTwo: null,
+      //     state: null,
+      //     town: null,
+      //   },
+      // },
     }
   },
-
   async fetch() {
     // fetch sharer's sharing group details
     const URL = `/services/sharing-groups/${this.USER.id}`
@@ -309,6 +310,17 @@ export default {
         // Reset round form data to a perstisted Vuex store
         this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
       })
+  },
+
+  computed: {
+    sharingRound: {
+      get() {
+        return this.$store.state.round.data
+      },
+      set(newValue) {
+        this.$store.state.round.data = newValue
+      },
+    },
   },
 
   methods: {

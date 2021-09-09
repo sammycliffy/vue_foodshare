@@ -75,6 +75,8 @@ export const state = () => ({
     },
   },
 
+  reCreatePayload: null,
+
   imagePayload: [],
 })
 
@@ -89,6 +91,10 @@ export const mutations = {
 
   SAVE_IMAGEPAYLOAD_DATA(state, imagePayload) {
     state.imagePayload = imagePayload
+  },
+
+  SAVE_RECREATE_PAYLOAD_DATA(state, reCreatePayload) {
+    state.reCreatePayload = reCreatePayload
   },
 
   RESET_ROUND_DATA(state, payload) {

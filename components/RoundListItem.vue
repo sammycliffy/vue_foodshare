@@ -77,6 +77,22 @@
             </span>
           </span>
         </div>
+        <div v-if="item.isClosed === true" class="text-center">
+          <b-btn
+            :disabled="verifClicked === true"
+            class="btn fs-12 mt-3 primary-btn"
+            @click.stop="reCreateRound(item)"
+            >Recreate round
+
+            <b-spinner
+              v-if="spinner"
+              variant="white"
+              label="Spinning"
+              class="ml-1"
+              small
+            />
+          </b-btn>
+        </div>
       </div>
     </div>
 
@@ -300,6 +316,8 @@ export default {
 
   data() {
     return {
+      spinner: false,
+      verifClicked: false,
       shareRoundModal: false,
       roundStatusModal: false,
 
@@ -308,6 +326,37 @@ export default {
 
       publishLink: '#',
       USER: this.$store.state.auth.userData,
+
+      reCreateData: {
+        name: null,
+        serviceCharge: {
+          serviceChargeAmount: null,
+          serviceChargeType: null,
+        },
+        effectivity: {
+          cutOffTime: null,
+          endTime: null,
+        },
+        waitingTime: null,
+        waitingTimeUnit: null,
+        commodities: [
+          {
+            commodityName: null,
+            costPrice: null,
+            sharingPrice: null,
+            numberOfSlots: null,
+            marketPrice: null,
+          },
+        ],
+        sharingAddress: {
+          country: null,
+          currentAddressId: null,
+          lineOne: null,
+          lineTwo: null,
+          state: null,
+          town: null,
+        },
+      },
     }
   },
 
@@ -325,6 +374,48 @@ export default {
       this.publishLink = `${baseURL}/r/${this.USER.id}/${item.id}`
       // Pop the modal up
       this.shareRoundModal = true
+    },
+
+    reCreateRound(item) {
+      this.spinner = true
+      this.verifClicked = true
+      // Save round form data to a perstisted Vuex store
+      this.reCreateData.name = item.name + '_new'
+      this.reCreateData.commodities = item.commoditiesDetails
+      this.reCreateData.serviceCharge.serviceChargeAmount =
+        item.serviceChargeAmount
+      this.reCreateData.serviceCharge.serviceChargeType = item.serviceChargeType
+      this.reCreateData.sharingAddress = item.sharingAddress
+      this.reCreateData.waitingTime = item.waitingTime
+      this.reCreateData.waitingTimeUnit = item.waitingTimeType
+      // this.reCreateData.effectivity.cutOffTime = item.cutOffTime
+      // this.reCreateData.effectivity.endTime = item.endTime
+
+      this.reCreateData.commodities.forEach((el) => {
+        if (!el.costPrice) {
+          el.costPrice = el.commodityFinancials.costPrice
+        }
+        if (!el.marketPrice) {
+          el.marketPrice = null
+        }
+        if (!el.category) {
+          el.category = el.categories
+        }
+
+        delete el.commodityFinancials
+        delete el.id
+        delete el.imageUrl
+        delete el.participants
+        delete el.purchasedSlots
+        delete el.remainingSlots
+        delete el.categories
+      })
+
+      // this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', item)
+      this.$store.commit('round/SAVE_ROUND_DATA', this.reCreateData)
+
+      // // Redirect to the preview page
+      this.$router.push(`/sharer/round/create/`)
     },
 
     listClicked(item) {
