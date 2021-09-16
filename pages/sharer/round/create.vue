@@ -218,39 +218,40 @@ export default {
         { label: 'Percentage', option: 'percentage' },
       ],
 
-      // sharingRound: this.$store.state.round.data,
+      reCreatePayload: this.$store.state.round.reCreatePayload,
 
       // request payload data & form template
-      // sharingRound: {
-      //   name: null,
-      //   serviceCharge: {
-      //     serviceChargeAmount: null,
-      //     serviceChargeType: null,
-      //   },
-      //   effectivity: {
-      //     cutOffTime: null,
-      //     endTime: null,
-      //   },
-      //   waitingTime: null,
-      //   waitingTimeUnit: 'minutes',
-      //   commodities: [
-      //     {
-      //       commodityName: null,
-      //       costPrice: null,
-      //       sharingPrice: null,
-      //       numberOfSlots: null,
-      //       marketPrice: null,
-      //     },
-      //   ],
-      //   sharingAddress: {
-      //     country: null,
-      //     currentAddressId: 0,
-      //     lineOne: null,
-      //     lineTwo: null,
-      //     state: null,
-      //     town: null,
-      //   },
-      // },
+      sharingRound: {
+        name: null,
+        serviceCharge: {
+          serviceChargeAmount: null,
+          serviceChargeType: null,
+        },
+        effectivity: {
+          cutOffTime: null,
+          endTime: null,
+        },
+        waitingTime: null,
+        waitingTimeUnit: 'minutes',
+        commodities: [
+          {
+            commodityName: null,
+            costPrice: null,
+            sharingPrice: null,
+            numberOfSlots: null,
+            marketPrice: null,
+          },
+        ],
+        sharingAddress: {
+          country: null,
+          currentAddressId: 0,
+          lineOne: null,
+          lineTwo: null,
+          state: null,
+          town: null,
+        },
+        sharingComment: null,
+      },
     }
   },
   async fetch() {
@@ -311,17 +312,22 @@ export default {
         this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
       })
   },
-
-  computed: {
-    sharingRound: {
-      get() {
-        return this.$store.state.round.data
-      },
-      set(newValue) {
-        this.$store.state.round.data = newValue
-      },
-    },
+  mounted() {
+    if (this.reCreatePayload) {
+      this.sharingRound = this.reCreatePayload
+    }
   },
+
+  // computed: {
+  //   sharingRound: {
+  //     get() {
+  //       return this.$store.state.round.data
+  //     },
+  //     set(newValue) {
+  //       this.$store.state.round.data = newValue
+  //     },
+  //   },
+  // },
 
   methods: {
     moveToLocationPage() {
@@ -365,7 +371,14 @@ export default {
             .split('.')[0]
 
           // Save round form data to a perstisted Vuex store
-          this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+          if (this.reCreatePayload) {
+            this.$store.commit(
+              'round/SAVE_RECREATE_PAYLOAD_DATA',
+              this.sharingRound
+            )
+          } else {
+            this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+          }
           //  Redirect
           this.$router.replace('/sharer/round/location/')
         }

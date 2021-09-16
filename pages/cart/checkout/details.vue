@@ -153,7 +153,7 @@ export default {
 
       fetchError: false,
 
-      // sharerDetails: {},
+      sharerDetails: {},
       FILE: null,
       FILE_BLOB: null,
 
@@ -181,31 +181,36 @@ export default {
         this.ERROR_HANDLER(error)
       })
 
-    // const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
-    // await this.$axios
-    //   .$get(URI)
-    //   .then((response) => {
-    //     this.sharerDetails = response.result
-    //   })
-    //   .catch((error) => {
-    //     this.fetchError = true
-    //     this.ERROR_HANDLER(error)
-    //   })
+    const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
+    await this.$axios
+      .$get(URI)
+      .then((response) => {
+        this.sharerDetails = response.result
+        this.$store.commit('cart/SAVE_SHARER_BANK', this.sharerDetails)
+        this.copyAccNum = this.sharerDetails.financialDetails.accountNumber
+        this.copyTotalBal = Intl.NumberFormat().format(
+          this.cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
+        )
+      })
+      .catch((error) => {
+        this.fetchError = true
+        this.ERROR_HANDLER(error)
+      })
   },
 
   // mounted() {
 
   // },
   computed: {
-    sharerDetails: {
-      get() {
-        return this.$store.state.cart.sharerBankDetails
-        // this.$store.commit('cart/SAVE_OTP', saveOTP)
-      },
-      set(newValue) {
-        this.$store.state.cart.sharerBankDetails = newValue
-      },
-    },
+    // sharerDetails: {
+    //   get() {
+    //     return this.$store.state.cart.sharerBankDetails
+    //     // this.$store.commit('cart/SAVE_OTP', saveOTP)
+    //   },
+    //   set(newValue) {
+    //     this.$store.state.cart.sharerBankDetails = newValue
+    //   },
+    // },
   },
 
   watch: {
@@ -245,26 +250,24 @@ export default {
     },
   },
 
-  async created() {
-    // Set the countdown time
-    const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
-    await this.$axios
-      .$get(URI)
-      .then((response) => {
-        this.sharerDetails = response.result
-        this.$store.commit('cart/SAVE_SHARER_BANK', this.sharerDetails)
-        this.copyAccName = this.sharerDetails.financialDetails.accountName
-        this.copyAccNum = this.sharerDetails.financialDetails.accountNumber
-        this.copyBankName = this.sharerDetails.financialDetails.bankName
-        this.copyTotalBal = Intl.NumberFormat().format(
-          this.cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
-        )
-      })
-      .catch((error) => {
-        this.fetchError = true
-        this.ERROR_HANDLER(error)
-      })
-  },
+  // async created() {
+  //   // Set the countdown time
+  //   const URI = `/unauth/sharing-groups/${this.sharingRound.sharerId}`
+  //   await this.$axios
+  //     .$get(URI)
+  //     .then((response) => {
+  //       this.sharerDetails = response.result
+  //       this.$store.commit('cart/SAVE_SHARER_BANK', this.sharerDetails)
+  //       this.copyAccNum = this.sharerDetails.financialDetails.accountNumber
+  //       this.copyTotalBal = Intl.NumberFormat().format(
+  //         this.cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
+  //       )
+  //     })
+  //     .catch((error) => {
+  //       this.fetchError = true
+  //       this.ERROR_HANDLER(error)
+  //     })
+  // },
   methods: {
     filePicked() {
       // Convert photo to base64 format (i.e data url)

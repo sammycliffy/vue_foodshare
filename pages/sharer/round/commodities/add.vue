@@ -172,6 +172,20 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <label class="createFormLabel" for="sharingComment"
+            >Sharing Comments/Description</label
+          >
+          <b-form-textarea
+            id="sharingComment"
+            v-model="sharingRound.commodities[commoditiesLength].sharingComment"
+            class="form-control createFormInput"
+            placeholder="Enter sharing commment"
+            rows="2"
+            maxlength="70"
+          >
+          </b-form-textarea>
+        </div>
       </b-form>
 
       <div class="label-margin primary-BoxColor ml-3 d-none">
@@ -302,6 +316,9 @@ export default {
       arrayIndexOfGlobalUnitsofMeasurement: 0,
       commoditiesLength: 0,
 
+      // recreate round data
+      reCreatePayload: this.$store.state.round.reCreatePayload,
+
       // fetch stuff from vuex
       sharingRound: this.$store.state.round.data,
       accessToken: this.$store.state.auth.accessToken,
@@ -379,6 +396,11 @@ export default {
   },
 
   mounted() {
+    if (this.reCreatePayload) {
+      this.sharingRound = this.reCreatePayload
+      this.commoditiesLength = +this.sharingRound.commodities.length
+      console.log(this.commoditiesLength)
+    }
     try {
       if (!this.sharingRound.commodities) {
         this.sharingRound.commodities = this.sharingRound.commoditiesDetails
@@ -399,6 +421,7 @@ export default {
         sharingPrice: null,
         numberOfSlots: null,
         marketPrice: null,
+        sharingComment: null,
       })
     }
   },
@@ -497,6 +520,7 @@ export default {
           sharingPrice: null,
           numberOfSlots: null,
           marketPrice: null,
+          sharingComment: null,
         })
         this.commoditiesLength++
       }
@@ -534,7 +558,6 @@ export default {
     },
 
     async addRound() {
-      console.log('Adding a round:', this.sharingRound)
       this.spinner = true
       const URI = `/services/sharing-rounds/${this.USER.id}`
       await this.$axios

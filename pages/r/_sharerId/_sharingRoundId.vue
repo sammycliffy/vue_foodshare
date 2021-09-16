@@ -125,6 +125,27 @@
                       />
                       Available
                     </p>
+                    <p class="mb-0 mt-1 color-green text_medium">
+                      <span
+                        v-if="
+                          cartPayload.sharedCommodities[index] &&
+                          cartPayload.sharedCommodities[index].numberOfSlots > 0
+                        "
+                        >&#8358;
+                        {{
+                          Intl.NumberFormat().format(
+                            item.sharingPrice *
+                              cartPayload.sharedCommodities[index].numberOfSlots
+                          )
+                        }}
+                      </span>
+                      <span v-else>
+                        &#8358;
+                        {{
+                          Intl.NumberFormat().format(item.sharingPrice)
+                        }}</span
+                      >
+                    </p>
                     <p
                       v-if="
                         cartPayload.sharedCommodities[index] &&
@@ -264,6 +285,12 @@
                 </b-row>
               </div>
               <hr />
+              <div v-show="item.sharingComment">
+                <p
+                  class="m-0 fs-12 text-break"
+                  v-text="item.sharingComment"
+                ></p>
+              </div>
               <div class="d-none">
                 <div class="d-flex justify-content-between mb-10">
                   <p class="mb-0">Savings</p>
@@ -606,7 +633,7 @@ export default {
   width: 100%;
 }
 hr {
-  margin-bottom: 25px;
-  margin-top: 25px;
+  margin-bottom: 5px;
+  margin-top: 15px;
 }
 </style>

@@ -28,7 +28,7 @@
               >
               <br />
               <span
-                class="primary-link"
+                class="primary-link mt-3"
                 :disabled="verifClicked === true"
                 @click="continueAsGuest()"
                 >Continue as Guest</span

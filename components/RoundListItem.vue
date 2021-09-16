@@ -356,6 +356,7 @@ export default {
           state: null,
           town: null,
         },
+        sharingComment: null,
       },
     }
   },
@@ -388,6 +389,7 @@ export default {
       this.reCreateData.sharingAddress = item.sharingAddress
       this.reCreateData.waitingTime = item.waitingTime
       this.reCreateData.waitingTimeUnit = item.waitingTimeType
+      this.reCreateData.sharingComment = item.sharingComment
       // this.reCreateData.effectivity.cutOffTime = item.cutOffTime
       // this.reCreateData.effectivity.endTime = item.endTime
 
@@ -399,7 +401,11 @@ export default {
           el.marketPrice = null
         }
         if (!el.category) {
-          el.category = el.categories
+          el.category = {
+            id: el.categories[0].id,
+            categoryName: el.categories[0].name,
+            shortCode: el.categories[0].shortCode,
+          }
         }
 
         delete el.commodityFinancials
@@ -408,14 +414,15 @@ export default {
         delete el.participants
         delete el.purchasedSlots
         delete el.remainingSlots
-        delete el.categories
+        // delete el.categories
+        delete el.sharingComment
       })
 
       // this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', item)
-      this.$store.commit('round/SAVE_ROUND_DATA', this.reCreateData)
+      // this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', this.reCreateData)
 
       // // Redirect to the preview page
-      this.$router.push(`/sharer/round/create/`)
+      // this.$router.push(`/sharer/round/create/`)
     },
 
     listClicked(item) {
