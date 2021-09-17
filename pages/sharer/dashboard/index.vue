@@ -76,7 +76,7 @@
           >
             <!-- <b-dropdown-item href="#">Commodity</b-dropdown-item> -->
             <b-dropdown-item href="#">Income Chart</b-dropdown-item>
-            <b-dropdown-item href="#">Spread Sheet View</b-dropdown-item>
+            <!-- <b-dropdown-item href="#">Spread Sheet View</b-dropdown-item> -->
           </b-dropdown>
         </div>
         <div class="chartBox">
@@ -105,6 +105,8 @@ export default {
       sharingRoundsActive: [],
       closedSharingRounds: [],
 
+      // fetched barchat data
+
       barChartData: {
         labels: [
           'Jan',
@@ -122,19 +124,29 @@ export default {
         ],
         datasets: [
           {
-            label: 'purchase',
-            // data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
-            data: [],
-            backgroundColor: '#4f9e55',
-          },
-          {
-            label: 'failed purchase',
+            label: 'successful orders',
             // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
             data: [],
 
             backgroundColor: '#fe8f0a',
           },
         ],
+
+        // datasets: [
+        //   {
+        //     label: 'purchase',
+        //     data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
+        //     // data: [],
+        //     backgroundColor: '#4f9e55',
+        //   },
+        //   {
+        //     label: 'failed purchase',
+        //     data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+        //     // data: [],
+
+        //     backgroundColor: '#fe8f0a',
+        //   },
+        // ],
       },
       barChartOptions: {
         responsive: true,
@@ -197,6 +209,19 @@ export default {
         this.ERROR_HANDLER(e)
       })
 
+    URL = `/services/metrics/${this.USER.id}`
+    await this.$axios
+      .$get(URL)
+      .then((resp) => {
+        const fetchedbarData = resp.result.annualSummaries
+        const mappedBarData = fetchedbarData[0].monthlyTransactionSummaries
+        this.barChartData.datasets[0].data = mappedBarData.map(
+          (el) => el.sumOfTransactions
+        )
+      })
+      .catch((err) => {
+        this.ERROR_HANDLER(err)
+      })
     // Fetch sharer's review
     // URL = `/services/reviews/sharer/${this.USER.id}`
     // await this.$axios
