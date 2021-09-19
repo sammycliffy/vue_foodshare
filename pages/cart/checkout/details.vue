@@ -105,14 +105,14 @@
 
       <div class="text-center">
         <b-btn
-          v-if="countDownTime > 0"
+          v-if="countDownTime > 0 && FILE_BLOB"
           :disabled="verifClicked === true"
           class="btn primary-btn"
           @click="uploadProof()"
           >Confirm Payment</b-btn
         >
         <b-btn
-          v-else
+          v-if="countDownTime <= 0"
           class="btn primary-btn"
           @click="
             $router.push(
