@@ -165,7 +165,7 @@
                 class="createFormInput secondary-background secondary-border"
               >
                 <p class="avgPrice">
-                  &#8358;
+                  NGN
                   {{ sharingRound.commodities[commoditiesLength].marketPrice }}
                 </p>
               </div>

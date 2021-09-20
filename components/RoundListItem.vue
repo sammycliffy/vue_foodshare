@@ -163,7 +163,7 @@
           <div class="col-4 align-self-center">
             <p class="mb-0">
               <span
-                >&#8358;
+                >NGN
                 {{ Intl.NumberFormat().format(product.sharingPrice) }}</span
               >
             </p>

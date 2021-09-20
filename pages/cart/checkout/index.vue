@@ -37,13 +37,13 @@
             <b-col>
               <p class="checkBox_title">Sub Total</p>
               <p class="primary_price">
-                &#8358; {{ Intl.NumberFormat().format(cartPayload.subTotal) }}
+                NGN {{ Intl.NumberFormat().format(cartPayload.subTotal) }}
               </p>
             </b-col>
             <b-col v-if="cartPayload.paymentDetails.paymentType === 'PAYSTACK'">
               <p class="checkBox_title">Paystack Fee</p>
               <p class="primary_price">
-                &#8358;
+                NGN
                 {{ Intl.NumberFormat().format(cartPayload.paystackFees) }}
               </p>
             </b-col>
@@ -52,7 +52,7 @@
             <b-col>
               <p class="checkBox_title">Delivery Fee</p>
               <p class="primary_price">
-                &#8358;
+                NGN
                 {{ Intl.NumberFormat().format(cartPayload.shippingFee || 0) }}
               </p>
             </b-col>
@@ -61,10 +61,10 @@
               <p class="primary_price">
                 <!-- {{
                   cartPayload.serviceChargeType === 'flatrate'
-                    ? `&#8358; ${cartPayload.serviceChargeRate}`
+                    ? `NGN ${cartPayload.serviceChargeRate}`
                     : `${cartPayload.serviceChargeRate} %`
                 }} -->
-                &#8358;
+                NGN
                 {{ Intl.NumberFormat().format(cartPayload.serviceCharge) }}
               </p>
             </b-col>
@@ -76,7 +76,7 @@
                 v-if="cartPayload.paymentDetails.paymentType === 'PAYSTACK'"
                 class="primary_price"
               >
-                &#8358;
+                NGN
                 {{
                   Intl.NumberFormat().format(
                     cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
@@ -87,7 +87,7 @@
                 v-if="cartPayload.paymentDetails.paymentType === 'OFFLINE'"
                 class="primary_price"
               >
-                &#8358;
+                NGN
                 {{
                   Intl.NumberFormat().format(
                     cartPayload.subTotalPlusServiceChargePlusShipping
@@ -98,7 +98,7 @@
             <b-col>
               <p class="checkBox_title">Savings</p>
               <p class="primary_price">
-                &#8358;
+                NGN
                 {{ Intl.NumberFormat().format(cartPayload.savings) }}
               </p>
             </b-col>
@@ -178,7 +178,7 @@
                     item.sharedCommodityName
                   }}</span>
                   <span class="d-block itemPrice mt-2 color-orange"
-                    >&#8358;
+                    >NGN
                     {{
                       Intl.NumberFormat().format(
                         item.pricePerSlot * item.numberOfSlots

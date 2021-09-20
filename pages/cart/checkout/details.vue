@@ -66,7 +66,7 @@
         class="text_semiBold color-orange"
         @click="COPY_CLIPBOARD(copyTotalBal)"
       >
-        &#8358;
+        NGN
         {{
           Intl.NumberFormat().format(
             cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees

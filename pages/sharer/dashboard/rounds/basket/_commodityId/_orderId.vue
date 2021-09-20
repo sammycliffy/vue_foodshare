@@ -65,7 +65,7 @@
           <div class="mt-16">
             <p class="mb-8px">Total Price</p>
             <h5 class="color-orange text_bold mb-24">
-              <span>&#8358;</span>
+              <span>NGN</span>
               <span
                 v-text="
                   Intl.NumberFormat().format(
