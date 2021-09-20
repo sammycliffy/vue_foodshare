@@ -1,9 +1,9 @@
 <template>
   <div class="scroll-overflow">
     <div class="half-width">
-      <div class="d-flex">
-        <partials-back-nav-button />
-        <h4>Payment Details</h4>
+      <partials-back-nav-button />
+      <div class="text-center">
+        <h4 class="mb-20">Payment Details</h4>
       </div>
 
       <div class="text-center my-4 d-none">
@@ -33,8 +33,47 @@
           <img src="/assets/icons/check-mark.svg" />
         </span>
       </div>
-      <h4 class="mt-2">Account Details</h4>
-      <div v-if="sharerDetails.financialDetails" class="mb-4 poppins">
+      <div class="">
+        <span class="">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="19"
+            height="25"
+            fill="currentColor"
+            class="bi bi-basket2"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0v-2z"
+            />
+            <path
+              d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6H2.163z"
+            />
+          </svg>
+        </span>
+
+        <span class="fs-15 text-uppercase text_label"
+          >Basket:
+          <span
+            class="color-orange text_semiBold ml-2"
+            @click="COPY_CLIPBOARD(copyTotalBal)"
+          >
+            NGN
+            {{
+              Intl.NumberFormat().format(
+                cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
+              )
+            }}
+          </span>
+          <span
+            class="ml-2 fs-12 btn light-btn border-primary p-1"
+            @click="COPY_CLIPBOARD(copyTotalBal)"
+            >copy</span
+          >
+        </span>
+      </div>
+      <p class="mt-20 fs-15 text_semiBold">Account Details</p>
+      <div v-if="sharerDetails.financialDetails" class="mt-16 mb-4 poppins">
         <p>
           Name:
           <span class="ml-3" @click="COPY_CLIPBOARD(copyAccName)">{{
@@ -47,7 +86,7 @@
             sharerDetails.financialDetails.accountNumber
           }}</span
           ><span
-            class="ml-2 fs-12 btn btn-primary p-1"
+            class="ml-2 fs-12 btn light-btn border-primary p-1"
             @click="COPY_CLIPBOARD(copyAccNum)"
             >copy</span
           >
@@ -61,9 +100,9 @@
       </div>
 
       <div v-else-if="fetchError">Can't Load Account Details. . .</div>
-      <h4 class="mb-0">Total Cost</h4>
+      <h4 class="mb-0 d-none">Total Cost</h4>
       <h4
-        class="text_semiBold color-orange"
+        class="d-none text_semiBold color-orange"
         @click="COPY_CLIPBOARD(copyTotalBal)"
       >
         NGN
@@ -72,7 +111,11 @@
             cartPayload.subTotalPlusServiceChargePlusShippingPlusPaystackfees
           )
         }}
-        <span class="ml-2 fs-12 btn btn-primary p-1">copy</span>
+        <span
+          class="ml-2 fs-12 btn light-btn border-primary p-1"
+          @click="COPY_CLIPBOARD(copyTotalBal)"
+          >copy</span
+        >
       </h4>
 
       <div
@@ -91,7 +134,9 @@
               <i class="fas fa-paperclip"></i>
             </div>
             <span class="d-block description">
-              {{ FILE ? FILE.name : 'Upload Proof of payment' }}</span
+              {{
+                FILE ? FILE.name : `Upload screenshot &nbsp; proof of payment`
+              }}</span
             >
           </div>
           <b-form-file
@@ -343,7 +388,7 @@ h4 {
 
 p {
   color: #000000;
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 5px;
   letter-spacing: 0.05px;
   font-weight: 400;
@@ -364,7 +409,9 @@ p {
 }
 
 .uploadProof {
-  min-width: 240px;
+  /* min-width: 240px; */
+  max-width: 240px;
+  margin: 0 auto;
 }
 
 .uploadProof > label {

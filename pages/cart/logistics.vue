@@ -21,7 +21,7 @@
             </div>
             <div class="text-center my-24">
               <b-btn
-                class="btn primary-btn padded-btn px-2 mb-2"
+                class="btn primary-btn padded-btn btn-block mb-2"
                 :disabled="verifClicked === true"
                 @click="gotoLogin()"
                 >Login</b-btn

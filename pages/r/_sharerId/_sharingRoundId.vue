@@ -181,7 +181,7 @@
                       <span v-else>
                         NGN
                         {{ Intl.NumberFormat().format(item.sharingPrice) }}
-                        <span class="toggle_text_sub">
+                        <span class="d-block toggle_text_sub">
                           <span>
                             per {{ item.sharingUnits }}
                             {{ item.unitOfMeasurement }}

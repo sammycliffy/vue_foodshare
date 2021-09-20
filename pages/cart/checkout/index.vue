@@ -10,7 +10,15 @@
           <div class="top-row d-flex justify-content-between">
             <div class="d-flex justify-content-around">
               <partials-back-nav-button />
-              <span class="">{{ cartPayload.sharingRoundName }} </span>
+              <span class="">
+                <span class="text_medium"
+                  >{{ cartPayload.sharingRoundName }}
+                </span>
+
+                <span class="text_light"
+                  >{{ sharingRound.cutOffTimeWithDay }}
+                </span>
+              </span>
             </div>
           </div>
         </div>
@@ -18,7 +26,7 @@
 
       <div class="body-primary half-width">
         <div class="checkoutBox">
-          <p class="color-orange mb-0 text_medium">
+          <p class="color-orange mb-0]">
             Sharing Location
             <span class="d-block color-black mt-2">
               <span>{{ cartPayload.sharingAddress.lineOne }}</span
@@ -35,14 +43,14 @@
         <div class="checkoutBox">
           <b-row class="checkoutBox_inner">
             <b-col>
-              <p class="checkBox_title">Sub Total</p>
-              <p class="primary_price">
+              <p class="checkBox_title mb-1">Sub Total</p>
+              <p class="primary_price mb-26">
                 NGN {{ Intl.NumberFormat().format(cartPayload.subTotal) }}
               </p>
             </b-col>
             <b-col v-if="cartPayload.paymentDetails.paymentType === 'PAYSTACK'">
-              <p class="checkBox_title">Paystack Fee</p>
-              <p class="primary_price">
+              <p class="checkBox_title mb-1">Paystack Fee</p>
+              <p class="text_normal primary_price fs-15 mb-26">
                 NGN
                 {{ Intl.NumberFormat().format(cartPayload.paystackFees) }}
               </p>
@@ -50,15 +58,15 @@
           </b-row>
           <b-row class="checkoutBox_inner">
             <b-col>
-              <p class="checkBox_title">Delivery Fee</p>
-              <p class="primary_price">
+              <p class="checkBox_title mb-1">Delivery Fee</p>
+              <p class="text_normal primary_price fs-15 mb-26">
                 NGN
                 {{ Intl.NumberFormat().format(cartPayload.shippingFee || 0) }}
               </p>
             </b-col>
             <b-col>
-              <p class="checkBox_title">Service Charge</p>
-              <p class="primary_price">
+              <p class="checkBox_title mb-1">Service Charge</p>
+              <p class="text_normal primary_price fs-15 mb-26">
                 <!-- {{
                   cartPayload.serviceChargeType === 'flatrate'
                     ? `NGN ${cartPayload.serviceChargeRate}`
@@ -71,7 +79,7 @@
           </b-row>
           <b-row class="checkoutBox_inner">
             <b-col>
-              <p class="checkBox_title">Total</p>
+              <p class="checkBox_title mb-1">Total</p>
               <p
                 v-if="cartPayload.paymentDetails.paymentType === 'PAYSTACK'"
                 class="primary_price"
@@ -96,8 +104,8 @@
               </p>
             </b-col>
             <b-col>
-              <p class="checkBox_title">Savings</p>
-              <p class="primary_price">
+              <p class="checkBox_title mb-1">Savings</p>
+              <p class="text_normal primary_price fs-15 mb-26">
                 NGN
                 {{ Intl.NumberFormat().format(cartPayload.savings) }}
               </p>
@@ -114,7 +122,7 @@
               :callback="callback"
               :close="close"
               :embed="false"
-              class="btn primary-btn padded-btn mr-2 text-white"
+              class="btn primary-btn btn-block text-white"
             >
               Complete Payment
               <b-spinner
@@ -128,7 +136,7 @@
             <b-btn
               v-if="cartPayload.paymentDetails.paymentType === 'OFFLINE'"
               :disabled="verifClicked === true"
-              class="btn primary-btn padded-btn ml-2"
+              class="btn primary-btn btn-block"
               @click="payLater()"
               >Complete Payment
               <b-spinner

@@ -159,7 +159,7 @@
                       <span v-else>
                         NGN
                         {{ Intl.NumberFormat().format(item.sharingPrice) }}
-                        <span class="toggle_text_sub">
+                        <span class="d-block toggle_text_sub">
                           <span>
                             per {{ item.sharingUnits }}
                             {{ item.unitOfMeasurement }}
@@ -319,8 +319,8 @@
         </section>
         <div class="text-center mb-2">
           <b-btn
+            v-show="basketWorth"
             class="btn primary-btn padded-btn btn-block"
-            :disabled="!basketWorth"
             @click="gotoLogistics"
             >Next</b-btn
           >
@@ -425,7 +425,7 @@
                     <span v-else>
                       NGN
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}
-                      <span class="toggle_text_sub">
+                      <span class="d-block toggle_text_sub">
                         <span>
                           per {{ item.sharingUnits }}
                           {{ item.unitOfMeasurement }}
