@@ -26,9 +26,8 @@
               <div class="label_textBox">
                 <span class="d-block labelTitle">Bank Transfer</span>
                 <span class="d-block labelDesc"
-                  >Pay directly to bank account <br />
-                  <br
-                /></span>
+                  >Pay directly to bank account
+                </span>
               </div>
             </div>
           </b-form-radio>
@@ -206,7 +205,7 @@ export default {
 }
 .paymentOption_label {
   background-color: rgba(79, 158, 85, 0.06);
-  padding: 11px;
+  padding: 11px 50px 11px 11px;
   margin-left: 10px;
 }
 h4 {

@@ -125,8 +125,8 @@ export default {
         datasets: [
           {
             label: 'successful orders',
-            // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
-            data: [],
+            data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+            // data: [],
 
             backgroundColor: '#fe8f0a',
           },
@@ -161,7 +161,7 @@ export default {
           xAxes: [
             {
               gridLines: {
-                display: false,
+                display: true,
               },
             },
           ],

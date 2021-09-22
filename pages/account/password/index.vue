@@ -23,7 +23,7 @@
             </b-input-group-text>
           </b-input-group-prepend>
           <b-form-input
-            v-model.trim="resetForm.email"
+            v-model.trim="resetForm.emailAddress"
             class="input border-left-0"
             type="email"
             placeholder="Email"
@@ -59,7 +59,7 @@ export default {
       verifClicked: false,
       spinner: false,
       resetForm: {
-        email: '',
+        emailAddress: '',
       },
     }
   },
@@ -70,7 +70,7 @@ export default {
       this.spinner = true
       this.verifClicked = true
 
-      if (!this.resetForm.email) {
+      if (!this.resetForm.emailAddress) {
         this.SHOW_TOAST({
           variant: 'warning',
           text: 'Email is required!',
@@ -78,11 +78,11 @@ export default {
       }
       // populate the API URI
       // const URL = `/account/reset-password?email=${this.email}`
-      const URL = `unauth/verification-token`
 
       // Make request to the API
+      const URI = `/unauth/reset-password`
       await this.$axios
-        .$post(URL, this.resetForm.email)
+        .$post(URI, this.resetForm)
         .then(() => {
           this.SHOW_TOAST({
             title: 'Password reset link sent',
