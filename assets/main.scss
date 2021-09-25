@@ -38,8 +38,8 @@ textarea:-webkit-autofill:active
  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 p{
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .bg-general-color{
@@ -47,8 +47,8 @@ p{
 }
 
 .primary-p{
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 18px;
 }
 .mini-title{
   font-size: 14px;
@@ -786,6 +786,12 @@ h5{
   font-size: 12px;
   color: #9fa2b1;
 }
+.fs-20{
+  font-size: 20px !important;
+}
+.fs-15{
+  font-size: 15px !important;
+}
 .fs-14{
   font-size: 14px !important;
 }
@@ -795,6 +801,10 @@ h5{
 
 .border-2x{
   border-width: 2px !important;
+}
+.primary-link {
+  color: #4f9e55;
+  font-weight: 500;
 }
 @media (max-width: 321px) {
   .mt-sub{

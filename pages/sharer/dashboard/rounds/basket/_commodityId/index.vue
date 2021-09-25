@@ -102,16 +102,6 @@
                         >Payment Confirmed</span
                       >
                     </div>
-                    <div class="col px-0">
-                      <b-form-checkbox
-                        v-if="item.sharingDayPassed"
-                        :id="item.orderId + ''"
-                        v-model="checkStatus[item.orderId]"
-                        class="roundBasket"
-                        @change="confirmCollection(item)"
-                      >
-                      </b-form-checkbox>
-                    </div>
                   </label>
                 </div>
               </b-collapse>
@@ -186,16 +176,6 @@
                         class="paymentStatusPaid"
                         >Payment Confirmed</span
                       >
-                    </div>
-                    <div class="col px-0">
-                      <b-form-checkbox
-                        v-if="item.sharingDayPassed"
-                        :id="item.orderId + ''"
-                        v-model="checkStatus[item.orderId]"
-                        class="roundBasket"
-                        @change="confirmCollection(item)"
-                      >
-                      </b-form-checkbox>
                     </div>
                   </label>
                 </div>
@@ -290,11 +270,38 @@
                         :id="item.orderId + ''"
                         v-model="checkStatus[item.orderId]"
                         class="roundBasket"
-                        @change="confirmCollection(item)"
+                        @change="checkOrderModal = true"
                       >
                       </b-form-checkbox>
                     </div>
                   </label>
+                  <b-modal
+                    v-model="checkOrderModal"
+                    centered
+                    modal-class="logOutModalStyle text-center"
+                    size="sm"
+                    hide-footer
+                    hide-header
+                    no-close-on-backdrop
+                  >
+                    <p>Are you sure you want mark this order as collected?</p>
+                    <div class="text-center mt-24">
+                      <b-button
+                        variant="outline-danger"
+                        :disabled="verifClicked === true"
+                        class="mr-2"
+                        @click="checkOrderModal = false"
+                      >
+                        Cancel
+                      </b-button>
+                      <b-button
+                        :disabled="verifClicked === true"
+                        variant="outline-success"
+                        @click="confirmCollection(item)"
+                        >Confirm</b-button
+                      >
+                    </div>
+                  </b-modal>
                 </div>
               </b-collapse>
             </div>
@@ -369,16 +376,6 @@
                         >Payment Confirmed</span
                       >
                     </div>
-                    <div class="col px-0">
-                      <b-form-checkbox
-                        v-if="item.sharingDayPassed"
-                        :id="item.orderId + ''"
-                        v-model="checkStatus[item.orderId]"
-                        class="roundBasket"
-                        @change="confirmCollection(item)"
-                      >
-                      </b-form-checkbox>
-                    </div>
                   </label>
                 </div>
               </b-collapse>
@@ -416,6 +413,9 @@ export default {
 
   data() {
     return {
+      verifClicked: false,
+      checkOrderModal: false,
+
       spinner: false,
       checkStatus: [],
       orders: [],
@@ -466,6 +466,7 @@ export default {
 
   methods: {
     async confirmCollection(item) {
+      this.verifClicked = true
       const PAYLOAD = {
         particpants: [
           {
@@ -487,6 +488,9 @@ export default {
             variant: 'success',
             text: 'Orders successfully updated for: ' + item.emailAddress,
           })
+
+          this.checkOrderModal = false
+          this.verifClicked = false
         })
         .catch((error) => {
           this.ERROR_HANDLER(error)
@@ -660,5 +664,21 @@ export default {
 img {
   height: 35px;
   width: 35px;
+}
+
+::v-deep .logOutModalStyle .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+::v-deep .logOutModalStyle .modal-body {
+  padding: 32px 0 50px;
+}
+
+::v-deep .logOutModalStyle .modal-body p {
+  margin: 0 20%;
+}
+
+::v-deep .logOutModalStyle .modal-dialog {
+  padding: 20% 42px;
 }
 </style>

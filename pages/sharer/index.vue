@@ -22,7 +22,6 @@
         </div>
         <div v-else class="">
           <p class="poppins">Below are your active sharing rounds</p>
-
           <div
             v-for="item in sharer.sharingRound"
             :key="item.id"

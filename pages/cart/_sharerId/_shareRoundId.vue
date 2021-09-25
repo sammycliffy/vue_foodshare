@@ -45,10 +45,10 @@
             </span>
           </p>
         </div>
-        <div class="mt-3">
-          <p class="text_medium color-orange mb-0">
+        <div class="mt-16">
+          <p class="color-orange mb-0">
             Sharing Location
-            <span class="d-block color-black mt-2">
+            <span class="d-block color-black">
               <span>{{ sharingRound.sharingAddress.lineOne }}</span
               >&comma;
               <span v-if="sharingRound.sharingAddress.lineTwo"
@@ -85,7 +85,7 @@
             <span class="text-uppercase text_label">Basket</span>
           </div>
           <p class="m-0 text_bold">
-            Total:&nbsp; &#8358;
+            Total:&nbsp; NGN
             {{ Intl.NumberFormat().format(basketWorth) }}
           </p>
         </nav>
@@ -102,11 +102,24 @@
             >
               <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-around">
-                  <div class="item__image">
-                    <img
-                      :src="item.imageUrl || '/assets/empty-photo.svg'"
-                      class="commodityImg"
-                    />
+                  <div class="">
+                    <div class="item__image">
+                      <img
+                        :src="item.imageUrl || '/assets/empty-photo.svg'"
+                        class="commodityImg"
+                      />
+                    </div>
+                    <div
+                      v-show="item.sharingComment"
+                      style="
+                        width: 80px;
+                        overflow: hidden;
+                        text-transform: lowercase;
+                      "
+                      class="mt-1"
+                    >
+                      <p class="m-0 fs-12" v-text="item.sharingComment"></p>
+                    </div>
                   </div>
                   <div class="ml-3 my-auto">
                     <span class="d-block primary-p text_semiBold">{{
@@ -127,7 +140,32 @@
                             : 'slot'
                         "
                       />
-                      &nbsp;Added&nbsp;
+                      &nbsp;added&nbsp;
+                    </p>
+                    <p class="mb-0 mt-1 color-green text_medium">
+                      <span
+                        v-if="
+                          cartPayload.sharedCommodities[index] &&
+                          cartPayload.sharedCommodities[index].numberOfSlots > 0
+                        "
+                        >NGN
+                        {{
+                          Intl.NumberFormat().format(
+                            item.sharingPrice *
+                              cartPayload.sharedCommodities[index].numberOfSlots
+                          )
+                        }}
+                      </span>
+                      <span v-else>
+                        NGN
+                        {{ Intl.NumberFormat().format(item.sharingPrice) }}
+                        <span class="d-block toggle_text_sub">
+                          <span>
+                            per {{ item.sharingUnits }}
+                            {{ item.unitOfMeasurement }}
+                          </span>
+                        </span>
+                      </span>
                     </p>
                     <p
                       v-if="
@@ -205,23 +243,20 @@
                   <b-col>
                     <p class="toggle_text m-0">Sharing Price</p>
                     <span class="toggle_price text_bold d-block">
-                      &#8358;
+                      NGN
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                     >
                     <span class="d-block toggle_text_sub">
-                      <span v-if="item.sharingUnits <= 1">per</span>
-                      <span v-else>
-                        {{ item.sharingUnits }}
-                      </span>
-                      {{ item.unitOfMeasurement }}
-                    </span>
+                      per {{ item.sharingUnits }}
+                      {{ item.unitOfMeasurement }}</span
+                    >
                   </b-col>
                 </b-row>
                 <b-row class="mx-0">
                   <b-col class="input-r-seperator input-col">
                     <div class="form-group">
                       <label class="toggle_label" for="remainingSlots">
-                        <span>{{ item.remainingSlots }} Available</span>
+                        <span>{{ item.remainingSlots }} available</span>
                         <span
                           v-text="item.remainingSlots > 1 ? 'slots' : 'slot'"
                         />
@@ -235,7 +270,7 @@
                         :placeholder="
                           cartPayload.sharedCommodities[index]
                             ? cartPayload.sharedCommodities[index].numberOfSlots
-                            : 'Enter NO. of slots'
+                            : 'Enter # of slots'
                         "
                       />
                     </div>
@@ -244,20 +279,20 @@
                     <b-btn
                       class="btn primary-btn mt-sub"
                       @click="addToCart(item, index, 'update')"
-                      >Update Basket</b-btn
+                      >Save Basket</b-btn
                     >
                   </b-col>
                 </b-row>
               </div>
-              <hr />
-              <div class="">
+              <hr class="d-none" />
+              <div class="d-none">
                 <div class="d-flex justify-content-between mb-10">
-                  <p class="mb-0">Savings</p>
-                  <p class="mb-0 color-orange text_semiBold fs-14"></p>
+                  <p class="mb-0 fs-12">Savings</p>
+                  <p class="mb-0 color-orange text_semiBold fs-12"></p>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <p class="mb-0">Market Name</p>
-                  <p class="mb-0 color-black text_semiBold"></p>
+                  <p class="mb-0 fs-12">Open Market Price</p>
+                  <p class="mb-0 fs-12 color-black text_semiBold"></p>
                 </div>
               </div>
               <div v-if="item.topMarkets" class="">
@@ -273,7 +308,7 @@
                     </div>
                     <div class="col-4 input-l-seperator input-col">
                       <p class="toggle_text m-0 text_bold">
-                        &#8358; &nbsp;{{ market.amount }}
+                        NGN &nbsp;{{ market.amount }}
                       </p>
                     </div>
                   </div>
@@ -284,8 +319,8 @@
         </section>
         <div class="text-center mb-2">
           <b-btn
+            v-show="basketWorth"
             class="btn primary-btn padded-btn btn-block"
-            :disabled="!basketWorth"
             @click="gotoLogistics"
             >Next</b-btn
           >
@@ -328,11 +363,24 @@
           >
             <div class="d-flex justify-content-between">
               <div class="d-flex justify-content-around">
-                <div class="item__image">
-                  <img
-                    :src="item.imageUrl || '/assets/empty-photo.svg'"
-                    class="commodityImg"
-                  />
+                <div class="">
+                  <div class="item__image">
+                    <img
+                      :src="item.imageUrl || '/assets/empty-photo.svg'"
+                      class="commodityImg"
+                    />
+                  </div>
+                  <div
+                    v-show="item.sharingComment"
+                    style="
+                      width: 80px;
+                      overflow: hidden;
+                      text-transform: lowercase;
+                    "
+                    class="mt-1"
+                  >
+                    <p class="m-0 fs-12" v-text="item.sharingComment"></p>
+                  </div>
                 </div>
                 <div class="ml-3 my-auto">
                   <span class="d-block item__name">{{
@@ -341,7 +389,7 @@
                   <p class="mb-0 mt-2">
                     <span>{{ item.remainingSlots }}</span>
                     <span v-text="item.remainingSlots > 1 ? 'slots' : 'slot'" />
-                    &nbsp;Available&nbsp;
+                    &nbsp;available&nbsp;
                   </p>
                   <p
                     v-if="
@@ -358,7 +406,32 @@
                           : 'slot'
                       "
                     />
-                    &nbsp;Added&nbsp;
+                    &nbsp;added&nbsp;
+                  </p>
+                  <p class="mb-0 mt-1 color-green text_medium">
+                    <span
+                      v-if="
+                        cartPayload.sharedCommodities[index] &&
+                        cartPayload.sharedCommodities[index].numberOfSlots > 0
+                      "
+                      >NGN
+                      {{
+                        Intl.NumberFormat().format(
+                          item.sharingPrice *
+                            cartPayload.sharedCommodities[index].numberOfSlots
+                        )
+                      }}
+                    </span>
+                    <span v-else>
+                      NGN
+                      {{ Intl.NumberFormat().format(item.sharingPrice) }}
+                      <span class="d-block toggle_text_sub">
+                        <span>
+                          per {{ item.sharingUnits }}
+                          {{ item.unitOfMeasurement }}
+                        </span>
+                      </span>
+                    </span>
                   </p>
                 </div>
               </div>
@@ -419,7 +492,7 @@
                 <b-col>
                   <p class="toggle_text m-0">Sharing Price</p>
                   <span class="toggle_price text_bold d-block">
-                    &#8358;
+                    NGN
                     {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                   >
                   <span class="d-block toggle_text_sub"
@@ -431,13 +504,18 @@
               <b-row class="mx-0">
                 <b-col class="input-r-seperator input-col">
                   <div class="form-group">
-                    <label class="toggle_label" for="remainingSlots">
+                    <!-- <label class="toggle_label" for="remainingSlots">
                       <span
-                        >{{ item.remainingSlots }} &nbsp;Available&nbsp;</span
+                        >{{ item.remainingSlots }} &nbsp;available&nbsp;</span
                       >
                       <span
                         v-text="item.remainingSlots > 1 ? 'slots' : 'slot'"
                       />
+                    </label> -->
+                    <label class="toggle_label" for="remainingSlots">
+                      <span>{{ item.remainingSlots }} available </span>
+                      <span v-if="item.remainingSlots > 1">slots</span>
+                      <span v-else>slot</span>
                     </label>
                     <input
                       v-model="cart[index]"
@@ -448,7 +526,7 @@
                       :placeholder="
                         cartPayload.sharedCommodities[index]
                           ? cartPayload.sharedCommodities[index].numberOfSlots
-                          : 'Enter NO. of slots'
+                          : 'Enter # of slots'
                       "
                     />
                   </div>
@@ -462,15 +540,19 @@
                 </b-col>
               </b-row>
             </div>
-            <hr />
+            <hr class="d-none" />
             <div class="d-none">
-              <div class="d-flex justify-content-between mb-10">
-                <p class="mb-0">Savings</p>
-                <p class="mb-0 color-orange text_semiBold fs-14"></p>
+              <div class="d-flex justify-content-between mb-1">
+                <p class="mb-0 fs-12">Savings</p>
+                <p class="mb-0 color-orange text_semiBold fs-12">
+                  NGN {{ Intl.NumberFormat().format(3000) }}
+                </p>
               </div>
               <div class="d-flex justify-content-between">
-                <p class="mb-0">Open Market Price</p>
-                <p class="mb-0 color-black text_semiBold"></p>
+                <p class="mb-0 fs-12">Open Market Price</p>
+                <p class="mb-0 color-black text_semiBold fs-12">
+                  NGN {{ Intl.NumberFormat().format(5000) }}
+                </p>
               </div>
             </div>
             <div v-if="item.topMarkets" class="">
@@ -482,7 +564,7 @@
                   </div>
                   <div class="col-4 input-l-seperator input-col">
                     <p class="toggle_text m-0 text_bold">
-                      &#8358; &nbsp;{{ market.amount }}
+                      NGN &nbsp;{{ market.amount }}
                     </p>
                   </div>
                 </div>
@@ -640,7 +722,7 @@ export default {
   border: 1px solid rgba(245, 245, 245, 1);
   font-size: 15px;
   line-height: 22px;
-  padding: 10px 17px;
+  padding: 10px;
   margin-bottom: 25px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
@@ -670,7 +752,7 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 20px 17px 25px;
+  padding: 10px 17px 20px;
   margin-bottom: 25px;
   border: 1px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);

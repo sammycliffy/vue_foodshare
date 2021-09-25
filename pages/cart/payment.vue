@@ -24,10 +24,10 @@
             >
               <img src="/assets/icons/bank.svg" />
               <div class="label_textBox">
-                <span class="d-block labelTitle">Bank</span>
+                <span class="d-block labelTitle">Bank Transfer</span>
                 <span class="d-block labelDesc"
-                  >Pay directly to bank account</span
-                >
+                  >Pay directly to bank account
+                </span>
               </div>
             </div>
           </b-form-radio>
@@ -40,7 +40,7 @@
               <div class="label_textBox">
                 <span class="d-block labelTitle">Debit Card</span>
                 <span class="d-block labelDesc"
-                  >Pay with MasterCard or Visa
+                  >Pay with MasterCard, Visa or Verve
                 </span>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default {
 }
 .paymentOption_label {
   background-color: rgba(79, 158, 85, 0.06);
-  padding: 11px;
+  padding: 11px 50px 11px 11px;
   margin-left: 10px;
 }
 h4 {
@@ -216,8 +216,8 @@ h4 {
   margin-bottom: unset;
 }
 p {
-  font-size: 15px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 22px;
   letter-spacing: 0.05px;
   margin-bottom: unset;
 }
@@ -229,20 +229,23 @@ label {
   margin-left: 15px;
 }
 .labelTitle {
-  font-size: 15px;
+  font-size: 14px;
   /* line-height: 15px; */
   letter-spacing: 0.32px;
   color: #000000;
   font-weight: 500;
 }
 .labelDesc {
-  font-size: 14px;
+  font-size: 12px;
   /* line-height: 48px; */
   letter-spacing: 0.04px;
   color: rgba(108, 115, 138, 0.52);
 }
 
 .custom-control-label {
+  width: 100% !important;
+}
+::v-deep .radioBtns .custom-control-label {
   width: 100% !important;
 }
 ::v-deep .radioBtns .custom-control-label::before {

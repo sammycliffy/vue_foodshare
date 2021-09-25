@@ -84,7 +84,7 @@
                   <span v-text="item.commodityName"></span>
                 </h6>
                 <h6 class="color-orange">
-                  <span>&#8358;</span>
+                  <span>NGN</span>
                   <span
                     v-text="Intl.NumberFormat().format(item.sharingPrice)"
                   ></span>
