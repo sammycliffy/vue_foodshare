@@ -196,56 +196,114 @@
           </p>
           <ValidationObserver v-slot="{ handleSubmit }">
             <b-form class="createSharerformBox" @submit.prevent>
-              <b-form-input
-                v-model="FORM.sharingGroupDetails.groupName"
-                class="formInputGroup"
-                placeholder="Name of sharing group"
-                required
-              />
-              <b-form-input
-                v-model="FORM.sharingGroupDetails.contactAddress.lineOne"
-                class="formInputGroup"
-                placeholder="Contact address"
-                required
-              />
-              <b-form-input
-                v-model="FORM.sharingGroupDetails.contactAddress.lineTwo"
-                class="formInputGroup"
-                placeholder="Area"
-                maxlength="10"
-              />
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="FORM.sharingGroupDetails.groupName"
+                  class="formInputGroup mb-0"
+                  placeholder="Name of sharing group"
+                  required
+                />
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="FORM.sharingGroupDetails.contactAddress.lineOne"
+                  class="formInputGroup mb-0 mt-20"
+                  placeholder="Contact address"
+                  required
+                />
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="FORM.sharingGroupDetails.contactAddress.lineTwo"
+                  class="formInputGroup mb-0 mt-20"
+                  placeholder="Area"
+                  maxlength="10"
+                  required
+                />
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
               <b-container>
                 <b-row align-h="between">
                   <b-col xs="6" class="input-l-seperator input-col">
-                    <b-form-input
-                      v-model="FORM.sharingGroupDetails.contactAddress.town"
-                      class="formInputGroup"
-                      placeholder="City"
-                      maxlength="20"
-                      required
-                    />
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="text"
+                      rules="required"
+                    >
+                      <b-form-input
+                        v-model="FORM.sharingGroupDetails.contactAddress.town"
+                        class="formInputGroup mb-0 mt-20"
+                        placeholder="City"
+                        maxlength="20"
+                        required
+                      />
+                      <span
+                        v-show="errors.length > 0"
+                        class="is-invalid mt-2"
+                        >{{ errors[0] }}</span
+                      >
+                    </ValidationProvider>
                   </b-col>
                   <b-col xs="6" class="input-r-seperator input-col">
-                    <b-form-select
-                      v-model="FORM.sharingGroupDetails.contactAddress.state"
-                      class="formInputGroup"
-                      :options="stateOptions"
-                      placeholder="State"
-                      required
-                    ></b-form-select>
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="text"
+                      rules="required"
+                    >
+                      <b-form-select
+                        v-model="FORM.sharingGroupDetails.contactAddress.state"
+                        class="formInputGroup mb-0 mt-20"
+                        :options="stateOptions"
+                        placeholder="State"
+                        required
+                      ></b-form-select>
+                      <span
+                        v-show="errors.length > 0"
+                        class="is-invalid mt-2"
+                        >{{ errors[0] }}</span
+                      >
+                    </ValidationProvider>
                   </b-col>
                 </b-row>
               </b-container>
-
-              <b-form-textarea
-                v-model="FORM.sharingGroupDetails.description"
-                class="input-textarea"
-                placeholder="Description"
-                required
-                rows="4"
-                maxlength="250"
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
               >
-              </b-form-textarea>
+                <b-form-textarea
+                  v-model="FORM.sharingGroupDetails.description"
+                  class="input-textarea mb-0 mt-20"
+                  placeholder="Description"
+                  required
+                  rows="4"
+                  maxlength="250"
+                >
+                </b-form-textarea>
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
               <div class="text-right px-1 mb-20 sub-desc-text">
                 <span>
                   <span

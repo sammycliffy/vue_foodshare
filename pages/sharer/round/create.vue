@@ -375,14 +375,14 @@ export default {
         months[convertSharingDate.getMonth()]
       }, ${convertSharingDate.getFullYear()}`
 
-      this.defaultRoundName = `${this.sharingGroupDetails.groupName} Round, ${convertedDay}`
+      this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${convertedDay}`
 
       const URI = `/services/sharing-rounds/${this.USER.id}/${this.defaultRoundName}`
 
       await this.$axios
         .$get(URI, {})
         .then(() => {
-          const twoDigits = Math.random().toString().substr(2, 2)
+          const twoDigits = Math.random().toString().substr(1, 1)
           this.defaultRoundName += '-' + twoDigits
         })
         .catch((e) => {
