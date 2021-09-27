@@ -33,9 +33,9 @@
             </span>
           </div>
         </div>
-        <div class="mt-3">
+        <div class="mt-3 d-flex justify-content-between">
           <p class="color-orange mb-0">
-            Order by
+            Order deadline
             <span class="d-block color-black pr-2">
               {{ sharingRound.cutOffTimeWithDay }}
             </span>
@@ -47,10 +47,10 @@
             </span>
           </p>
         </div>
-        <div class="mt-3">
-          <p class="color-orange mb-0 text_medium">
+        <div class="mt-16">
+          <p class="color-orange mb-0">
             Sharing Location
-            <span class="d-block color-black mt-2">
+            <span class="d-block color-black">
               <span>{{ sharingRound.sharingAddress.lineOne }}</span
               >&comma;
               <span v-if="sharingRound.sharingAddress.lineTwo"
@@ -72,6 +72,33 @@
           Sorry, this round is not available anymore
         </section>
         <template v-else>
+          <div class="d-flex justify-content-between">
+            <div class="">
+              <span class="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="19"
+                  height="25"
+                  fill="currentColor"
+                  class="bi bi-basket2"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M4 10a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 0 1 2 0v2a1 1 0 0 1-2 0v-2zm3 0a1 1 0 1 1 2 0v2a1 1 0 0 1-2 0v-2z"
+                  />
+                  <path
+                    d="M5.757 1.071a.5.5 0 0 1 .172.686L3.383 6h9.234L10.07 1.757a.5.5 0 1 1 .858-.514L13.783 6H15.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-.623l-1.844 6.456a.75.75 0 0 1-.722.544H3.69a.75.75 0 0 1-.722-.544L1.123 8H.5a.5.5 0 0 1-.5-.5v-1A.5.5 0 0 1 .5 6h1.717L5.07 1.243a.5.5 0 0 1 .686-.172zM2.163 8l1.714 6h8.246l1.714-6H2.163z"
+                  />
+                </svg>
+              </span>
+
+              <span class="text-uppercase text_label">Basket</span>
+            </div>
+            <p class="m-0 text_bold">
+              Total:&nbsp; NGN
+              {{ Intl.NumberFormat().format(basketWorth) }}
+            </p>
+          </div>
           <partials-round-search-bar />
           <section
             v-for="(item, index) in sharingRound.commoditiesDetails"
@@ -90,13 +117,25 @@
             >
               <div class="d-flex justify-content-between">
                 <div class="d-flex justify-content-around">
-                  <div class="item__image">
-                    <img
-                      :src="item.imageUrl || '/assets/empty-photo.svg'"
-                      class="commodityImg"
-                    />
+                  <div class="">
+                    <div class="item__image">
+                      <img
+                        :src="item.imageUrl || '/assets/empty-photo.svg'"
+                        class="commodityImg"
+                      />
+                    </div>
+                    <div
+                      v-show="item.sharingComment"
+                      style="
+                        width: 80px;
+                        overflow: hidden;
+                        text-transform: lowercase;
+                      "
+                      class="mt-1"
+                    >
+                      <p class="m-0 fs-12" v-text="item.sharingComment"></p>
+                    </div>
                   </div>
-
                   <div class="ml-3 my-auto">
                     <span class="d-block primary-p text_semiBold">{{
                       item.commodityName
@@ -116,14 +155,39 @@
                             : 'slot'
                         "
                       />
-                      Added
+                      added
                     </p>
                     <p v-else class="mb-0 mt-2">
                       {{ item.remainingSlots }}
                       <span
                         v-text="item.remainingSlots > 1 ? 'slots' : 'slot'"
                       />
-                      Available
+                      available
+                    </p>
+                    <p class="mb-0 mt-1 color-green text_medium">
+                      <span
+                        v-if="
+                          cartPayload.sharedCommodities[index] &&
+                          cartPayload.sharedCommodities[index].numberOfSlots > 0
+                        "
+                        >NGN
+                        {{
+                          Intl.NumberFormat().format(
+                            item.sharingPrice *
+                              cartPayload.sharedCommodities[index].numberOfSlots
+                          )
+                        }}
+                      </span>
+                      <span v-else>
+                        NGN
+                        {{ Intl.NumberFormat().format(item.sharingPrice) }}
+                        <span class="d-block toggle_text_sub">
+                          <span>
+                            per {{ item.sharingUnits }}
+                            {{ item.unitOfMeasurement }}
+                          </span>
+                        </span>
+                      </span>
                     </p>
                     <p
                       v-if="
@@ -181,6 +245,21 @@
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
                 </span>
               </div>
+              <hr class="d-none" />
+              <div class="d-none">
+                <div class="d-flex justify-content-between mb-1">
+                  <p class="mb-0 fs-12">Savings</p>
+                  <p class="mb-0 color-orange text_semiBold fs-12">
+                    NGN {{ Intl.NumberFormat().format(3000) }}
+                  </p>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <p class="mb-0 fs-12">Open Market Price</p>
+                  <p class="mb-0 color-black text_semiBold fs-12">
+                    NGN {{ Intl.NumberFormat().format(5000) }}
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div v-show="cartToggle[index]" class="round_commodity_toggle">
@@ -220,14 +299,11 @@
                   <b-col class="">
                     <p class="toggle_text m-0">Sharing Price</p>
                     <span class="toggle_price text_bold d-block">
-                      &#8358;
+                      NGN
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                     >
                     <span class="d-block toggle_text_sub">
-                      <span v-if="item.sharingUnits < 2">per</span>
-                      <span v-else>
-                        {{ item.sharingUnits }}
-                      </span>
+                      per {{ item.sharingUnits }}
                       {{ item.unitOfMeasurement }}</span
                     >
                   </b-col>
@@ -236,7 +312,7 @@
                   <b-col class="input-r-seperator input-col">
                     <div class="form-group">
                       <label class="toggle_label" for="remainingSlots">
-                        <span>{{ item.remainingSlots }} Available </span>
+                        <span>{{ item.remainingSlots }} available </span>
                         <span v-if="item.remainingSlots > 1">slots</span>
                         <span v-else>slot</span>
                       </label>
@@ -249,7 +325,7 @@
                         :placeholder="
                           cartPayload.sharedCommodities[index]
                             ? cartPayload.sharedCommodities[index].numberOfSlots
-                            : 'Enter number of slots'
+                            : 'Enter # of slots'
                         "
                       />
                     </div>
@@ -263,15 +339,15 @@
                   </b-col>
                 </b-row>
               </div>
-              <hr />
+              <hr class="d-none" />
               <div class="d-none">
                 <div class="d-flex justify-content-between mb-10">
-                  <p class="mb-0">Savings</p>
-                  <p class="mb-0 color-orange text_semiBold fs-14"></p>
+                  <p class="mb-0 fs-12">Savings</p>
+                  <p class="mb-0 color-orange text_semiBold fs-12"></p>
                 </div>
                 <div class="d-flex justify-content-between">
-                  <p class="mb-0">Open Market Price</p>
-                  <p class="mb-0 color-black text_semiBold"></p>
+                  <p class="mb-0 fs-12">Open Market Price</p>
+                  <p class="mb-0 fs-12 color-black text_semiBold"></p>
                 </div>
               </div>
               <div v-if="item.topMarkets" class="">
@@ -287,7 +363,7 @@
                     </div>
                     <div class="col-4 input-l-seperator input-col">
                       <p class="toggle_text m-0 text_bold">
-                        &#8358; {{ Intl.NumberFormat().format(market.amount) }}
+                        NGN {{ Intl.NumberFormat().format(market.amount) }}
                       </p>
                     </div>
                   </div>
@@ -323,6 +399,7 @@ export default {
       cartToggle: [],
       addedSlots: 0,
       calculateSlot: [],
+      basketWorth: 0,
       // Hashbang from home page
       hashbang: this.$route.hash.split('#!home')[1] || null,
       // sharerLogo
@@ -444,6 +521,25 @@ export default {
           solid: true,
         })
       }
+      this.calculateBasketWorth()
+    },
+    calculateBasketWorth() {
+      let worth = 0
+      try {
+        this.sharingRound.commoditiesDetails.forEach((el, index) => {
+          worth += this.cartPayload.sharedCommodities[index]
+            ? this.cartPayload.sharedCommodities[index].numberOfSlots *
+              el.sharingPrice
+            : 0
+        })
+      } catch (e) {
+        this.$router.replace(
+          `/r/${this.sharingRound.sharerId}/${this.sharingRound.id}/`
+        )
+      } finally {
+        this.basketWorth = worth
+        this.$forceUpdate()
+      }
     },
   },
 }
@@ -478,7 +574,7 @@ export default {
   border: 1px solid rgba(245, 245, 245, 1);
   font-size: 15px;
   line-height: 22px;
-  padding: 10px 17px;
+  padding: 10px;
   margin-bottom: 25px;
   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.05);
@@ -505,7 +601,7 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 20px 17px 25px;
+  padding: 10px 17px 20px;
   margin-bottom: 25px;
   border: 2px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
@@ -606,7 +702,7 @@ export default {
   width: 100%;
 }
 hr {
-  margin-bottom: 25px;
-  margin-top: 25px;
+  margin-bottom: 5px;
+  margin-top: 15px;
 }
 </style>

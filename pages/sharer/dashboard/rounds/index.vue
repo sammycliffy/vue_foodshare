@@ -75,7 +75,10 @@
               <nav v-else-if="$fetchState.error" class="noRoundP">
                 Something Occured. Please, Try Again
               </nav>
-              <round-list-item :sharing-rounds="sharingRoundsClosed" />
+              <round-list-item
+                clickable
+                :sharing-rounds="sharingRoundsClosed"
+              />
             </div>
           </b-tab>
         </b-tabs>

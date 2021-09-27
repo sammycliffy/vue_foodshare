@@ -21,20 +21,18 @@
             </div>
             <div class="text-center my-24">
               <b-btn
-                class="btn primary-btn padded-btn px-2"
+                class="btn primary-btn padded-btn btn-block mb-2"
                 :disabled="verifClicked === true"
                 @click="gotoLogin()"
                 >Login</b-btn
               >
               <br />
-              <span class="text_semiBold">or</span>
-              <br />
-              <b-btn
-                class="btn primary-btn padded-btn px-2"
+              <span
+                class="primary-link"
                 :disabled="verifClicked === true"
                 @click="continueAsGuest()"
-                >Continue as Guest
-              </b-btn>
+                >Continue as Guest</span
+              >
             </div>
           </section>
         </div>
@@ -54,349 +52,365 @@
           </div>
         </div>
         <div class="body-primary half-width">
-          <section>
-            <p class="shipping_title mt-2">Delivery Details</p>
-            <div class="shippingDetailsBox">
-              <label
-                for="deliveryMethod"
-                class="custom-control custom-radio labelHost"
-              >
-                <input
-                  id="byPickUp"
-                  v-model="cartPayload.deliveryDetails.deliveryMethod"
-                  value="pickup"
-                  type="radio"
-                  class="custom-control-input"
-                  name="deliveryMethod"
-                  @input="TOGGLE_DELIVERY_MODE('pickup')"
-                />
+          <ValidationObserver v-slot="{ handleSubmit }">
+            <section>
+              <p class="shipping_title mt-2">Delivery Details</p>
+              <div class="shippingDetailsBox">
                 <label
-                  class="custom-control-label location-type"
-                  for="byPickUp"
-                  :class="
-                    cartPayload.deliveryDetails.deliveryMethod === 'pickup'
-                      ? 'bg_selected'
-                      : ''
+                  for="deliveryMethod"
+                  class="custom-control custom-radio labelHost"
+                >
+                  <input
+                    id="byPickUp"
+                    v-model="cartPayload.deliveryDetails.deliveryMethod"
+                    value="pickup"
+                    type="radio"
+                    class="custom-control-input"
+                    name="deliveryMethod"
+                    @input="TOGGLE_DELIVERY_MODE('pickup')"
+                  />
+                  <label
+                    class="custom-control-label location-type"
+                    for="byPickUp"
+                    :class="
+                      cartPayload.deliveryDetails.deliveryMethod === 'pickup'
+                        ? 'bg_selected'
+                        : ''
+                    "
+                  >
+                    <div class="location-type_inner">Pick up</div>
+                  </label>
+                </label>
+
+                <label
+                  for="deliveryMethod"
+                  class="custom-control custom-radio labelHost"
+                  @click="
+                    cartPayload.deliveryDetails.deliveryMethod = 'delivery'
                   "
                 >
-                  <div class="location-type_inner">Pick up</div>
+                  <input
+                    id="byDelivery"
+                    v-model="cartPayload.deliveryDetails.deliveryMethod"
+                    type="radio"
+                    value="delivery"
+                    class="custom-control-input"
+                    name="deliveryMethod"
+                    @input="TOGGLE_DELIVERY_MODE('delivery')"
+                  />
+                  <label
+                    class="custom-control-label location-type"
+                    for="byDelivery"
+                    :class="
+                      cartPayload.deliveryDetails.deliveryMethod === 'delivery'
+                        ? 'bg_selected'
+                        : ''
+                    "
+                  >
+                    <div class="location-type_inner">Delivery</div>
+                  </label>
                 </label>
-              </label>
+              </div>
 
-              <label
-                for="deliveryMethod"
-                class="custom-control custom-radio labelHost"
-                @click="cartPayload.deliveryDetails.deliveryMethod = 'delivery'"
+              <div v-if="!AUTH">
+                <b-container>
+                  <b-form>
+                    <b-row align-h="between">
+                      <b-col xs="6" class="input-l-seperator input-col">
+                        <b-input-group class="formInputGroup poppins">
+                          <b-input-group-prepend
+                            class="input-radius border-right-0 bg-white"
+                          >
+                            <b-input-group-text
+                              class="input-addon border-right-0 bg-white"
+                            >
+                              <img src="/assets/icons/user.svg" />
+                            </b-input-group-text>
+                          </b-input-group-prepend>
+                          <b-form-input
+                            v-model="cartPayload.firstName"
+                            class="input border-left-0"
+                            placeholder="First Name"
+                            type="text"
+                            required
+                            :readonly="AUTH"
+                          />
+                        </b-input-group>
+                      </b-col>
+                      <b-col xs="6" class="input-r-seperator input-col">
+                        <b-input-group class="formInputGroup poppins">
+                          <b-input-group-prepend
+                            class="input-radius border-right-0 bg-white"
+                          >
+                            <b-input-group-text
+                              class="input-addon border-right-0 bg-white"
+                            >
+                              <img src="/assets/icons/user.svg" />
+                            </b-input-group-text>
+                          </b-input-group-prepend>
+                          <b-form-input
+                            v-model="cartPayload.lastName"
+                            class="input border-left-0"
+                            placeholder="Last Name"
+                            type="text"
+                            required
+                            :readonly="AUTH"
+                          />
+                        </b-input-group>
+                      </b-col>
+                    </b-row>
+                  </b-form>
+                </b-container>
+                <b-input-group class="formInputGroup poppins">
+                  <b-input-group-prepend
+                    class="input-radius border-right-0 bg-white"
+                  >
+                    <b-input-group-text
+                      class="input-addon border-right-0 bg-white"
+                    >
+                      <img src="/assets/icons/phone.svg" />
+                    </b-input-group-text>
+                  </b-input-group-prepend>
+                  <b-form-input
+                    v-model.trim="cartPayload.phoneNumber"
+                    class="input border-left-0"
+                    type="tel"
+                    required
+                    :readonly="AUTH"
+                    placeholder="Phone Number"
+                    max-length="11"
+                    min-length="11"
+                  />
+                </b-input-group>
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="Email"
+                  rules="required|email"
+                >
+                  <b-input-group class="formInputGroup poppins mb-0">
+                    <b-input-group-prepend
+                      class="input-radius border-right-0 bg-white"
+                    >
+                      <b-input-group-text
+                        class="input-addon border-right-0 bg-white"
+                      >
+                        <img src="/assets/icons/email.svg" />
+                      </b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      v-model.trim="cartPayload.emailAddress"
+                      class="input border-left-0"
+                      type="email"
+                      placeholder="Email Address"
+                      required
+                      :readonly="AUTH"
+                    />
+                    <!-- <b-input-group-append>
+                    <b-input-group-text class="input-addon border-left-0">
+                      <span class="input-sub-text">Optional</span>
+                    </b-input-group-text>
+                  </b-input-group-append> -->
+                  </b-input-group>
+                  <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                    errors[0]
+                  }}</span>
+                </ValidationProvider>
+              </div>
+              <div
+                v-if="cartPayload.deliveryDetails.deliveryMethod === 'delivery'"
+                class="mb-2 mt-32"
               >
-                <input
-                  id="byDelivery"
-                  v-model="cartPayload.deliveryDetails.deliveryMethod"
-                  type="radio"
-                  value="delivery"
-                  class="custom-control-input"
-                  name="deliveryMethod"
-                  @input="TOGGLE_DELIVERY_MODE('delivery')"
-                />
-                <label
-                  class="custom-control-label location-type"
-                  for="byDelivery"
-                  :class="
-                    cartPayload.deliveryDetails.deliveryMethod === 'delivery'
-                      ? 'bg_selected'
-                      : ''
-                  "
-                >
-                  <div class="location-type_inner">Delivery</div>
-                </label>
-              </label>
-            </div>
-
-            <div v-if="!AUTH">
-              <b-container>
-                <b-row align-h="between">
-                  <b-col xs="6" class="input-l-seperator input-col">
-                    <b-input-group class="formInputGroup poppins">
-                      <b-input-group-prepend
-                        class="input-radius border-right-0 bg-white"
-                      >
-                        <b-input-group-text
-                          class="input-addon border-right-0 bg-white"
-                        >
-                          <img src="/assets/icons/user.svg" />
-                        </b-input-group-text>
-                      </b-input-group-prepend>
-                      <b-form-input
-                        v-model="cartPayload.firstName"
-                        class="input border-left-0"
-                        placeholder="First Name"
-                        type="text"
-                        required
-                        :readonly="AUTH"
-                      />
-                    </b-input-group>
-                  </b-col>
-                  <b-col xs="6" class="input-r-seperator input-col">
-                    <b-input-group class="formInputGroup poppins">
-                      <b-input-group-prepend
-                        class="input-radius border-right-0 bg-white"
-                      >
-                        <b-input-group-text
-                          class="input-addon border-right-0 bg-white"
-                        >
-                          <img src="/assets/icons/user.svg" />
-                        </b-input-group-text>
-                      </b-input-group-prepend>
-                      <b-form-input
-                        v-model="cartPayload.lastName"
-                        class="input border-left-0"
-                        placeholder="Last Name"
-                        type="text"
-                        required
-                        :readonly="AUTH"
-                      />
-                    </b-input-group>
-                  </b-col>
-                </b-row>
-              </b-container>
-              <b-input-group class="formInputGroup poppins">
-                <b-input-group-prepend
-                  class="input-radius border-right-0 bg-white"
-                >
-                  <b-input-group-text
-                    class="input-addon border-right-0 bg-white"
-                  >
-                    <img src="/assets/icons/phone.svg" />
-                  </b-input-group-text>
-                </b-input-group-prepend>
-                <b-form-input
-                  v-model.trim="cartPayload.phoneNumber"
-                  class="input border-left-0"
-                  type="tel"
-                  required
-                  :readonly="AUTH"
-                  placeholder="Phone Number"
-                  max-length="11"
-                  min-length="11"
-                />
-              </b-input-group>
-              <b-input-group class="formInputGroup poppins">
-                <b-input-group-prepend
-                  class="input-radius border-right-0 bg-white"
-                >
-                  <b-input-group-text
-                    class="input-addon border-right-0 bg-white"
-                  >
-                    <img src="/assets/icons/email.svg" />
-                  </b-input-group-text>
-                </b-input-group-prepend>
-                <b-form-input
-                  v-model.trim="cartPayload.emailAddress"
-                  class="input border-left-0"
-                  type="email"
-                  placeholder="Email Address"
-                  required
-                  :readonly="AUTH"
-                />
-                <!-- <b-input-group-append>
-                  <b-input-group-text class="input-addon border-left-0">
-                    <span class="input-sub-text">Optional</span>
-                  </b-input-group-text>
-                </b-input-group-append> -->
-              </b-input-group>
-            </div>
-            <div
-              v-if="cartPayload.deliveryDetails.deliveryMethod === 'delivery'"
-              class="mb-2 mt-32"
-            >
-              <div v-if="AUTH" class="">
-                <div v-if="recentAddresses.length" class="">
-                  <div class="row mx-0">
-                    <div class="col-8 pl-0">
-                      <!-- <span
+                <div v-if="AUTH" class="">
+                  <div v-if="recentAddresses.length" class="">
+                    <div class="row mx-0">
+                      <div class="col-8 pl-0">
+                        <!-- <span
                         ><i
                           class="fas fa-map-marker-alt color-green address-pinter"
                         ></i
                       ></span> -->
-                      <span class="locationQuestion text_medium ml-1"
-                        >Use Recent Location?</span
-                      >
+                        <span class="locationQuestion text_medium ml-1"
+                          >Use Recent Location?</span
+                        >
+                      </div>
+                      <div class="col-4 px-0">
+                        <b-form-group>
+                          <b-form-radio-group
+                            id="sharingLocation"
+                            v-model="sameLocationQuery"
+                            class="radioBtns d-flex justify-content-around"
+                          >
+                            <b-form-radio value="YES">Yes</b-form-radio>
+                            <b-form-radio value="NO">No</b-form-radio>
+                          </b-form-radio-group>
+                        </b-form-group>
+                      </div>
                     </div>
-                    <div class="col-4 px-0">
+                    <div v-if="sameLocationQuery === 'YES'" class="mt-32 mb-20">
                       <b-form-group>
                         <b-form-radio-group
-                          id="sharingLocation"
-                          v-model="sameLocationQuery"
-                          class="radioBtns d-flex justify-content-around"
+                          id="currentAddressId"
+                          v-model="
+                            cartPayload.deliveryDetails.deliveryAddress
+                              .currentAddressId
+                          "
                         >
-                          <b-form-radio value="YES">Yes</b-form-radio>
-                          <b-form-radio value="NO">No</b-form-radio>
+                          <b-form-radio
+                            v-for="address in recentAddresses"
+                            :key="address.currentAddressId"
+                            :value="address.currentAddressId"
+                            class="text-break p-3 pl-4"
+                            stacked
+                          >
+                            {{
+                              `${address.lineOne}, ${
+                                address.lineTwo ? address.lineTwo + ',' : ''
+                              } ${address.town}, ${address.state}`
+                            }}
+                          </b-form-radio>
                         </b-form-radio-group>
                       </b-form-group>
                     </div>
-                  </div>
-                  <div v-if="sameLocationQuery === 'YES'" class="mt-32 mb-20">
-                    <b-form-group>
-                      <b-form-radio-group
-                        id="currentAddressId"
-                        v-model="
-                          cartPayload.deliveryDetails.deliveryAddress
-                            .currentAddressId
-                        "
-                      >
-                        <b-form-radio
-                          v-for="address in recentAddresses"
-                          :key="address.currentAddressId"
-                          :value="address.currentAddressId"
-                          class="text-break p-3 pl-4"
-                          stacked
-                        >
-                          {{
-                            `${address.lineOne}, ${
-                              address.lineTwo ? address.lineTwo + ',' : ''
-                            } ${address.town}, ${address.state}`
-                          }}
-                        </b-form-radio>
-                      </b-form-radio-group>
-                    </b-form-group>
-                  </div>
-                  <div v-else class="mt-32 mb-20">
-                    <p class="mb-20">Enter Address</p>
-                    <b-form-input
-                      v-model.trim="
-                        cartPayload.deliveryDetails.deliveryAddress.lineOne
-                      "
-                      class="formInputGroup"
-                      placeholder="Example; 123 School Road"
-                      required
-                    />
-                    <b-form-input
-                      v-model.trim="
-                        cartPayload.deliveryDetails.deliveryAddress.lineTwo
-                      "
-                      class="formInputGroup"
-                      placeholder="Example; Abuloma"
-                    />
-                    <b-container>
-                      <b-row align-h="between">
-                        <b-col xs="6" class="input-l-seperator input-col">
-                          <b-form-input
-                            v-model.trim="
-                              cartPayload.deliveryDetails.deliveryAddress.town
-                            "
-                            class="formInputGroup"
-                            placeholder="Port Harourt"
-                            required
-                          />
-                        </b-col>
-                        <b-col xs="6" class="input-r-seperator input-col">
-                          <b-form-select
-                            v-model.trim="
-                              cartPayload.deliveryDetails.deliveryAddress.state
-                            "
-                            class="formInputGroup"
-                            :options="stateOptions"
-                            placeholder="State"
-                            required
-                            label="x"
-                          ></b-form-select>
-                        </b-col>
-                      </b-row>
-                    </b-container>
-                  </div>
-                </div>
-                <div v-else class="">
-                  <div class="mt-32 mb-20">
-                    <p class="mb-20">Enter Address</p>
-                    <b-form-input
-                      v-model.trim="
-                        cartPayload.deliveryDetails.deliveryAddress.lineOne
-                      "
-                      class="formInputGroup"
-                      placeholder="Example; 123 School Road"
-                      required
-                    />
-                    <b-form-input
-                      v-model.trim="
-                        cartPayload.deliveryDetails.deliveryAddress.lineTwo
-                      "
-                      class="formInputGroup"
-                      placeholder="Example; Abuloma"
-                    />
-                    <b-container>
-                      <b-row align-h="between">
-                        <b-col xs="6" class="input-l-seperator input-col">
-                          <b-form-input
-                            v-model.trim="
-                              cartPayload.deliveryDetails.deliveryAddress.town
-                            "
-                            class="formInputGroup"
-                            placeholder="Port Harourt"
-                            required
-                          />
-                        </b-col>
-                        <b-col xs="6" class="input-r-seperator input-col">
-                          <b-form-select
-                            v-model.trim="
-                              cartPayload.deliveryDetails.deliveryAddress.state
-                            "
-                            class="formInputGroup"
-                            :options="stateOptions"
-                            placeholder="State"
-                            required
-                            label="x"
-                          ></b-form-select>
-                        </b-col>
-                      </b-row>
-                    </b-container>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="mt-32 mb-20">
-                <p class="mb-20">Enter Address</p>
-                <b-form-input
-                  v-model.trim="
-                    cartPayload.deliveryDetails.deliveryAddress.lineOne
-                  "
-                  class="formInputGroup"
-                  placeholder="Example; 123 School Road"
-                  required
-                />
-                <b-form-input
-                  v-model.trim="
-                    cartPayload.deliveryDetails.deliveryAddress.lineTwo
-                  "
-                  class="formInputGroup"
-                  placeholder="Example; Abuloma"
-                />
-                <b-container>
-                  <b-row align-h="between">
-                    <b-col xs="6" class="input-l-seperator input-col">
+                    <div v-else class="mt-32 mb-20">
+                      <p class="mb-20">Enter Address</p>
                       <b-form-input
                         v-model.trim="
-                          cartPayload.deliveryDetails.deliveryAddress.town
+                          cartPayload.deliveryDetails.deliveryAddress.lineOne
                         "
                         class="formInputGroup"
-                        placeholder="Port Harourt"
+                        placeholder="Example; 123 School Road"
                         required
                       />
-                    </b-col>
-                    <b-col xs="6" class="input-r-seperator input-col">
-                      <b-form-select
+                      <b-form-input
                         v-model.trim="
-                          cartPayload.deliveryDetails.deliveryAddress.state
+                          cartPayload.deliveryDetails.deliveryAddress.lineTwo
                         "
                         class="formInputGroup"
-                        :options="stateOptions"
-                        placeholder="State"
+                        placeholder="Example; Abuloma"
+                      />
+                      <b-container>
+                        <b-row align-h="between">
+                          <b-col xs="6" class="input-l-seperator input-col">
+                            <b-form-input
+                              v-model.trim="
+                                cartPayload.deliveryDetails.deliveryAddress.town
+                              "
+                              class="formInputGroup"
+                              placeholder="Port Harourt"
+                              required
+                            />
+                          </b-col>
+                          <b-col xs="6" class="input-r-seperator input-col">
+                            <b-form-select
+                              v-model.trim="
+                                cartPayload.deliveryDetails.deliveryAddress
+                                  .state
+                              "
+                              class="formInputGroup"
+                              :options="stateOptions"
+                              placeholder="State"
+                              required
+                              label="x"
+                            ></b-form-select>
+                          </b-col>
+                        </b-row>
+                      </b-container>
+                    </div>
+                  </div>
+                  <div v-else class="">
+                    <div class="mt-32 mb-20">
+                      <p class="mb-20">Enter Address</p>
+                      <b-form-input
+                        v-model.trim="
+                          cartPayload.deliveryDetails.deliveryAddress.lineOne
+                        "
+                        class="formInputGroup"
+                        placeholder="Example; 123 School Road"
                         required
-                        label="x"
-                      ></b-form-select>
-                    </b-col>
-                  </b-row>
-                </b-container>
+                      />
+                      <b-form-input
+                        v-model.trim="
+                          cartPayload.deliveryDetails.deliveryAddress.lineTwo
+                        "
+                        class="formInputGroup"
+                        placeholder="Example; Abuloma"
+                      />
+                      <b-container>
+                        <b-row align-h="between">
+                          <b-col xs="6" class="input-l-seperator input-col">
+                            <b-form-input
+                              v-model.trim="
+                                cartPayload.deliveryDetails.deliveryAddress.town
+                              "
+                              class="formInputGroup"
+                              placeholder="Port Harourt"
+                              required
+                            />
+                          </b-col>
+                          <b-col xs="6" class="input-r-seperator input-col">
+                            <b-form-select
+                              v-model.trim="
+                                cartPayload.deliveryDetails.deliveryAddress
+                                  .state
+                              "
+                              class="formInputGroup"
+                              :options="stateOptions"
+                              placeholder="State"
+                              required
+                              label="x"
+                            ></b-form-select>
+                          </b-col>
+                        </b-row>
+                      </b-container>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="mt-32 mb-20">
+                  <p class="mb-20">Enter Address</p>
+                  <b-form-input
+                    v-model.trim="
+                      cartPayload.deliveryDetails.deliveryAddress.lineOne
+                    "
+                    class="formInputGroup"
+                    placeholder="Example; 123 School Road"
+                    required
+                  />
+                  <b-form-input
+                    v-model.trim="
+                      cartPayload.deliveryDetails.deliveryAddress.lineTwo
+                    "
+                    class="formInputGroup"
+                    placeholder="Example; Abuloma"
+                  />
+                  <b-container>
+                    <b-row align-h="between">
+                      <b-col xs="6" class="input-l-seperator input-col">
+                        <b-form-input
+                          v-model.trim="
+                            cartPayload.deliveryDetails.deliveryAddress.town
+                          "
+                          class="formInputGroup"
+                          placeholder="Port Harourt"
+                          required
+                        />
+                      </b-col>
+                      <b-col xs="6" class="input-r-seperator input-col">
+                        <b-form-select
+                          v-model.trim="
+                            cartPayload.deliveryDetails.deliveryAddress.state
+                          "
+                          class="formInputGroup"
+                          :options="stateOptions"
+                          placeholder="State"
+                          required
+                          label="x"
+                        ></b-form-select>
+                      </b-col>
+                    </b-row>
+                  </b-container>
+                </div>
               </div>
-            </div>
-            <!-- <div
+              <!-- <div
               v-if="
                 !AUTH ||
                 cartPayload.deliveryDetails.deliveryMethod != 'delivery'
@@ -414,22 +428,23 @@
                 />
               </b-btn>
             </div> -->
-            <div class="text-center mt-3">
-              <b-btn
-                :disabled="verifClicked === true"
-                class="btn primary-btn padded-btn btn-block"
-                @click="submitAddress"
-                >Next
-                <b-spinner
-                  v-if="spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-                />
-              </b-btn>
-            </div>
-          </section>
+              <div class="text-center mt-3">
+                <b-btn
+                  :disabled="verifClicked === true"
+                  class="btn primary-btn padded-btn btn-block"
+                  @click="handleSubmit(submitAddress)"
+                  >Next
+                  <b-spinner
+                    v-if="spinner"
+                    variant="white"
+                    label="Spinning"
+                    class="ml-3"
+                    small
+                  />
+                </b-btn>
+              </div>
+            </section>
+          </ValidationObserver>
         </div>
       </div>
     </div>
@@ -1006,5 +1021,9 @@ b-form-input::placeholder {
 
 .pad-options {
   padding: 25px 16px 30px;
+}
+.primary-link {
+  color: #4f9e55;
+  font-weight: 500;
 }
 </style>

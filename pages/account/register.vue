@@ -5,169 +5,181 @@
         <img src="/assets/logo.svg" alt="logo" class="logo" />
       </div>
       <p class="poppins text-center">Create an account to get started</p>
-
-      <b-form class="formBox">
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="input-addon border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/user.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model.trim="FORM.firstName"
-            class="input"
-            placeholder="First Name"
-            required
-          />
-        </b-input-group>
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="input-addon border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/user.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model.trim="FORM.lastName"
-            class="input"
-            placeholder="Last Name"
-            required
-          />
-        </b-input-group>
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="input-addon border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/phone.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            id="registerPhone"
-            v-model.trim="FORM.phone"
-            class="input"
-            type="tel"
-            placeholder="Phone Number"
-            max="10"
-            max-length="11"
-            min-length="11"
-            required
-          />
-        </b-input-group>
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="input-addon border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/email.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model.trim="FORM.emailAddress"
-            class="input"
-            type="email"
-            placeholder="e.mail@example.com"
-            required
-          />
-        </b-input-group>
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="input-addon border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/password.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model="FORM.credentials.password"
-            class="input border-0 bg-white"
-            :type="passwordToggle ? 'password' : 'text'"
-            placeholder="Password"
-            required
-          />
-          <b-input-group-append>
-            <b-input-group-text
-              class="input-addon border-0 bg-white border-left-0"
-              @click="passwordToggle = !passwordToggle"
-            >
-              <i
-                class="fas text-muted"
-                :class="passwordToggle ? 'fa-eye-slash ' : 'fa-eye'"
-              />
-            </b-input-group-text>
-          </b-input-group-append>
-        </b-input-group>
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="input-addon border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/password.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model="FORM.credentials.matchingPassword"
-            class="input border-0 bg-white"
-            :type="confirmPasswordToggle ? 'password' : 'text'"
-            placeholder="Confirm Password"
-            required
-          />
-          <b-input-group-append>
-            <b-input-group-text
-              class="input-addon border-0 bg-white border-left-0"
-              @click="confirmPasswordToggle = !confirmPasswordToggle"
-            >
-              <i
-                class="fas text-muted"
-                :class="confirmPasswordToggle ? 'fa-eye-slash ' : 'fa-eye'"
-              />
-            </b-input-group-text>
-          </b-input-group-append>
-        </b-input-group>
-
-        <div>
-          <b-form-checkbox
-            v-model="sharerCheck"
-            class="sharerCheckbox"
-            name="check-button"
-            size="lg"
-            switch
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <b-form class="formBox" @submit.prevent>
+          <b-input-group class="formInputGroup poppins">
+            <b-input-group-prepend class="input-addon border-right-0">
+              <b-input-group-text class="input-addon border-right-0">
+                <img src="/assets/icons/user.svg" />
+              </b-input-group-text>
+            </b-input-group-prepend>
+            <b-form-input
+              v-model.trim="FORM.firstName"
+              class="input"
+              placeholder="First Name"
+              required
+            />
+          </b-input-group>
+          <b-input-group class="formInputGroup poppins">
+            <b-input-group-prepend class="input-addon border-right-0">
+              <b-input-group-text class="input-addon border-right-0">
+                <img src="/assets/icons/user.svg" />
+              </b-input-group-text>
+            </b-input-group-prepend>
+            <b-form-input
+              v-model.trim="FORM.lastName"
+              class="input"
+              placeholder="Last Name"
+              required
+            />
+          </b-input-group>
+          <b-input-group class="formInputGroup poppins">
+            <b-input-group-prepend class="input-addon border-right-0">
+              <b-input-group-text class="input-addon border-right-0">
+                <img src="/assets/icons/phone.svg" />
+              </b-input-group-text>
+            </b-input-group-prepend>
+            <b-form-input
+              id="registerPhone"
+              v-model.trim="FORM.phone"
+              class="input"
+              type="tel"
+              placeholder="Phone Number"
+              max="10"
+              max-length="11"
+              min-length="11"
+              required
+            />
+          </b-input-group>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Email"
+            rules="required|email"
           >
-            Become a Sharer
-          </b-form-checkbox>
-        </div>
-        <b-btn
-          v-if="sharerCheck"
-          class="btn-block btn poppins mx-auto btnSharer mt-5"
-          @click="$bvModal.show('createSharingGroupFromRegister')"
-          >Continue</b-btn
-        >
+            <b-input-group class="formInputGroup poppins mb-0">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/email.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
 
-        <b-btn
-          v-else
-          class="btn-block btn poppins mx-auto btnSharer mt-3"
-          @click="submitForm"
-          >Register
-          <b-spinner
-            v-if="registerSpinner"
-            variant="white"
-            label="Spinning"
-            class="ml-3"
-            small
-          ></b-spinner>
-        </b-btn>
-        <p class="poppins text-center link-p">
-          Have an account already?
-          <span>
-            <nuxt-link class="bold-link" to="/account/login/">Login</nuxt-link>
-          </span>
-        </p>
-        <p class="mt-2 fs-12">
-          By clicking Register or Continue, you are confirming that you have
-          read and agreed to FoodSHARE's
-          <span
-            ><nuxt-link class="color-green" to=""
-              >Terms and condition</nuxt-link
+              <b-form-input
+                v-model.trim="FORM.emailAddress"
+                class="input"
+                type="email"
+                placeholder="e.mail@example.com"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
+          <b-input-group class="formInputGroup poppins mt-20">
+            <b-input-group-prepend class="input-addon border-right-0">
+              <b-input-group-text class="input-addon border-right-0">
+                <img src="/assets/icons/password.svg" />
+              </b-input-group-text>
+            </b-input-group-prepend>
+            <b-form-input
+              v-model="FORM.credentials.password"
+              class="input border-0 bg-white"
+              :type="passwordToggle ? 'password' : 'text'"
+              placeholder="Password"
+              required
+            />
+            <b-input-group-append>
+              <b-input-group-text
+                class="input-addon border-0 bg-white border-left-0"
+                @click="passwordToggle = !passwordToggle"
+              >
+                <i
+                  class="fas text-muted"
+                  :class="passwordToggle ? 'fa-eye-slash ' : 'fa-eye'"
+                />
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+          <b-input-group class="formInputGroup poppins">
+            <b-input-group-prepend class="input-addon border-right-0">
+              <b-input-group-text class="input-addon border-right-0">
+                <img src="/assets/icons/password.svg" />
+              </b-input-group-text>
+            </b-input-group-prepend>
+            <b-form-input
+              v-model="FORM.credentials.matchingPassword"
+              class="input border-0 bg-white"
+              :type="confirmPasswordToggle ? 'password' : 'text'"
+              placeholder="Confirm Password"
+              required
+            />
+            <b-input-group-append>
+              <b-input-group-text
+                class="input-addon border-0 bg-white border-left-0"
+                @click="confirmPasswordToggle = !confirmPasswordToggle"
+              >
+                <i
+                  class="fas text-muted"
+                  :class="confirmPasswordToggle ? 'fa-eye-slash ' : 'fa-eye'"
+                />
+              </b-input-group-text>
+            </b-input-group-append>
+          </b-input-group>
+
+          <div>
+            <b-form-checkbox
+              v-model="sharerCheck"
+              class="sharerCheckbox"
+              name="check-button"
+              size="lg"
+              switch
             >
-            and
-            <nuxt-link class="color-green" to=""
-              >Privacy Policy</nuxt-link
-            ></span
+              Become a Sharer
+            </b-form-checkbox>
+          </div>
+          <b-btn
+            v-if="sharerCheck"
+            class="btn-block btn poppins mx-auto btnSharer mt-5"
+            @click="$bvModal.show('createSharingGroupFromRegister')"
+            >Continue</b-btn
           >
-        </p>
-      </b-form>
 
+          <b-btn
+            v-else
+            class="btn-block btn poppins mx-auto btnSharer mt-3"
+            @click="handleSubmit(submitForm)"
+            >Register
+            <b-spinner
+              v-if="registerSpinner"
+              variant="white"
+              label="Spinning"
+              class="ml-3"
+              small
+            ></b-spinner>
+          </b-btn>
+          <p class="poppins text-center link-p">
+            Have an account already?
+            <span>
+              <nuxt-link class="bold-link" to="/account/login/"
+                >Login</nuxt-link
+              >
+            </span>
+          </p>
+          <p class="mt-2 fs-12">
+            By clicking Register or Continue, you are confirming that you have
+            read and agreed to FoodSHARE's
+            <span
+              ><nuxt-link class="color-green" to=""
+                >Terms and condition</nuxt-link
+              >
+              and
+              <nuxt-link class="color-green" to=""
+                >Privacy Policy</nuxt-link
+              ></span
+            >
+          </p>
+        </b-form>
+      </ValidationObserver>
       <b-modal
         id="createSharingGroupFromRegister"
         size="lg"
@@ -182,108 +194,169 @@
           <p class="poppins text-center">
             We just need to get few details from you to serve you better
           </p>
+          <ValidationObserver v-slot="{ handleSubmit }">
+            <b-form class="createSharerformBox" @submit.prevent>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="FORM.sharingGroupDetails.groupName"
+                  class="formInputGroup mb-0"
+                  placeholder="Name of sharing group"
+                  required
+                />
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="FORM.sharingGroupDetails.contactAddress.lineOne"
+                  class="formInputGroup mb-0 mt-20"
+                  placeholder="Contact address"
+                  required
+                />
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-input
+                  v-model="FORM.sharingGroupDetails.contactAddress.lineTwo"
+                  class="formInputGroup mb-0 mt-20"
+                  placeholder="Area"
+                  maxlength="10"
+                  required
+                />
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
+              <b-container>
+                <b-row align-h="between">
+                  <b-col xs="6" class="input-l-seperator input-col">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="text"
+                      rules="required"
+                    >
+                      <b-form-input
+                        v-model="FORM.sharingGroupDetails.contactAddress.town"
+                        class="formInputGroup mb-0 mt-20"
+                        placeholder="City"
+                        maxlength="20"
+                        required
+                      />
+                      <span
+                        v-show="errors.length > 0"
+                        class="is-invalid mt-2"
+                        >{{ errors[0] }}</span
+                      >
+                    </ValidationProvider>
+                  </b-col>
+                  <b-col xs="6" class="input-r-seperator input-col">
+                    <ValidationProvider
+                      v-slot="{ errors }"
+                      name="text"
+                      rules="required"
+                    >
+                      <b-form-select
+                        v-model="FORM.sharingGroupDetails.contactAddress.state"
+                        class="formInputGroup mb-0 mt-20"
+                        :options="stateOptions"
+                        placeholder="State"
+                        required
+                      ></b-form-select>
+                      <span
+                        v-show="errors.length > 0"
+                        class="is-invalid mt-2"
+                        >{{ errors[0] }}</span
+                      >
+                    </ValidationProvider>
+                  </b-col>
+                </b-row>
+              </b-container>
+              <ValidationProvider
+                v-slot="{ errors }"
+                name="text"
+                rules="required"
+              >
+                <b-form-textarea
+                  v-model="FORM.sharingGroupDetails.description"
+                  class="input-textarea mb-0 mt-20"
+                  placeholder="Description"
+                  required
+                  rows="4"
+                  maxlength="250"
+                >
+                </b-form-textarea>
+                <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                  errors[0]
+                }}</span>
+              </ValidationProvider>
+              <div class="text-right px-1 mb-20 sub-desc-text">
+                <span>
+                  <span
+                    v-text="FORM.sharingGroupDetails.description.length"
+                  ></span
+                  ><span> &#47; 250</span>
+                </span>
+              </div>
 
-          <div class="createSharerformBox">
-            <b-form-input
-              v-model="FORM.sharingGroupDetails.groupName"
-              class="formInputGroup"
-              placeholder="Name of sharing group"
-              required
-            />
-            <b-form-input
-              v-model="FORM.sharingGroupDetails.contactAddress.lineOne"
-              class="formInputGroup"
-              placeholder="Contact address"
-              required
-            />
-            <b-form-input
-              v-model="FORM.sharingGroupDetails.contactAddress.lineTwo"
-              class="formInputGroup"
-              placeholder="Area"
-              maxlength="10"
-            />
-            <b-container>
-              <b-row align-h="between">
-                <b-col xs="6" class="input-l-seperator input-col">
-                  <b-form-input
-                    v-model="FORM.sharingGroupDetails.contactAddress.town"
-                    class="formInputGroup"
-                    placeholder="City"
-                    maxlength="20"
-                    required
-                  />
-                </b-col>
-                <b-col xs="6" class="input-r-seperator input-col">
-                  <b-form-select
-                    v-model="FORM.sharingGroupDetails.contactAddress.state"
-                    class="formInputGroup"
-                    :options="stateOptions"
-                    placeholder="State"
-                    required
-                  ></b-form-select>
-                </b-col>
-              </b-row>
-            </b-container>
-
-            <b-form-textarea
-              v-model="FORM.sharingGroupDetails.description"
-              class="input-textarea"
-              placeholder="Description"
-              required
-              rows="4"
-              maxlength="250"
-            >
-            </b-form-textarea>
-            <div class="text-right px-1 mb-20 sub-desc-text">
-              <span>
-                <span
-                  v-text="FORM.sharingGroupDetails.description.length"
-                ></span
-                ><span> &#47; 250</span>
-              </span>
-            </div>
-
-            <p class="label">Bank Details</p>
-            <v-select
-              v-model="selectedBank"
-              :options="bankNames"
-              placeholder="Bank Name"
-              :clearable="false"
-              class="input pb-3 regVselect"
-              label="name"
-              @input="fetchAccountName()"
-            ></v-select>
-            <b-form-input
-              v-model.trim="FORM.sharingGroupDetails.bankDetails.accountNumber"
-              placeholder="Account number"
-              class="formInputGroup"
-              type="number"
-              maxlength="10"
-              required
-              @blur="fetchAccountName()"
-            />
-            <b-form-input
-              v-model="FORM.sharingGroupDetails.bankDetails.accountName"
-              class="formInputGroup"
-              :placeholder="accountNamePlaceholder"
-              readonly
-              required
-              @click="fetchAccountName()"
-            />
-            <b-btn
-              class="btn-block btn poppins mx-auto btnSharer mt-5"
-              :disabled="!FORM.sharingGroupDetails.bankDetails.accountName"
-              @click="submitSharerForm"
-              >Create an Account
-              <b-spinner
-                v-if="registerSpinner"
-                variant="white"
-                label="Spinning"
-                class="ml-3"
-                small
-              ></b-spinner>
-            </b-btn>
-          </div>
+              <p class="label">Bank Details</p>
+              <v-select
+                v-model="selectedBank"
+                :options="bankNames"
+                placeholder="Bank Name"
+                :clearable="false"
+                class="input pb-3 regVselect"
+                label="name"
+                @input="fetchAccountName()"
+              ></v-select>
+              <b-form-input
+                v-model.trim="
+                  FORM.sharingGroupDetails.bankDetails.accountNumber
+                "
+                placeholder="Account number"
+                class="formInputGroup"
+                type="number"
+                maxlength="10"
+                required
+                @blur="fetchAccountName()"
+              />
+              <b-form-input
+                v-model="FORM.sharingGroupDetails.bankDetails.accountName"
+                class="formInputGroup"
+                :placeholder="accountNamePlaceholder"
+                readonly
+                required
+                @click="fetchAccountName()"
+              />
+              <b-btn
+                class="btn-block btn poppins mx-auto btnSharer mt-5"
+                :disabled="!FORM.sharingGroupDetails.bankDetails.accountName"
+                @click="handleSubmit(submitSharerForm)"
+                >Create an Account
+                <b-spinner
+                  v-if="registerSpinner"
+                  variant="white"
+                  label="Spinning"
+                  class="ml-3"
+                  small
+                ></b-spinner>
+              </b-btn>
+            </b-form>
+          </ValidationObserver>
         </div>
       </b-modal>
     </div>

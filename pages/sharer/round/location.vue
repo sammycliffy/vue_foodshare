@@ -16,16 +16,14 @@
           <img src="/assets/icons/form-2.svg" />
         </div>
       </header>
-      <div class="px-16">
-        <p class="mb-1">Sharing day</p>
-        <p
-          class="mb-0 color-green text_semiBold"
-          v-text="
+      <!-- v-text="
             new Date(sharingRound.effectivity.endTime)
               .toLocaleString()
               .split(',')[0]
-          "
-        ></p>
+          " -->
+      <div class="px-16">
+        <p class="mb-1">Sharing day</p>
+        <p class="mb-0 color-green text_semiBold" v-text="convertedDay"></p>
       </div>
       <div class="mapBox my-24">
         <img src="/assets/map.png" alt="default map" />
@@ -87,7 +85,8 @@
             <b-form-input
               v-model.trim="sharingRound.sharingAddress.lineTwo"
               class="formInputGroup"
-              placeholder="Address line 2"
+              placeholder="Area"
+              required
             />
             <b-container>
               <b-row align-h="between">
@@ -133,7 +132,7 @@ export default {
       sharingRound: this.$store.state.round.data,
       accessToken: this.$store.state.auth.accessToken,
       USER: this.$store.state.auth.userData,
-
+      convertedDay: null,
       spinner: false,
       sameLocationQuery: 'YES',
       defaultSharingAddress: {},
@@ -196,12 +195,36 @@ export default {
         this.ERROR_HANDLER(error)
       })
   },
+  mounted() {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
 
+    const convertSharingDate = new Date(this.sharingRound.effectivity.endTime)
+    this.convertedDay = `${
+      days[convertSharingDate.getDay()]
+    } ${convertSharingDate.getDate()} ${
+      months[convertSharingDate.getMonth()]
+    }, ${convertSharingDate.getFullYear()}`
+  },
   methods: {
     addCommodities() {
       if (
         this.sameLocationQuery === 'YES' ||
         (this.sharingRound.sharingAddress.lineOne &&
+          this.sharingRound.sharingAddress.lineTwo &&
           this.sharingRound.sharingAddress.town &&
           this.sharingRound.sharingAddress.state)
       ) {

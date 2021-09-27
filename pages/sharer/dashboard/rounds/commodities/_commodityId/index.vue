@@ -36,7 +36,7 @@
           <div class="">
             <p class="mb-1">Sharing price</p>
             <p class="price text_semiBold color-orange mb-0">
-              <span> &#8358; </span>
+              <span> NGN </span>
               <span
                 v-text="Intl.NumberFormat().format(commodity.sharingPrice)"
               ></span>
@@ -57,7 +57,7 @@
               </div>
               <div class="col">
                 <p class="mb-0 text_medium">
-                  <span>&#8358;</span>
+                  <span>NGN</span>
                   <span v-text="Intl.NumberFormat().format(item.amount)"></span>
                 </p>
               </div>

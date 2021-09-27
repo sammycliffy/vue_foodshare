@@ -78,7 +78,7 @@
             small
           ></b-spinner
         ></b-button>
-        <p class="poppins text-center link-p">
+        <p v-if="!hashbang" class="poppins text-center link-p">
           New user?
           <span>
             <nuxt-link class="primary-link" to="/account/register/"
@@ -87,15 +87,9 @@
           </span>
         </p>
       </div>
-      <div v-if="hashbang" class="text-center float-div">
-        <div class="must-hash">
-          <span>Or</span>
-        </div>
-
-        <b-btn
-          class="btn must-border primary-btn light-btn btn-block py-20"
-          @click="$router.push('/cart/payment')"
-          >Continue as Guest</b-btn
+      <div v-if="hashbang" class="text-center">
+        <span class="primary-link" @click="$router.push('/cart/payment')"
+          >Continue as Guest</span
         >
         <!-- <div>{{ calculateSlot.length }}</div> -->
       </div>
@@ -213,7 +207,7 @@ export default {
 
 <style scoped lang="css">
 .bodyBox {
-  padding-top: 100px;
+  padding-top: 130px;
   min-height: 100vh;
 }
 
@@ -227,7 +221,7 @@ export default {
 }
 
 .formBox {
-  padding: 40px 16px;
+  padding: 40px 16px 20px;
 }
 .formInputGroup {
   font-size: 15px;
@@ -352,13 +346,6 @@ b-form-input::placeholder {
   font-weight: 500;
 }
 
-.float-div {
-  position: fixed;
-  bottom: 0;
-  padding: 20px 16px;
-  left: 0;
-  width: 100%;
-}
 .must-border {
   border: 1px solid #4f9e55;
 }
