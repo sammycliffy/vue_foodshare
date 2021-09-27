@@ -31,7 +31,7 @@
           </div>
           <div class="pl-3 pr-2 col">
             <h6 class="mb-1 text_semiBold color-orange">
-              &#8358;
+              NGN
               <span
                 v-text="
                   Intl.NumberFormat().format(
@@ -76,7 +76,7 @@
               <span>Cost price</span>
             </p>
             <p class="mb-0 color-orange">
-              <span> &#8358; </span>
+              <span> NGN </span>
               <span
                 v-text="
                   Intl.NumberFormat().format(item.commodityFinancials.totalCost)

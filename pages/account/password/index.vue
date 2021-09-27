@@ -23,7 +23,7 @@
             </b-input-group-text>
           </b-input-group-prepend>
           <b-form-input
-            v-model.trim="email"
+            v-model.trim="resetForm.emailAddress"
             class="input border-left-0"
             type="email"
             placeholder="Email"
@@ -34,6 +34,7 @@
 
       <div class="text-center">
         <b-btn
+          :disabled="verifClicked === true"
           class="btn-block btn poppins mx-auto btnSharer"
           @click="sendOTP()"
           >Confirm Email
@@ -55,8 +56,11 @@
 export default {
   data() {
     return {
+      verifClicked: false,
       spinner: false,
-      email: '',
+      resetForm: {
+        emailAddress: '',
+      },
     }
   },
 
@@ -64,14 +68,28 @@ export default {
     async sendOTP() {
       // Trigger the loader
       this.spinner = true
+      this.verifClicked = true
 
+      if (!this.resetForm.emailAddress) {
+        this.SHOW_TOAST({
+          variant: 'warning',
+          text: 'Email is required!',
+        })
+      }
       // populate the API URI
-      const URL = `/account/reset-password?email=${this.email}`
+      // const URL = `/account/reset-password?email=${this.email}`
+
       // Make request to the API
+      const URI = `/unauth/reset-password`
       await this.$axios
-        .$post(URL, {})
+        .$post(URI, this.resetForm)
         .then(() => {
-          this.$router.replace('/account/password/reset/')
+          this.SHOW_TOAST({
+            title: 'Password reset link sent',
+            variant: 'success',
+            text: 'A password reset link has being sent to your email.',
+          })
+          // this.$router.replace('/account/password/reset/')
         })
         .catch((error) => {
           this.ERROR_HANDLER(error)
@@ -79,6 +97,7 @@ export default {
         .finally(() => {
           // Close the loader
           this.spinner = false
+          this.verifClicked = false
         })
     },
   },

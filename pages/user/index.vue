@@ -69,7 +69,7 @@
 
       <div class="d-flex justify-content-between">
         <p class="text_semiBold mb-0">
-          {{ searchInput ? 'Search Result' : 'Available Sharing round' }}
+          {{ searchInput ? 'Search Result' : 'Available Sharing rounds' }}
         </p>
         <span v-if="numberOfPages > 1" class="showingResult"
           >showing <span v-text="currentPageNumber" /> of

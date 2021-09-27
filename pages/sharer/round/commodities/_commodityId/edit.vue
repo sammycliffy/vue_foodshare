@@ -143,6 +143,21 @@
             </div>
           </div>
         </div>
+        <div class="form-group">
+          <label class="createFormLabel" for="sharingComment"
+            >Sharing Comments/Description</label
+          >
+          <b-form-textarea
+            id="sharingComment"
+            v-model="commodity.sharingComment"
+            class="form-control createFormInput"
+            placeholder="Enter sharing commment"
+            rows="2"
+            maxlength="70"
+            :readonly="!readonly"
+          >
+          </b-form-textarea>
+        </div>
 
         <div class="label-margin d-none">
           <a class="link-button" @click="$bvModal.show('editTopMarketsForm')"
@@ -278,6 +293,7 @@ export default {
         costPrice: null,
         sharingPrice: null,
         numberOfSlots: null,
+        sharingComment: null,
       },
 
       marketStateSelected: null,

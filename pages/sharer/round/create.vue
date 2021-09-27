@@ -22,15 +22,6 @@
         <div class="defaultNameBox createFormInput">
           <span class="text_semiBold"> {{ defaultRoundName }}</span>
         </div>
-        <label class="createFormLabel" for="sharingRoundName"
-          >Sharing Round Name</label
-        >
-        <b-form-input
-          v-model.trim="sharingRound.name"
-          class="createFormInput"
-          type="text"
-          placeholder="Optional"
-        />
         <client-only>
           <div class="form-group">
             <div class="form-row">
@@ -97,6 +88,7 @@
                     )
                   "
                   locale="en"
+                  @input="createDefaultName()"
                 />
 
                 <!-- <v-date-picker
@@ -124,6 +116,16 @@
             </div>
           </div>
         </client-only>
+        <label class="createFormLabel" for="sharingRoundName"
+          >Sharing Round Name</label
+        >
+        <b-form-input
+          v-model.trim="sharingRound.name"
+          class="createFormInput"
+          type="text"
+          placeholder="Optional"
+          @input="changeDefaultToName()"
+        />
 
         <div class="form-group">
           <label class="createFormLabel" for="waitingWindow">
@@ -218,6 +220,8 @@ export default {
         { label: 'Percentage', option: 'percentage' },
       ],
 
+      reCreatePayload: this.$store.state.round.reCreatePayload,
+
       // request payload data & form template
       sharingRound: {
         name: null,
@@ -248,10 +252,10 @@ export default {
           state: null,
           town: null,
         },
+        sharingComment: null,
       },
     }
   },
-
   async fetch() {
     // fetch sharer's sharing group details
     const URL = `/services/sharing-groups/${this.USER.id}`
@@ -265,48 +269,136 @@ export default {
       })
 
     // check if round name exist and covert default-name
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const months = [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ]
-    let today = new Date()
+    // const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    // const months = [
+    //   'January',
+    //   'February',
+    //   'March',
+    //   'April',
+    //   'May',
+    //   'June',
+    //   'July',
+    //   'August',
+    //   'September',
+    //   'October',
+    //   'November',
+    //   'December',
+    // ]
+    // let today = new Date()
 
-    today = `${days[today.getDay()]} ${today.getDate()} ${
-      months[today.getMonth()]
-    } ${today.getFullYear()}`
+    // today = `${days[today.getDay()]} ${today.getDate()} ${
+    //   months[today.getMonth()]
+    // } ${today.getFullYear()}`
 
-    this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${today}`
+    // this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${today}`
+    // if(this.sharingRound.effectivity.endTime){
+    //   this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${this.sharingRound.effectivity.endTime}`
+    // }
 
-    const URI = `/services/sharing-rounds/${this.USER.id}/${this.defaultRoundName}`
-    await this.$axios
-      .$get(URI, {})
-      .then(() => {
-        const twoDigits = Math.random().toString().substr(2, 2)
-        this.defaultRoundName += '-' + twoDigits
-      })
-      .catch((e) => {
-        //
-      })
-      .finally(() => {
-        // Close the loader
-        this.sharingRound.name = this.defaultRoundName
-        // Reset round form data to a perstisted Vuex store
-        this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
-      })
+    // console.log(this.defaultRoundName)
+
+    // const URI = `/services/sharing-rounds/${this.USER.id}/${this.defaultRoundName}`
+    // await this.$axios
+    //   .$get(URI, {})
+    //   .then(() => {
+    //     const twoDigits = Math.random().toString().substr(2, 2)
+    //     this.defaultRoundName += '-' + twoDigits
+    //   })
+    //   .catch((e) => {
+    //     //
+    //   })
+    //   .finally(() => {
+    //     // Close the loader
+    //     this.sharingRound.name = this.defaultRoundName
+    //     // Reset round form data to a perstisted Vuex store
+    //     this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+    //   })
+  },
+  mounted() {
+    if (this.reCreatePayload) {
+      this.sharingRound = this.reCreatePayload
+    }
   },
 
+  // computed: {
+  //   sharingRound: {
+  //     get() {
+  //       return this.$store.state.round.data
+  //     },
+  //     set(newValue) {
+  //       this.$store.state.round.data = newValue
+  //     },
+  //   },
+  // },
+
   methods: {
+    async createDefaultName() {
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      // const months = [
+      //   'January',
+      //   'February',
+      //   'March',
+      //   'April',
+      //   'May',
+      //   'June',
+      //   'July',
+      //   'August',
+      //   'September',
+      //   'October',
+      //   'November',
+      //   'December',
+      // ]
+      const months = [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ]
+      // let today = new Date()
+
+      // today = `${days[today.getDay()]} ${today.getDate()} ${
+      //   months[today.getMonth()]
+      // } ${today.getFullYear()}`
+
+      const convertSharingDate = new Date(this.sharingRound.effectivity.endTime)
+      const convertedDay = `${
+        days[convertSharingDate.getDay()]
+      } ${convertSharingDate.getDate()} ${
+        months[convertSharingDate.getMonth()]
+      }, ${convertSharingDate.getFullYear()}`
+
+      this.defaultRoundName = `${this.sharingGroupDetails.groupName}, ${convertedDay}`
+
+      const URI = `/services/sharing-rounds/${this.USER.id}/${this.defaultRoundName}`
+
+      await this.$axios
+        .$get(URI, {})
+        .then(() => {
+          const twoDigits = Math.random().toString().substr(1, 1)
+          this.defaultRoundName += '-' + twoDigits
+        })
+        .catch((e) => {
+          //
+        })
+        .finally(() => {
+          // Close the loader
+          this.sharingRound.name = this.defaultRoundName
+          // Reset round form data to a perstisted Vuex store
+          this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+        })
+    },
+    changeDefaultToName() {
+      this.defaultRoundName = this.sharingRound.name
+    },
+
     moveToLocationPage() {
       if (
         this.sharingRound.name &&
@@ -348,7 +440,14 @@ export default {
             .split('.')[0]
 
           // Save round form data to a perstisted Vuex store
-          this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+          if (this.reCreatePayload) {
+            this.$store.commit(
+              'round/SAVE_RECREATE_PAYLOAD_DATA',
+              this.sharingRound
+            )
+          } else {
+            this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+          }
           //  Redirect
           this.$router.replace('/sharer/round/location/')
         }

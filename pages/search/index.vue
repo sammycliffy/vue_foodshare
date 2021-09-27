@@ -125,7 +125,7 @@
                       <b-col>
                         <p class="toggle_text m-0">Sharing Price</p>
                         <span class="toggle_price text_bold d-block">
-                          &#8358; {{ item.sharingPrice }}</span
+                          NGN {{ item.sharingPrice }}</span
                         >
                         <span class="d-block toggle_text_sub"
                           >per {{ item.sharingUnits }}
@@ -187,7 +187,7 @@
                         </div>
                         <div class="col-4 input-l-seperator input-col">
                           <p class="toggle_text m-0 text_bold">
-                            &#8358; &nbsp;{{ market.amount }}
+                            NGN &nbsp;{{ market.amount }}
                           </p>
                         </div>
                       </div>

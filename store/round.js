@@ -34,6 +34,7 @@ export const state = () => ({
       state: null,
       town: null,
     },
+    sharingComment: null,
   },
 
   payload: {
@@ -73,7 +74,10 @@ export const state = () => ({
       numberOfCommodities: null,
       numberOfDaysLeft: null,
     },
+    sharingComment: null,
   },
+
+  reCreatePayload: null,
 
   imagePayload: [],
 })
@@ -91,7 +95,11 @@ export const mutations = {
     state.imagePayload = imagePayload
   },
 
-  RESET_ROUND_DATA(state, payload) {
+  SAVE_RECREATE_PAYLOAD_DATA(state, reCreatePayload) {
+    state.reCreatePayload = reCreatePayload
+  },
+
+  RESET_ROUND_DATA(state) {
     state.data = {
       name: null,
       serviceCharge: {
@@ -121,8 +129,10 @@ export const mutations = {
         state: null,
         town: null,
       },
+      sharingComment: null,
     }
-
+  },
+  RESET_ROUND_PAYLOAD(state) {
     state.payload = {
       id: null,
       sharerId: null,
@@ -162,6 +172,7 @@ export const mutations = {
         numberOfCommodities: null,
         numberOfDaysLeft: null,
       },
+      sharingComment: null,
     }
   },
 }
