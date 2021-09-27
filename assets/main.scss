@@ -45,7 +45,11 @@ p{
 .bg-general-color{
   background-color: #eef5ee;
 }
-
+.is-invalid{
+  color: red;
+  margin-top:5px;
+  font-size: 12px;
+}
 .primary-p{
   font-size: 14px;
   line-height: 18px;
@@ -727,6 +731,9 @@ h5{
 }
 .mt-20 {
   margin-top: 20px;
+}
+.mb-20{
+  margin-bottom: 20px;
 }
 .mb-24{
   margin-bottom: 24px;

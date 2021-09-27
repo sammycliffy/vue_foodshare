@@ -176,15 +176,15 @@
           <label class="createFormLabel" for="sharingComment"
             >Sharing Comments/Description</label
           >
-          <b-form-textarea
+          <b-form-input
             id="sharingComment"
             v-model="sharingRound.commodities[commoditiesLength].sharingComment"
             class="form-control createFormInput"
+            type="text"
             placeholder="Enter sharing commment"
-            rows="2"
-            maxlength="70"
+            maxlength="10"
           >
-          </b-form-textarea>
+          </b-form-input>
         </div>
       </b-form>
 

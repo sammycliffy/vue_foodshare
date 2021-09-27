@@ -58,6 +58,7 @@ export default {
     { src: '~/plugins/v-calendar' },
     { src: '~/plugins/vue-select' },
     { src: '~/plugins/v-owl-carousel', ssr: false },
+    { src: '~/plugins/vee-validate.js', ssr: true },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -115,7 +116,9 @@ export default {
   content: {},
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['vee-validate/dist/rules'],
+  },
 
   publicRuntimeConfig: {
     // baseAPI: 'https://foodshare-service-prod.eu-gb.mybluemix.net/api/v1',
