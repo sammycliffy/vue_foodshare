@@ -114,7 +114,14 @@
       </section>
 
       <div class="text-center my-24">
-        <b-btn class="btn primary-btn" @click="addCommodities">
+        <b-btn
+          v-if="recreateHash"
+          class="btn primary-btn"
+          @click="recreateRound"
+        >
+          Recreate Round
+        </b-btn>
+        <b-btn v-else class="btn primary-btn" @click="addCommodities">
           Add Commodity
         </b-btn>
       </div>
@@ -136,6 +143,7 @@ export default {
       spinner: false,
       sameLocationQuery: 'YES',
       defaultSharingAddress: {},
+      recreateHash: this.$route.hash,
 
       stateOptions: [
         { value: null, text: 'Select state', disabled: true },
@@ -247,6 +255,41 @@ export default {
           solid: true,
         })
       }
+    },
+    async recreateRound() {
+      this.spinner = true
+      const URI = `/services/sharing-rounds/${this.USER.id}`
+      await this.$axios
+        .$post(URI, this.sharingRound)
+        .then((res) => {
+          // Display Sucess toast notification
+          this.$bvToast.toast(`Round Successfully Recreated`, {
+            title: 'Success!',
+            variant: 'success',
+            solid: true,
+          })
+
+          // Save round form data to a perstisted Vuex store
+          this.$store.commit('round/SAVE_PAYLOAD_DATA', res.result)
+          this.$store.commit('round/RESET_RECREATE_DATA')
+          this.$store.commit('round/RESET_ROUND_DATA')
+
+          // Redirect to the Preview page
+          this.$router.replace('/sharer/round/commodities/preview/')
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            // Re-log users in upon session expiration
+            this.REFRESH_TOKEN(this.accessToken)
+          } else {
+            // Display Toast Notifications
+            this.ERROR_HANDLER(error)
+          }
+        })
+        .finally(() => {
+          // Close the loader
+          this.spinner = false
+        })
     },
   },
 }

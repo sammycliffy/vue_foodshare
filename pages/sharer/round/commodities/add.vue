@@ -317,7 +317,7 @@ export default {
       commoditiesLength: 0,
 
       // recreate round data
-      reCreatePayload: this.$store.state.round.reCreatePayload,
+      // reCreatePayload: this.$store.state.round.reCreatePayload,
 
       // fetch stuff from vuex
       sharingRound: this.$store.state.round.data,
@@ -396,11 +396,11 @@ export default {
   },
 
   mounted() {
-    if (this.reCreatePayload) {
-      this.sharingRound = this.reCreatePayload
-      this.commoditiesLength = +this.sharingRound.commodities.length
-      console.log(this.commoditiesLength)
-    }
+    // if (this.reCreatePayload) {
+    //   this.sharingRound = this.reCreatePayload
+    //   this.commoditiesLength = +this.sharingRound.commodities.length
+    //   console.log(this.commoditiesLength)
+    // }
     try {
       if (!this.sharingRound.commodities) {
         this.sharingRound.commodities = this.sharingRound.commoditiesDetails

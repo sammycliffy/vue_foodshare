@@ -381,7 +381,7 @@ export default {
       this.spinner = true
       this.verifClicked = true
       // Save round form data to a perstisted Vuex store
-      this.reCreateData.name = item.name + '_new'
+      // this.reCreateData.name = item.name + '_new'
       this.reCreateData.commodities = item.commoditiesDetails
       this.reCreateData.serviceCharge.serviceChargeAmount =
         item.serviceChargeAmount
@@ -414,15 +414,15 @@ export default {
         delete el.participants
         delete el.purchasedSlots
         delete el.remainingSlots
-        // delete el.categories
+        delete el.categories
         delete el.sharingComment
       })
 
       // this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', item)
-      // this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', this.reCreateData)
-
+      this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', this.reCreateData)
+      console.log(this.reCreateData)
       // // Redirect to the preview page
-      // this.$router.push(`/sharer/round/create/`)
+      this.$router.push(`/sharer/round/create/#!recreate`)
     },
 
     listClicked(item) {

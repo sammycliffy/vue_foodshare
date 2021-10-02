@@ -111,7 +111,7 @@ export const mutations = {
         endTime: null,
       },
       waitingTime: null,
-      waitingTimeUnit: null,
+      waitingTimeUnit: 'MINUTES',
       commodities: [
         {
           commodityName: null,
@@ -132,6 +132,7 @@ export const mutations = {
       sharingComment: null,
     }
   },
+
   RESET_ROUND_PAYLOAD(state) {
     state.payload = {
       id: null,
@@ -171,6 +172,40 @@ export const mutations = {
         numberOfParticipants: null,
         numberOfCommodities: null,
         numberOfDaysLeft: null,
+      },
+      sharingComment: null,
+    }
+  },
+
+  RESET_RECREATE_DATA(state) {
+    state.reCreatePayload = {
+      name: null,
+      serviceCharge: {
+        serviceChargeAmount: null,
+        serviceChargeType: null,
+      },
+      effectivity: {
+        cutOffTime: null,
+        endTime: null,
+      },
+      waitingTime: null,
+      waitingTimeUnit: 'MINUTES',
+      commodities: [
+        {
+          commodityName: null,
+          costPrice: null,
+          sharingPrice: null,
+          numberOfSlots: null,
+          marketPrice: null,
+        },
+      ],
+      sharingAddress: {
+        country: null,
+        currentAddressId: null,
+        lineOne: null,
+        lineTwo: null,
+        state: null,
+        town: null,
       },
       sharingComment: null,
     }

@@ -122,31 +122,30 @@ export default {
           'Nov',
           'Dec',
         ],
-        datasets: [
-          {
-            label: 'successful orders',
-            // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
-            data: [],
-
-            backgroundColor: '#fe8f0a',
-          },
-        ],
-
         // datasets: [
         //   {
-        //     label: 'purchase',
-        //     data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
-        //     // data: [],
-        //     backgroundColor: '#4f9e55',
-        //   },
-        //   {
-        //     label: 'failed purchase',
-        //     data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
-        //     // data: [],
+        //     label: 'successful orders',
+        //     // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+        //     data: [],
 
         //     backgroundColor: '#fe8f0a',
         //   },
         // ],
+
+        datasets: [
+          {
+            label: 'purchase',
+            // data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
+            data: [],
+            backgroundColor: '#4f9e55',
+          },
+          {
+            label: 'total transactions',
+            // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+            data: [],
+            backgroundColor: '#fe8f0a',
+          },
+        ],
       },
       barChartOptions: {
         responsive: true,
@@ -215,9 +214,30 @@ export default {
       .then((resp) => {
         const fetchedbarData = resp.result.annualSummaries
         const mappedBarData = fetchedbarData[0].monthlyTransactionSummaries
-        this.barChartData.datasets[0].data = mappedBarData.map(
+        console.log(mappedBarData)
+        // const convertToFloat = []
+        const purchaseTransaction = mappedBarData.map(
           (el) => el.sumOfTransactions
         )
+        const cummlativeTransaction = mappedBarData.map(
+          (el) => el.cumulativeTransactions
+        )
+        console.log('Purchase trans', purchaseTransaction)
+        console.log('Cummulative trans', cummlativeTransaction)
+
+        this.barChartData.datasets[0].data = purchaseTransaction.map((i) =>
+          parseFloat(i)
+        )
+        this.barChartData.datasets[1].data = cummlativeTransaction.map((i) =>
+          parseFloat(i)
+        )
+        // this.barChartData.datasets[0].data = barChartMonthlyTransaction.map(i => parseFloat(i))
+        // this.barChartData.datasets[0].data = mappedBarData.map(
+        //   (el) => el.sumOfTransactions
+        // )
+
+        // console.log(convertToFloat)
+        // console.log(this.barChartData.datasets[0].data)
       })
       .catch((err) => {
         this.ERROR_HANDLER(err)

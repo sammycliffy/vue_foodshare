@@ -17,7 +17,7 @@
         <div class="top-row d-flex justify-content-between">
           <div class="d-flex justify-content-around align-items-center">
             <partials-back-nav-button v-if="USER" />
-            <partials-back-nav-button v-if="hashbang" />
+            <partials-back-nav-button v-if="hashbang === '#!home' && !USER" />
             <span>
               <img
                 :src="
@@ -401,7 +401,7 @@ export default {
       calculateSlot: [],
       basketWorth: 0,
       // Hashbang from home page
-      hashbang: this.$route.hash.split('#!home')[1] || null,
+      hashbang: this.$route.hash,
       // sharerLogo
       FILE_BLOB: null,
 
