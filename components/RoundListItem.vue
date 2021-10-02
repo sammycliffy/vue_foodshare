@@ -420,7 +420,6 @@ export default {
 
       // this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', item)
       this.$store.commit('round/SAVE_RECREATE_PAYLOAD_DATA', this.reCreateData)
-      console.log(this.reCreateData)
       // // Redirect to the preview page
       this.$router.push(`/sharer/round/create/#!recreate`)
     },
