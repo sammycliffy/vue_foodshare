@@ -127,7 +127,7 @@ export default {
 
         datasets: [
           {
-            label: 'successful orders',
+            label: 'monthly orders',
             type: 'bar',
             data: [],
             backgroundColor: '#4f9e55',
@@ -146,6 +146,9 @@ export default {
         maintainAspectRatio: false,
         legend: {
           display: true,
+          labels: {
+            fontSize: 12,
+          },
         },
         tooltips: {
           backgroundColor: '#070606',
