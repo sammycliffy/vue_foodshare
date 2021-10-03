@@ -245,20 +245,23 @@
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
                 </span>
               </div>
-              <hr class="d-none" />
-              <div class="d-none">
-                <div class="d-flex justify-content-between mb-1">
+              <div class="">
+                <hr v-show="item.savings >= 0" class="" />
+                <div
+                  v-if="item.savings >= 0"
+                  class="d-flex justify-content-between mb-0"
+                >
                   <p class="mb-0 fs-12">Savings</p>
                   <p class="mb-0 color-orange text_semiBold fs-12">
-                    NGN {{ Intl.NumberFormat().format(3000) }}
+                    NGN {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
-                <div class="d-flex justify-content-between">
+                <!-- <div class=" d-flex justify-content-between">
                   <p class="mb-0 fs-12">Open Market Price</p>
                   <p class="mb-0 color-black text_semiBold fs-12">
                     NGN {{ Intl.NumberFormat().format(5000) }}
                   </p>
-                </div>
+                </div> -->
               </div>
             </div>
 
