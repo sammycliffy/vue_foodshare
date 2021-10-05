@@ -294,7 +294,22 @@
                   class="d-flex justify-content-between mb-0"
                 >
                   <p class="mb-0 fs-12">Savings</p>
-                  <p class="mb-0 color-orange text_semiBold fs-12">
+                  <p
+                    v-if="
+                      cartPayload.sharedCommodities[index] &&
+                      cartPayload.sharedCommodities[index].numberOfSlots > 0
+                    "
+                    class="mb-0 color-orange text_semiBold fs-12"
+                  >
+                    NGN
+                    {{
+                      Intl.NumberFormat().format(
+                        item.savings *
+                          cartPayload.sharedCommodities[index].numberOfSlots
+                      )
+                    }}
+                  </p>
+                  <p v-else class="mb-0 color-orange text_semiBold fs-12">
                     NGN {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
@@ -481,7 +496,22 @@
               class="d-flex justify-content-between mb-0"
             >
               <p class="mb-0 fs-12">Savings</p>
-              <p class="mb-0 color-orange text_semiBold fs-12">
+              <p
+                v-if="
+                  cartPayload.sharedCommodities[index] &&
+                  cartPayload.sharedCommodities[index].numberOfSlots > 0
+                "
+                class="mb-0 color-orange text_semiBold fs-12"
+              >
+                NGN
+                {{
+                  Intl.NumberFormat().format(
+                    item.savings *
+                      cartPayload.sharedCommodities[index].numberOfSlots
+                  )
+                }}
+              </p>
+              <p v-else class="mb-0 color-orange text_semiBold fs-12">
                 NGN {{ Intl.NumberFormat().format(item.savings) }}
               </p>
             </div>
@@ -577,7 +607,22 @@
                 class="d-flex justify-content-between mb-0"
               >
                 <p class="mb-0 fs-12">Savings</p>
-                <p class="mb-0 color-orange text_semiBold fs-12">
+                <p
+                  v-if="
+                    cartPayload.sharedCommodities[index] &&
+                    cartPayload.sharedCommodities[index].numberOfSlots > 0
+                  "
+                  class="mb-0 color-orange text_semiBold fs-12"
+                >
+                  NGN
+                  {{
+                    Intl.NumberFormat().format(
+                      item.savings *
+                        cartPayload.sharedCommodities[index].numberOfSlots
+                    )
+                  }}
+                </p>
+                <p v-else class="mb-0 color-orange text_semiBold fs-12">
                   NGN {{ Intl.NumberFormat().format(item.savings) }}
                 </p>
               </div>
