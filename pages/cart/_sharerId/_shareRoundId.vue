@@ -284,18 +284,38 @@
                   </b-col>
                 </b-row>
               </div>
-              <hr class="d-none" />
-              <div class="d-none">
-                <div class="d-flex justify-content-between mb-10">
+              <div class="">
+                <hr
+                  v-show="item.savings >= 1 || item.openMarketPrices"
+                  class=""
+                />
+                <div
+                  v-if="item.savings >= 1"
+                  class="d-flex justify-content-between mb-0"
+                >
                   <p class="mb-0 fs-12">Savings</p>
-                  <p class="mb-0 color-orange text_semiBold fs-12"></p>
+                  <p class="mb-0 color-orange text_semiBold fs-12">
+                    NGN {{ Intl.NumberFormat().format(item.savings) }}
+                  </p>
                 </div>
-                <div class="d-flex justify-content-between">
-                  <p class="mb-0 fs-12">Open Market Price</p>
-                  <p class="mb-0 fs-12 color-black text_semiBold"></p>
+                <div
+                  v-if="item.openMarketPrices"
+                  class="d-flex justify-content-between"
+                >
+                  <!-- <p class="mb-0 fs-12">Open Market Price</p> -->
+                  <p class="mb-0 fs-12">
+                    {{ item.openMarketPrices[0].marketName }}
+                  </p>
+                  <p class="mb-0 fs-12 color-black text_semiBold">
+                    {{
+                      Intl.NumberFormat().format(
+                        item.openMarketPrices[0].marketPrice
+                      )
+                    }}
+                  </p>
                 </div>
               </div>
-              <div v-if="item.topMarkets" class="">
+              <!-- <div v-if="item.topMarkets" class="">
                 <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
                 <div
                   v-for="market in item.topMarkets"
@@ -313,7 +333,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </template>
         </section>
@@ -455,6 +475,16 @@
                 <span v-else class="toggle_icon color-orange">Sold Out</span>
               </span>
             </div>
+            <hr v-show="item.savings >= 1" class="" />
+            <div
+              v-if="item.savings >= 1"
+              class="d-flex justify-content-between mb-0"
+            >
+              <p class="mb-0 fs-12">Savings</p>
+              <p class="mb-0 color-orange text_semiBold fs-12">
+                NGN {{ Intl.NumberFormat().format(item.savings) }}
+              </p>
+            </div>
           </div>
           <div v-show="roundToggle[index]" class="round_commodity_toggle">
             <div class="d-flex justify-content-between">
@@ -540,22 +570,26 @@
                 </b-col>
               </b-row>
             </div>
-            <hr class="d-none" />
-            <div class="d-none">
-              <div class="d-flex justify-content-between mb-1">
+            <div class="">
+              <hr v-show="item.savings >= 1" class="" />
+              <div
+                v-if="item.savings >= 1"
+                class="d-flex justify-content-between mb-0"
+              >
                 <p class="mb-0 fs-12">Savings</p>
                 <p class="mb-0 color-orange text_semiBold fs-12">
-                  NGN {{ Intl.NumberFormat().format(3000) }}
+                  NGN {{ Intl.NumberFormat().format(item.savings) }}
                 </p>
               </div>
-              <div class="d-flex justify-content-between">
+
+              <!-- <div class="d-flex justify-content-between">
                 <p class="mb-0 fs-12">Open Market Price</p>
                 <p class="mb-0 color-black text_semiBold fs-12">
                   NGN {{ Intl.NumberFormat().format(5000) }}
                 </p>
-              </div>
+              </div> -->
             </div>
-            <div v-if="item.topMarkets" class="">
+            <!-- <div v-if="item.topMarkets" class="">
               <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
               <div v-for="market in item.topMarkets" :key="market.id" class="">
                 <div class="row topMarket_item_mb">
@@ -569,7 +603,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </section>
       </div>
@@ -752,7 +786,7 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 10px 17px 20px;
+  padding: 10px 17px;
   margin-bottom: 25px;
   border: 1px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
@@ -858,7 +892,7 @@ export default {
   line-height: 22px;
 }
 hr {
-  margin-bottom: 25px;
-  margin-top: 25px;
+  margin-bottom: 5px;
+  margin-top: 15px;
 }
 </style>
