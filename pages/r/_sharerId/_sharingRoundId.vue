@@ -363,7 +363,7 @@
                 >
                   <!-- <p class="mb-0 fs-12">Open Market Price</p> -->
                   <p class="mb-0 fs-12">
-                    {{ item.openMarketPrices[0].marketName }}
+                    {{ item.openMarketPrices[0].marketName }} Market Price
                   </p>
                   <p class="mb-0 fs-12 color-black text_semiBold">
                     {{
