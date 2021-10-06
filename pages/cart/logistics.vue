@@ -117,77 +117,110 @@
                   <b-form>
                     <b-row align-h="between">
                       <b-col xs="6" class="input-l-seperator input-col">
-                        <b-input-group class="formInputGroup poppins">
-                          <b-input-group-prepend
-                            class="input-radius border-right-0 bg-white"
-                          >
-                            <b-input-group-text
-                              class="input-addon border-right-0 bg-white"
+                        <ValidationProvider
+                          v-slot="{ errors }"
+                          name="First Name"
+                          rules="alpha|required"
+                          type="text"
+                        >
+                          <b-input-group class="formInputGroup poppins mb-0">
+                            <b-input-group-prepend
+                              class="input-radius border-right-0 bg-white"
                             >
-                              <img src="/assets/icons/user.svg" />
-                            </b-input-group-text>
-                          </b-input-group-prepend>
-                          <b-form-input
-                            v-model="cartPayload.firstName"
-                            class="input border-left-0"
-                            placeholder="First Name"
-                            type="text"
-                            required
-                            :readonly="AUTH"
-                          />
-                        </b-input-group>
+                              <b-input-group-text
+                                class="input-addon border-right-0 bg-white"
+                              >
+                                <img src="/assets/icons/user.svg" />
+                              </b-input-group-text>
+                            </b-input-group-prepend>
+                            <b-form-input
+                              v-model="cartPayload.firstName"
+                              class="input border-left-0"
+                              placeholder="First Name"
+                              type="text"
+                              required
+                              :readonly="AUTH"
+                            />
+                          </b-input-group>
+                          <span
+                            v-show="errors.length > 0"
+                            class="is-invalid mt-2"
+                            >{{ errors[0] }}</span
+                          >
+                        </ValidationProvider>
                       </b-col>
                       <b-col xs="6" class="input-r-seperator input-col">
-                        <b-input-group class="formInputGroup poppins">
-                          <b-input-group-prepend
-                            class="input-radius border-right-0 bg-white"
-                          >
-                            <b-input-group-text
-                              class="input-addon border-right-0 bg-white"
+                        <ValidationProvider
+                          v-slot="{ errors }"
+                          name="Last Name"
+                          rules="alpha|required"
+                          type="text"
+                        >
+                          <b-input-group class="formInputGroup poppins mb-0">
+                            <b-input-group-prepend
+                              class="input-radius border-right-0 bg-white"
                             >
-                              <img src="/assets/icons/user.svg" />
-                            </b-input-group-text>
-                          </b-input-group-prepend>
-                          <b-form-input
-                            v-model="cartPayload.lastName"
-                            class="input border-left-0"
-                            placeholder="Last Name"
-                            type="text"
-                            required
-                            :readonly="AUTH"
-                          />
-                        </b-input-group>
+                              <b-input-group-text
+                                class="input-addon border-right-0 bg-white"
+                              >
+                                <img src="/assets/icons/user.svg" />
+                              </b-input-group-text>
+                            </b-input-group-prepend>
+                            <b-form-input
+                              v-model="cartPayload.lastName"
+                              class="input border-left-0"
+                              placeholder="Last Name"
+                              type="text"
+                              required
+                              :readonly="AUTH"
+                            />
+                          </b-input-group>
+                          <span
+                            v-show="errors.length > 0"
+                            class="is-invalid mt-2"
+                            >{{ errors[0] }}</span
+                          >
+                        </ValidationProvider>
                       </b-col>
                     </b-row>
                   </b-form>
                 </b-container>
-                <b-input-group class="formInputGroup poppins">
-                  <b-input-group-prepend
-                    class="input-radius border-right-0 bg-white"
-                  >
-                    <b-input-group-text
-                      class="input-addon border-right-0 bg-white"
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="Phone Number"
+                  rules="required|digits:11"
+                >
+                  <b-input-group class="formInputGroup poppins mb-0 mt-20">
+                    <b-input-group-prepend
+                      class="input-radius border-right-0 bg-white"
                     >
-                      <img src="/assets/icons/phone.svg" />
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    v-model.trim="cartPayload.phoneNumber"
-                    class="input border-left-0"
-                    type="tel"
-                    required
-                    :readonly="AUTH"
-                    placeholder="Phone Number"
-                    max-length="11"
-                    min-length="11"
-                  />
-                </b-input-group>
+                      <b-input-group-text
+                        class="input-addon border-right-0 bg-white"
+                      >
+                        <img src="/assets/icons/phone.svg" />
+                      </b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      v-model.trim="cartPayload.phoneNumber"
+                      class="input border-left-0"
+                      type="tel"
+                      required
+                      :readonly="AUTH"
+                      placeholder="Phone Number"
+                      max-length="11"
+                      min-length="11"
+                    />
+                  </b-input-group>
+                  <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                    errors[0]
+                  }}</span>
+                </ValidationProvider>
                 <ValidationProvider
                   v-slot="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
-                  <b-input-group class="formInputGroup poppins mb-0">
+                  <b-input-group class="formInputGroup poppins mb-0 mt-20">
                     <b-input-group-prepend
                       class="input-radius border-right-0 bg-white"
                     >

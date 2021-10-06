@@ -7,56 +7,85 @@
       <p class="poppins text-center">Create an account to get started</p>
       <ValidationObserver v-slot="{ handleSubmit }">
         <b-form class="formBox" @submit.prevent>
-          <b-input-group class="formInputGroup poppins">
-            <b-input-group-prepend class="input-addon border-right-0">
-              <b-input-group-text class="input-addon border-right-0">
-                <img src="/assets/icons/user.svg" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <b-form-input
-              v-model.trim="FORM.firstName"
-              class="input"
-              placeholder="First Name"
-              required
-            />
-          </b-input-group>
-          <b-input-group class="formInputGroup poppins">
-            <b-input-group-prepend class="input-addon border-right-0">
-              <b-input-group-text class="input-addon border-right-0">
-                <img src="/assets/icons/user.svg" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <b-form-input
-              v-model.trim="FORM.lastName"
-              class="input"
-              placeholder="Last Name"
-              required
-            />
-          </b-input-group>
-          <b-input-group class="formInputGroup poppins">
-            <b-input-group-prepend class="input-addon border-right-0">
-              <b-input-group-text class="input-addon border-right-0">
-                <img src="/assets/icons/phone.svg" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <b-form-input
-              id="registerPhone"
-              v-model.trim="FORM.phone"
-              class="input"
-              type="tel"
-              placeholder="Phone Number"
-              max="10"
-              max-length="11"
-              min-length="11"
-              required
-            />
-          </b-input-group>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="First Name"
+            rules="alpha|required"
+            type="text"
+          >
+            <b-input-group class="formInputGroup poppins mb-0">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/user.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model.trim="FORM.firstName"
+                class="input"
+                placeholder="First Name"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Last Name"
+            rules="alpha|required"
+            type="text"
+          >
+            <b-input-group class="formInputGroup poppins mb-0 mt-20">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/user.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model.trim="FORM.lastName"
+                class="input"
+                placeholder="Last Name"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Phone Number"
+            rules="required|digits:11"
+          >
+            <b-input-group class="formInputGroup poppins mb-0 mt-20">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/phone.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                id="registerPhone"
+                v-model.trim="FORM.phone"
+                class="input"
+                type="tel"
+                placeholder="Phone Number"
+                max="10"
+                max-length="11"
+                min-length="11"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
           <ValidationProvider
             v-slot="{ errors }"
             name="Email"
             rules="required|email"
           >
-            <b-input-group class="formInputGroup poppins mb-0">
+            <b-input-group class="formInputGroup poppins mb-0 mt-20">
               <b-input-group-prepend class="input-addon border-right-0">
                 <b-input-group-text class="input-addon border-right-0">
                   <img src="/assets/icons/email.svg" />

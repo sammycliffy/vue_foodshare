@@ -127,14 +127,14 @@ export default {
 
         datasets: [
           {
-            label: 'monthly orders',
+            label: 'Monthly Orders',
             type: 'bar',
             data: [],
             backgroundColor: '#4f9e55',
           },
           {
             type: 'line',
-            label: 'total transactions',
+            label: 'Total Transactions',
             data: [],
             fill: false,
             borderColor: '#fe8f0a',
