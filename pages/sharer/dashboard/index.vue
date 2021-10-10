@@ -26,8 +26,9 @@
           </div>
           <div class="text-center middleStatisticsInner col">
             <span class="d-block statisticsNumber">
-              <b-skeleton v-if="$fetchState.pending"></b-skeleton>
-              <span v-else v-text="totalReviews" />
+              <span>&nbsp;</span>
+              <!-- <b-skeleton v-if="$fetchState.pending"></b-skeleton>
+              <span v-else v-text="totalReviews" /> -->
             </span>
             <span class="d-block statisticsName">Reviews</span>
           </div>

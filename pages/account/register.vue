@@ -400,7 +400,7 @@ export default {
     return {
       passwordToggle: true,
       confirmPasswordToggle: true,
-
+      addLocalToNumber: null,
       bankNames: [],
       accountName: null,
       selectedBank: null,
@@ -566,12 +566,20 @@ export default {
           })
           return
         }
+        // if (this.FORM.phone.length === 11) {
+        //   const updateNumber = this.FORM.phone.substring(1)
+        //   this.FORM.phone = updateNumber
+        // }
+        // if (this.FORM.phone.length === 10) {
+        //   this.FORM.phone = '+234' + this.FORM.phone
+        // }
+
         if (this.FORM.phone.length === 11) {
           const updateNumber = this.FORM.phone.substring(1)
-          this.FORM.phone = updateNumber
+          this.addLocalToNumber = '+234' + updateNumber
         }
-        if (this.FORM.phone.length === 10) {
-          this.FORM.phone = '+234' + this.FORM.phone
+        if (this.addLocalToNumber) {
+          this.FORM.phone = this.addLocalToNumber
         }
 
         this.registerSpinner = true
@@ -611,12 +619,19 @@ export default {
           text: 'All Fields are required!',
         })
       } else {
+        // if (this.FORM.phone.length === 11) {
+        //   const updateNumber = this.FORM.phone.substring(1)
+        //   this.FORM.phone = updateNumber
+        // }
+        // if (this.FORM.phone.length === 10) {
+        //   this.FORM.phone = '+234' + this.FORM.phone
+        // }
         if (this.FORM.phone.length === 11) {
           const updateNumber = this.FORM.phone.substring(1)
-          this.FORM.phone = updateNumber
+          this.addLocalToNumber = '+234' + updateNumber
         }
-        if (this.FORM.phone.length === 10) {
-          this.FORM.phone = '+234' + this.FORM.phone
+        if (this.addLocalToNumber) {
+          this.FORM.phone = this.addLocalToNumber
         }
 
         this.registerSpinner = true

@@ -4,6 +4,46 @@
 
     <div v-else class="scroll-overflow bg-general-color">
       <div class="half-width">
+        <template v-if="!$route.params.verificationToken">
+          <div class="text-center">
+            <img src="/assets/verify.svg" class="svgImg" />
+          </div>
+          <div class="text-center">
+            <h5 class="text_medium">Resend account verification link.</h5>
+          </div>
+
+          <div class="mt-20">
+            <b-input-group class="formInputGroup poppins">
+              <b-input-group-prepend class="input-addon border-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/email.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model.trim="verifyForm.emailAddress"
+                class="input"
+                type="email"
+                placeholder="Your account email Address"
+                required
+              />
+            </b-input-group>
+          </div>
+          <div class="text-center mt-24">
+            <b-btn
+              class="btn primary-btn padded-btn"
+              @click="resendVerificationLink"
+            >
+              Resend Link
+              <b-spinner
+                v-if="resendLinkSpinner"
+                variant="white"
+                label="Spinning"
+                class="ml-3"
+                small
+              ></b-spinner>
+            </b-btn>
+          </div>
+        </template>
         <template v-if="accountActivated">
           <div class="text-center">
             <img src="/assets/email-verified.svg" class="svgImg" />
@@ -20,7 +60,7 @@
             </b-btn>
           </div>
         </template>
-        <template v-else>
+        <template v-if="!accountActivated">
           <div class="text-center">
             <img src="/assets/verify.svg" class="svgImg" />
           </div>

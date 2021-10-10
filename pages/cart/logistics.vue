@@ -491,7 +491,7 @@ export default {
       spinner: false,
       userAlreadyExist: null,
       sameLocationQuery: 'YES',
-
+      addLocalToNumber: null,
       defaultAddress: {},
       recentAddresses: [],
       cartPayload: this.$store.state.cart.payload,
@@ -646,15 +646,26 @@ export default {
           })
           return
         }
+        // if (this.cartPayload.phoneNumber.length === 11) {
+        //   const updateNumber = this.cartPayload.phoneNumber.substring(1)
+        //   this.cartPayload.phoneNumber = updateNumber
+        // }
+        // if (this.cartPayload.phoneNumber.length === 10) {
+        //   this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
+        // }
         if (this.cartPayload.phoneNumber.length === 11) {
           const updateNumber = this.cartPayload.phoneNumber.substring(1)
-          this.cartPayload.phoneNumber = updateNumber
+          // this.cartPayload.phoneNumber = updateNumber
+          this.addLocalToNumber = '+234' + updateNumber
         }
-        if (this.cartPayload.phoneNumber.length === 10) {
-          this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
+        // if (this.cartPayload.phoneNumber.length === 10) {
+        //   this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
+        // }
+        if (this.addLocalToNumber) {
+          this.cartPayload.phoneNumber = this.addLocalToNumber
         }
 
-        const encodePhone = window.btoa(this.cartPayload.phoneNumber)
+        const encodePhone = window.btoa(this.addLocalToNumber)
         const encodeEmail = window.btoa(this.cartPayload.emailAddress)
 
         // Percentage 2B for
