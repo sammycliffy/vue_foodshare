@@ -389,7 +389,7 @@
                   </p>
                 </div>
                 <div
-                  v-if="item.openMarketPrices"
+                  v-if="item.openMarketPrices[0]"
                   class="d-flex justify-content-between"
                 >
                   <!-- <p class="mb-0 fs-12">Open Market Price</p> -->
