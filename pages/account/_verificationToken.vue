@@ -60,7 +60,7 @@
             </b-btn>
           </div>
         </template>
-        <template v-if="!accountActivated">
+        <template v-if="!accountActivated && !hashbang">
           <div class="text-center">
             <img src="/assets/verify.svg" class="svgImg" />
           </div>
