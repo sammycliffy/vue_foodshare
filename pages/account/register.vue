@@ -10,7 +10,7 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="First Name"
-            rules="alpha|required"
+            rules="alpha_spaces|required"
             type="text"
           >
             <b-input-group class="formInputGroup poppins mb-0">
@@ -33,7 +33,7 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="Last Name"
-            rules="alpha|required"
+            rules="alpha_spaces|required"
             type="text"
           >
             <b-input-group class="formInputGroup poppins mb-0 mt-20">
@@ -66,7 +66,7 @@
               </b-input-group-prepend>
               <b-form-input
                 id="registerPhone"
-                v-model.trim="FORM.phone"
+                v-model.trim="normalPhoneNumber"
                 class="input"
                 type="tel"
                 placeholder="Phone Number"
@@ -401,6 +401,7 @@ export default {
       passwordToggle: true,
       confirmPasswordToggle: true,
       addLocalToNumber: null,
+      normalPhoneNumber: null,
       bankNames: [],
       accountName: null,
       selectedBank: null,
@@ -540,7 +541,7 @@ export default {
       if (
         !this.FORM.firstName ||
         !this.FORM.lastName ||
-        !this.FORM.phone ||
+        !this.normalPhoneNumber ||
         !this.FORM.emailAddress ||
         !this.FORM.credentials.password ||
         !this.FORM.credentials.matchingPassword
@@ -553,10 +554,10 @@ export default {
         }
       } else {
         if (
-          this.FORM.phone.length < 11 ||
-          this.FORM.phone.length === 12 ||
-          this.FORM.phone.length === 13 ||
-          this.FORM.phone.length > 14
+          this.normalPhoneNumber.length < 11 ||
+          this.normalPhoneNumber.length === 12 ||
+          this.normalPhoneNumber.length === 13 ||
+          this.normalPhoneNumber.length > 14
         ) {
           this.SHOW_TOAST({
             text:
@@ -574,8 +575,8 @@ export default {
         //   this.FORM.phone = '+234' + this.FORM.phone
         // }
 
-        if (this.FORM.phone.length === 11) {
-          const updateNumber = this.FORM.phone.substring(1)
+        if (this.normalPhoneNumber.length === 11) {
+          const updateNumber = this.normalPhoneNumber.substring(1)
           this.addLocalToNumber = '+234' + updateNumber
         }
         if (this.addLocalToNumber) {
@@ -609,7 +610,7 @@ export default {
       if (
         !this.FORM.firstName ||
         !this.FORM.lastName ||
-        !this.FORM.phone ||
+        !this.normalPhoneNumber ||
         !this.FORM.emailAddress ||
         !this.FORM.credentials.password ||
         !this.FORM.credentials.matchingPassword
@@ -626,8 +627,8 @@ export default {
         // if (this.FORM.phone.length === 10) {
         //   this.FORM.phone = '+234' + this.FORM.phone
         // }
-        if (this.FORM.phone.length === 11) {
-          const updateNumber = this.FORM.phone.substring(1)
+        if (this.normalPhoneNumber.length === 11) {
+          const updateNumber = this.normalPhoneNumber.substring(1)
           this.addLocalToNumber = '+234' + updateNumber
         }
         if (this.addLocalToNumber) {

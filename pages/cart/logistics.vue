@@ -120,7 +120,7 @@
                         <ValidationProvider
                           v-slot="{ errors }"
                           name="First Name"
-                          rules="alpha|required"
+                          rules="alpha_spaces|required"
                           type="text"
                         >
                           <b-input-group class="formInputGroup poppins mb-0">
@@ -153,7 +153,7 @@
                         <ValidationProvider
                           v-slot="{ errors }"
                           name="Last Name"
-                          rules="alpha|required"
+                          rules="alpha_spaces|required"
                           type="text"
                         >
                           <b-input-group class="formInputGroup poppins mb-0">
@@ -201,7 +201,7 @@
                       </b-input-group-text>
                     </b-input-group-prepend>
                     <b-form-input
-                      v-model.trim="cartPayload.phoneNumber"
+                      v-model.trim="normalPhoneNumber"
                       class="input border-left-0"
                       type="tel"
                       required
@@ -492,6 +492,7 @@ export default {
       userAlreadyExist: null,
       sameLocationQuery: 'YES',
       addLocalToNumber: null,
+      normalPhoneNumber: null,
       defaultAddress: {},
       recentAddresses: [],
       cartPayload: this.$store.state.cart.payload,
@@ -611,6 +612,7 @@ export default {
     validateFields() {
       if (
         this.cartPayload.deliveryDetails.deliveryAddress.currentAddressId ||
+        this.normalPhoneNumber ||
         (this.cartPayload.phoneNumber &&
           this.cartPayload.emailAddress &&
           (this.cartPayload.deliveryDetails.deliveryMethod === 'pickup' ||
@@ -633,10 +635,10 @@ export default {
     async submitAddress() {
       if (this.validateFields() && !this.spinner) {
         if (
-          this.cartPayload.phoneNumber.length < 11 ||
-          this.cartPayload.phoneNumber.length === 12 ||
-          this.cartPayload.phoneNumber.length === 13 ||
-          this.cartPayload.phoneNumber.length > 14
+          this.normalPhoneNumber.length < 11 ||
+          this.normalPhoneNumber.length === 12 ||
+          this.normalPhoneNumber.length === 13 ||
+          this.normalPhoneNumber.length > 14
         ) {
           this.SHOW_TOAST({
             text:
@@ -653,8 +655,8 @@ export default {
         // if (this.cartPayload.phoneNumber.length === 10) {
         //   this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
         // }
-        if (this.cartPayload.phoneNumber.length === 11) {
-          const updateNumber = this.cartPayload.phoneNumber.substring(1)
+        if (this.normalPhoneNumber.length === 11) {
+          const updateNumber = this.normalPhoneNumber.substring(1)
           // this.cartPayload.phoneNumber = updateNumber
           this.addLocalToNumber = '+234' + updateNumber
         }
@@ -665,7 +667,7 @@ export default {
           this.cartPayload.phoneNumber = this.addLocalToNumber
         }
 
-        const encodePhone = window.btoa(this.addLocalToNumber)
+        const encodePhone = window.btoa(this.cartPayload.phoneNumber)
         const encodeEmail = window.btoa(this.cartPayload.emailAddress)
 
         // Percentage 2B for
