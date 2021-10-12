@@ -15,39 +15,52 @@
           address exist on our platform.
         </p>
       </div>
-      <div class="vefiryCodeBox d-flex justify-content-center">
-        <b-input-group class="formInputGroup poppins">
-          <b-input-group-prepend class="border-right-0">
-            <b-input-group-text class="input-addon border-right-0">
-              <img src="/assets/icons/email.svg" />
-            </b-input-group-text>
-          </b-input-group-prepend>
-          <b-form-input
-            v-model.trim="resetForm.emailAddress"
-            class="input border-left-0"
-            type="email"
-            placeholder="Email"
-            required
-          />
-        </b-input-group>
-      </div>
+      <ValidationObserver v-slot="{ handleSubmit }">
+        <ValidationProvider
+          v-slot="{ errors }"
+          name="Email"
+          rules="required|email"
+        >
+          <div
+            class="vefiryCodeBox d-flex justify-content-center"
+            @submit.prevent
+          >
+            <b-input-group class="formInputGroup poppins mb-0">
+              <b-input-group-prepend class="border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/email.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model.trim="resetForm.emailAddress"
+                class="input border-left-0"
+                type="email"
+                placeholder="Email"
+                required
+              />
+            </b-input-group>
+          </div>
+          <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+            errors[0]
+          }}</span>
+        </ValidationProvider>
+        <div class="text-center">
+          <b-btn
+            :disabled="verifClicked === true"
+            class="btn-block btn poppins mx-auto btnSharer"
+            @click="handleSubmit(sendOTP())"
+            >Confirm Email
 
-      <div class="text-center">
-        <b-btn
-          :disabled="verifClicked === true"
-          class="btn-block btn poppins mx-auto btnSharer"
-          @click="sendOTP()"
-          >Confirm Email
-
-          <b-spinner
-            v-if="spinner"
-            variant="white"
-            label="Spinning"
-            class="ml-3"
-            small
-          ></b-spinner
-        ></b-btn>
-      </div>
+            <b-spinner
+              v-if="spinner"
+              variant="white"
+              label="Spinning"
+              class="ml-3"
+              small
+            ></b-spinner
+          ></b-btn>
+        </div>
+      </ValidationObserver>
     </div>
   </div>
 </template>

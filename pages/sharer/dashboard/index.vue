@@ -26,8 +26,9 @@
           </div>
           <div class="text-center middleStatisticsInner col">
             <span class="d-block statisticsNumber">
-              <b-skeleton v-if="$fetchState.pending"></b-skeleton>
-              <span v-else v-text="totalReviews" />
+              <span>&nbsp;</span>
+              <!-- <b-skeleton v-if="$fetchState.pending"></b-skeleton>
+              <span v-else v-text="totalReviews" /> -->
             </span>
             <span class="d-block statisticsName">Reviews</span>
           </div>
@@ -81,6 +82,7 @@
         </div>
         <div class="chartBox">
           <bar-chart
+            v-if="chartDataLoaded"
             :data="barChartData"
             :options="barChartOptions"
             :height="244"
@@ -104,6 +106,7 @@ export default {
       sharingRounds: [],
       sharingRoundsActive: [],
       closedSharingRounds: [],
+      chartDataLoaded: false,
 
       // fetched barchat data
 
@@ -122,37 +125,31 @@ export default {
           'Nov',
           'Dec',
         ],
+
         datasets: [
           {
-            label: 'successful orders',
-            // data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
+            label: 'Monthly Orders',
+            type: 'bar',
             data: [],
-
-            backgroundColor: '#fe8f0a',
+            backgroundColor: '#4f9e55',
+          },
+          {
+            type: 'line',
+            label: 'Total Transactions',
+            data: [],
+            fill: false,
+            borderColor: '#fe8f0a',
           },
         ],
-
-        // datasets: [
-        //   {
-        //     label: 'purchase',
-        //     data: [24, 57, 23, 68, 72, 25, 64, 133, 143, 165, 33, 56],
-        //     // data: [],
-        //     backgroundColor: '#4f9e55',
-        //   },
-        //   {
-        //     label: 'failed purchase',
-        //     data: [40, 15, 20, 30, 20, 50, 55, 70, 34, 45, 11, 45],
-        //     // data: [],
-
-        //     backgroundColor: '#fe8f0a',
-        //   },
-        // ],
       },
       barChartOptions: {
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-          display: false,
+          display: true,
+          labels: {
+            fontSize: 12,
+          },
         },
         tooltips: {
           backgroundColor: '#070606',
@@ -215,9 +212,32 @@ export default {
       .then((resp) => {
         const fetchedbarData = resp.result.annualSummaries
         const mappedBarData = fetchedbarData[0].monthlyTransactionSummaries
-        this.barChartData.datasets[0].data = mappedBarData.map(
+        // const convertToFloat = []
+        const purchaseTransaction = mappedBarData.map(
           (el) => el.sumOfTransactions
         )
+        const cummlativeTransaction = mappedBarData.map(
+          (el) => el.cumulativeTransactions
+        )
+
+        this.barChartData.datasets[0].data = purchaseTransaction
+        this.barChartData.datasets[1].data = cummlativeTransaction
+
+        this.chartDataLoaded = true
+
+        // this.barChartData.datasets[0].data = purchaseTransaction.map((i) =>
+        //   parseFloat(i)
+        // )
+        // this.barChartData.datasets[1].data = cummlativeTransaction.map((i) =>
+        //   parseFloat(i)
+        // )
+        // this.barChartData.datasets[0].data = barChartMonthlyTransaction.map(i => parseFloat(i))
+        // this.barChartData.datasets[0].data = mappedBarData.map(
+        //   (el) => el.sumOfTransactions
+        // )
+
+        // console.log(convertToFloat)
+        // console.log(this.barChartData.datasets[0].data)
       })
       .catch((err) => {
         this.ERROR_HANDLER(err)

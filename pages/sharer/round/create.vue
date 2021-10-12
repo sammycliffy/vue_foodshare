@@ -220,7 +220,9 @@ export default {
         { label: 'Percentage', option: 'percentage' },
       ],
 
-      reCreatePayload: this.$store.state.round.reCreatePayload,
+      recreateHash: this.$route.hash,
+
+      recreateDATA: this.$store.state.round.reCreatePayload,
 
       // request payload data & form template
       sharingRound: {
@@ -234,7 +236,7 @@ export default {
           endTime: null,
         },
         waitingTime: null,
-        waitingTimeUnit: 'minutes',
+        waitingTimeUnit: 'MINUTES',
         commodities: [
           {
             commodityName: null,
@@ -314,9 +316,10 @@ export default {
     //     this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
     //   })
   },
+
   mounted() {
-    if (this.reCreatePayload) {
-      this.sharingRound = this.reCreatePayload
+    if (this.recreateHash === '#!recreate') {
+      this.sharingRound = this.recreateDATA
     }
   },
 
@@ -382,7 +385,7 @@ export default {
       await this.$axios
         .$get(URI, {})
         .then(() => {
-          const twoDigits = Math.random().toString().substr(1, 1)
+          const twoDigits = Math.random().toString().substr(2, 2)
           this.defaultRoundName += '-' + twoDigits
         })
         .catch((e) => {
@@ -440,18 +443,18 @@ export default {
             .split('.')[0]
 
           // Save round form data to a perstisted Vuex store
-          if (this.reCreatePayload) {
-            this.$store.commit(
-              'round/SAVE_RECREATE_PAYLOAD_DATA',
-              this.sharingRound
-            )
-          } else {
-            this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
-          }
+
+          this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
+
           //  Redirect
-          this.$router.replace('/sharer/round/location/')
+          if (this.recreateHash) {
+            this.$router.replace('/sharer/round/location/#!recreate')
+          } else {
+            this.$router.replace('/sharer/round/location/')
+          }
         }
       } else {
+        console.log('Error', this.sharingRound)
         // Display  error toast notification
         this.$bvToast.toast('All Fields Are Required!', {
           title: 'Error!',

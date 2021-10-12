@@ -7,56 +7,85 @@
       <p class="poppins text-center">Create an account to get started</p>
       <ValidationObserver v-slot="{ handleSubmit }">
         <b-form class="formBox" @submit.prevent>
-          <b-input-group class="formInputGroup poppins">
-            <b-input-group-prepend class="input-addon border-right-0">
-              <b-input-group-text class="input-addon border-right-0">
-                <img src="/assets/icons/user.svg" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <b-form-input
-              v-model.trim="FORM.firstName"
-              class="input"
-              placeholder="First Name"
-              required
-            />
-          </b-input-group>
-          <b-input-group class="formInputGroup poppins">
-            <b-input-group-prepend class="input-addon border-right-0">
-              <b-input-group-text class="input-addon border-right-0">
-                <img src="/assets/icons/user.svg" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <b-form-input
-              v-model.trim="FORM.lastName"
-              class="input"
-              placeholder="Last Name"
-              required
-            />
-          </b-input-group>
-          <b-input-group class="formInputGroup poppins">
-            <b-input-group-prepend class="input-addon border-right-0">
-              <b-input-group-text class="input-addon border-right-0">
-                <img src="/assets/icons/phone.svg" />
-              </b-input-group-text>
-            </b-input-group-prepend>
-            <b-form-input
-              id="registerPhone"
-              v-model.trim="FORM.phone"
-              class="input"
-              type="tel"
-              placeholder="Phone Number"
-              max="10"
-              max-length="11"
-              min-length="11"
-              required
-            />
-          </b-input-group>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="First Name"
+            rules="alpha_spaces|required"
+            type="text"
+          >
+            <b-input-group class="formInputGroup poppins mb-0">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/user.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model.trim="FORM.firstName"
+                class="input"
+                placeholder="First Name"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Last Name"
+            rules="alpha_spaces|required"
+            type="text"
+          >
+            <b-input-group class="formInputGroup poppins mb-0 mt-20">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/user.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                v-model.trim="FORM.lastName"
+                class="input"
+                placeholder="Last Name"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Phone Number"
+            rules="required|digits:11"
+          >
+            <b-input-group class="formInputGroup poppins mb-0 mt-20">
+              <b-input-group-prepend class="input-addon border-right-0">
+                <b-input-group-text class="input-addon border-right-0">
+                  <img src="/assets/icons/phone.svg" />
+                </b-input-group-text>
+              </b-input-group-prepend>
+              <b-form-input
+                id="registerPhone"
+                v-model.trim="normalPhoneNumber"
+                class="input"
+                type="tel"
+                placeholder="Phone Number"
+                max="10"
+                max-length="11"
+                min-length="11"
+                required
+              />
+            </b-input-group>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
           <ValidationProvider
             v-slot="{ errors }"
             name="Email"
             rules="required|email"
           >
-            <b-input-group class="formInputGroup poppins mb-0">
+            <b-input-group class="formInputGroup poppins mb-0 mt-20">
               <b-input-group-prepend class="input-addon border-right-0">
                 <b-input-group-text class="input-addon border-right-0">
                   <img src="/assets/icons/email.svg" />
@@ -371,7 +400,8 @@ export default {
     return {
       passwordToggle: true,
       confirmPasswordToggle: true,
-
+      addLocalToNumber: null,
+      normalPhoneNumber: null,
       bankNames: [],
       accountName: null,
       selectedBank: null,
@@ -511,7 +541,7 @@ export default {
       if (
         !this.FORM.firstName ||
         !this.FORM.lastName ||
-        !this.FORM.phone ||
+        !this.normalPhoneNumber ||
         !this.FORM.emailAddress ||
         !this.FORM.credentials.password ||
         !this.FORM.credentials.matchingPassword
@@ -524,10 +554,10 @@ export default {
         }
       } else {
         if (
-          this.FORM.phone.length < 11 ||
-          this.FORM.phone.length === 12 ||
-          this.FORM.phone.length === 13 ||
-          this.FORM.phone.length > 14
+          this.normalPhoneNumber.length < 11 ||
+          this.normalPhoneNumber.length === 12 ||
+          this.normalPhoneNumber.length === 13 ||
+          this.normalPhoneNumber.length > 14
         ) {
           this.SHOW_TOAST({
             text:
@@ -537,12 +567,20 @@ export default {
           })
           return
         }
-        if (this.FORM.phone.length === 11) {
-          const updateNumber = this.FORM.phone.substring(1)
-          this.FORM.phone = updateNumber
+        // if (this.FORM.phone.length === 11) {
+        //   const updateNumber = this.FORM.phone.substring(1)
+        //   this.FORM.phone = updateNumber
+        // }
+        // if (this.FORM.phone.length === 10) {
+        //   this.FORM.phone = '+234' + this.FORM.phone
+        // }
+
+        if (this.normalPhoneNumber.length === 11) {
+          const updateNumber = this.normalPhoneNumber.substring(1)
+          this.addLocalToNumber = '+234' + updateNumber
         }
-        if (this.FORM.phone.length === 10) {
-          this.FORM.phone = '+234' + this.FORM.phone
+        if (this.addLocalToNumber) {
+          this.FORM.phone = this.addLocalToNumber
         }
 
         this.registerSpinner = true
@@ -572,7 +610,7 @@ export default {
       if (
         !this.FORM.firstName ||
         !this.FORM.lastName ||
-        !this.FORM.phone ||
+        !this.normalPhoneNumber ||
         !this.FORM.emailAddress ||
         !this.FORM.credentials.password ||
         !this.FORM.credentials.matchingPassword
@@ -582,12 +620,19 @@ export default {
           text: 'All Fields are required!',
         })
       } else {
-        if (this.FORM.phone.length === 11) {
-          const updateNumber = this.FORM.phone.substring(1)
-          this.FORM.phone = updateNumber
+        // if (this.FORM.phone.length === 11) {
+        //   const updateNumber = this.FORM.phone.substring(1)
+        //   this.FORM.phone = updateNumber
+        // }
+        // if (this.FORM.phone.length === 10) {
+        //   this.FORM.phone = '+234' + this.FORM.phone
+        // }
+        if (this.normalPhoneNumber.length === 11) {
+          const updateNumber = this.normalPhoneNumber.substring(1)
+          this.addLocalToNumber = '+234' + updateNumber
         }
-        if (this.FORM.phone.length === 10) {
-          this.FORM.phone = '+234' + this.FORM.phone
+        if (this.addLocalToNumber) {
+          this.FORM.phone = this.addLocalToNumber
         }
 
         this.registerSpinner = true

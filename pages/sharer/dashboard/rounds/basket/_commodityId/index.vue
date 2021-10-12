@@ -662,8 +662,8 @@ export default {
 }
 
 img {
-  height: 35px;
-  width: 35px;
+  height: 35px !important;
+  width: 35px !important;
 }
 
 ::v-deep .logOutModalStyle .modal-backdrop {
