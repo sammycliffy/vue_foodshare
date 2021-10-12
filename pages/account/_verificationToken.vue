@@ -4,7 +4,7 @@
 
     <div v-else class="scroll-overflow bg-general-color">
       <div class="half-width">
-        <template v-if="!$route.params.verificationToken">
+        <template v-if="hashbang === '#!reverify'">
           <div class="text-center">
             <img src="/assets/verify.svg" class="svgImg" />
           </div>
@@ -111,6 +111,8 @@ export default {
     return {
       accountActivated: false,
       resendLinkSpinner: false,
+
+      hashbang: this.$route.hash,
 
       verifyForm: {
         emailAddress: null,
