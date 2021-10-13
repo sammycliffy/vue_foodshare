@@ -17,7 +17,7 @@
         <div class="top-row d-flex justify-content-between">
           <div class="d-flex justify-content-around align-items-center">
             <partials-back-nav-button v-if="USER" />
-            <partials-back-nav-button v-if="hashbang" />
+            <partials-back-nav-button v-if="hashbang === '#!home' && !USER" />
             <span>
               <img
                 :src="
@@ -245,20 +245,38 @@
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
                 </span>
               </div>
-              <hr class="d-none" />
-              <div class="d-none">
-                <div class="d-flex justify-content-between mb-1">
+              <div class="">
+                <hr v-show="item.savings >= 1" class="" />
+                <div
+                  v-if="item.savings >= 1"
+                  class="d-flex justify-content-between mb-0"
+                >
                   <p class="mb-0 fs-12">Savings</p>
-                  <p class="mb-0 color-orange text_semiBold fs-12">
-                    NGN {{ Intl.NumberFormat().format(3000) }}
+                  <p
+                    v-if="
+                      cartPayload.sharedCommodities[index] &&
+                      cartPayload.sharedCommodities[index].numberOfSlots > 0
+                    "
+                    class="mb-0 color-orange text_semiBold fs-12"
+                  >
+                    NGN
+                    {{
+                      Intl.NumberFormat().format(
+                        item.savings *
+                          cartPayload.sharedCommodities[index].numberOfSlots
+                      )
+                    }}
+                  </p>
+                  <p v-else class="mb-0 color-orange text_semiBold fs-12">
+                    NGN {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
-                <div class="d-flex justify-content-between">
+                <!-- <div class=" d-flex justify-content-between">
                   <p class="mb-0 fs-12">Open Market Price</p>
                   <p class="mb-0 color-black text_semiBold fs-12">
                     NGN {{ Intl.NumberFormat().format(5000) }}
                   </p>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -339,18 +357,55 @@
                   </b-col>
                 </b-row>
               </div>
-              <hr class="d-none" />
-              <div class="d-none">
-                <div class="d-flex justify-content-between mb-10">
+
+              <div class="">
+                <hr
+                  v-show="item.savings >= 1 || item.openMarketPrices"
+                  class=""
+                />
+                <div
+                  v-if="item.savings >= 1"
+                  class="d-flex justify-content-between mb-0"
+                >
                   <p class="mb-0 fs-12">Savings</p>
-                  <p class="mb-0 color-orange text_semiBold fs-12"></p>
+
+                  <p
+                    v-if="
+                      cartPayload.sharedCommodities[index] &&
+                      cartPayload.sharedCommodities[index].numberOfSlots > 0
+                    "
+                    class="mb-0 color-orange text_semiBold fs-12"
+                  >
+                    NGN
+                    {{
+                      Intl.NumberFormat().format(
+                        item.savings *
+                          cartPayload.sharedCommodities[index].numberOfSlots
+                      )
+                    }}
+                  </p>
+                  <p v-else class="mb-0 color-orange text_semiBold fs-12">
+                    NGN {{ Intl.NumberFormat().format(item.savings) }}
+                  </p>
                 </div>
-                <div class="d-flex justify-content-between">
-                  <p class="mb-0 fs-12">Open Market Price</p>
-                  <p class="mb-0 fs-12 color-black text_semiBold"></p>
+                <div
+                  v-if="item.openMarketPrices[0]"
+                  class="d-flex justify-content-between"
+                >
+                  <!-- <p class="mb-0 fs-12">Open Market Price</p> -->
+                  <p class="mb-0 fs-12">
+                    {{ item.openMarketPrices[0].marketName }} Market Price
+                  </p>
+                  <p class="mb-0 fs-12 color-black text_semiBold">
+                    {{
+                      Intl.NumberFormat().format(
+                        item.openMarketPrices[0].marketPrice
+                      )
+                    }}
+                  </p>
                 </div>
               </div>
-              <div v-if="item.topMarkets" class="">
+              <!-- <div v-if="item.topMarkets" class="">
                 <h6 class="toggle_text text_medium">Top Open Market Prices</h6>
                 <div
                   v-for="market in item.topMarkets"
@@ -368,7 +423,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </section>
 
@@ -401,7 +456,7 @@ export default {
       calculateSlot: [],
       basketWorth: 0,
       // Hashbang from home page
-      hashbang: this.$route.hash.split('#!home')[1] || null,
+      hashbang: this.$route.hash,
       // sharerLogo
       FILE_BLOB: null,
 
@@ -601,7 +656,7 @@ export default {
 
 .round_commodity_toggle {
   background-color: #ffffff;
-  padding: 10px 17px 20px;
+  padding: 10px 17px;
   margin-bottom: 25px;
   border: 2px solid rgba(183, 185, 197, 0.27);
   box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.05);
