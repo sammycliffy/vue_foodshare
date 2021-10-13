@@ -595,6 +595,7 @@ export default {
       this.cartPayload.lastName = this.USER.lastName
       this.cartPayload.phoneNumber = this.USER.phone
       this.cartPayload.emailAddress = this.USER.user
+      this.normalPhoneNumber = this.cartPayload.phoneNumber
     }
 
     // User Prozy details,  don't know the usecase yet
