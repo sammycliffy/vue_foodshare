@@ -263,12 +263,7 @@ export default {
       this.paystackkey =
         process.env.PAYKEY || 'pk_live_02fd774b299b7aa5a1395738f20c38642e2e55fb'
     } else {
-      this.SHOW_TOAST({
-        text: 'Please, enter all required fields',
-        title: 'Paystack not available!',
-        variant: 'warning',
-      })
-      this.verifClicked = true
+      this.paystackkey = 'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024'
     }
   },
 
