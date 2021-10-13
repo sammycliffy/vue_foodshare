@@ -166,8 +166,10 @@ export default {
           .catch((error) => {
             // Display error toast as needed
             this.ERROR_HANDLER(error)
-
             // Remove User Data from a perstisted Vuex store
+            if (error.response.status === 422) {
+              this.$router.push('/account/#!reverify')
+            }
             this.$store.commit('auth/LOG_USER_OUT')
           })
           .finally(() => {

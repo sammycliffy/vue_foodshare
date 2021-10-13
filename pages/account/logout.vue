@@ -10,6 +10,8 @@ export default {
     // Remove User Data from a perstisted Vuex store
     this.$store.commit('auth/LOG_USER_OUT')
     this.$store.commit('cart/RESET_CART_DATA')
+    this.$store.commit('round/RESET_RECREATE_DATA')
+    this.$store.commit('round/RESET_ROUND_DATA')
     //  Redirect to login page
     this.$router.replace('/account/login/')
   },

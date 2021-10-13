@@ -117,77 +117,110 @@
                   <b-form>
                     <b-row align-h="between">
                       <b-col xs="6" class="input-l-seperator input-col">
-                        <b-input-group class="formInputGroup poppins">
-                          <b-input-group-prepend
-                            class="input-radius border-right-0 bg-white"
-                          >
-                            <b-input-group-text
-                              class="input-addon border-right-0 bg-white"
+                        <ValidationProvider
+                          v-slot="{ errors }"
+                          name="First Name"
+                          rules="alpha_spaces|required"
+                          type="text"
+                        >
+                          <b-input-group class="formInputGroup poppins mb-0">
+                            <b-input-group-prepend
+                              class="input-radius border-right-0 bg-white"
                             >
-                              <img src="/assets/icons/user.svg" />
-                            </b-input-group-text>
-                          </b-input-group-prepend>
-                          <b-form-input
-                            v-model="cartPayload.firstName"
-                            class="input border-left-0"
-                            placeholder="First Name"
-                            type="text"
-                            required
-                            :readonly="AUTH"
-                          />
-                        </b-input-group>
+                              <b-input-group-text
+                                class="input-addon border-right-0 bg-white"
+                              >
+                                <img src="/assets/icons/user.svg" />
+                              </b-input-group-text>
+                            </b-input-group-prepend>
+                            <b-form-input
+                              v-model="cartPayload.firstName"
+                              class="input border-left-0"
+                              placeholder="First Name"
+                              type="text"
+                              required
+                              :readonly="AUTH"
+                            />
+                          </b-input-group>
+                          <span
+                            v-show="errors.length > 0"
+                            class="is-invalid mt-2"
+                            >{{ errors[0] }}</span
+                          >
+                        </ValidationProvider>
                       </b-col>
                       <b-col xs="6" class="input-r-seperator input-col">
-                        <b-input-group class="formInputGroup poppins">
-                          <b-input-group-prepend
-                            class="input-radius border-right-0 bg-white"
-                          >
-                            <b-input-group-text
-                              class="input-addon border-right-0 bg-white"
+                        <ValidationProvider
+                          v-slot="{ errors }"
+                          name="Last Name"
+                          rules="alpha_spaces|required"
+                          type="text"
+                        >
+                          <b-input-group class="formInputGroup poppins mb-0">
+                            <b-input-group-prepend
+                              class="input-radius border-right-0 bg-white"
                             >
-                              <img src="/assets/icons/user.svg" />
-                            </b-input-group-text>
-                          </b-input-group-prepend>
-                          <b-form-input
-                            v-model="cartPayload.lastName"
-                            class="input border-left-0"
-                            placeholder="Last Name"
-                            type="text"
-                            required
-                            :readonly="AUTH"
-                          />
-                        </b-input-group>
+                              <b-input-group-text
+                                class="input-addon border-right-0 bg-white"
+                              >
+                                <img src="/assets/icons/user.svg" />
+                              </b-input-group-text>
+                            </b-input-group-prepend>
+                            <b-form-input
+                              v-model="cartPayload.lastName"
+                              class="input border-left-0"
+                              placeholder="Last Name"
+                              type="text"
+                              required
+                              :readonly="AUTH"
+                            />
+                          </b-input-group>
+                          <span
+                            v-show="errors.length > 0"
+                            class="is-invalid mt-2"
+                            >{{ errors[0] }}</span
+                          >
+                        </ValidationProvider>
                       </b-col>
                     </b-row>
                   </b-form>
                 </b-container>
-                <b-input-group class="formInputGroup poppins">
-                  <b-input-group-prepend
-                    class="input-radius border-right-0 bg-white"
-                  >
-                    <b-input-group-text
-                      class="input-addon border-right-0 bg-white"
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="Phone Number"
+                  rules="required|digits:11"
+                >
+                  <b-input-group class="formInputGroup poppins mb-0 mt-20">
+                    <b-input-group-prepend
+                      class="input-radius border-right-0 bg-white"
                     >
-                      <img src="/assets/icons/phone.svg" />
-                    </b-input-group-text>
-                  </b-input-group-prepend>
-                  <b-form-input
-                    v-model.trim="cartPayload.phoneNumber"
-                    class="input border-left-0"
-                    type="tel"
-                    required
-                    :readonly="AUTH"
-                    placeholder="Phone Number"
-                    max-length="11"
-                    min-length="11"
-                  />
-                </b-input-group>
+                      <b-input-group-text
+                        class="input-addon border-right-0 bg-white"
+                      >
+                        <img src="/assets/icons/phone.svg" />
+                      </b-input-group-text>
+                    </b-input-group-prepend>
+                    <b-form-input
+                      v-model.trim="normalPhoneNumber"
+                      class="input border-left-0"
+                      type="tel"
+                      required
+                      :readonly="AUTH"
+                      placeholder="Phone Number"
+                      max-length="11"
+                      min-length="11"
+                    />
+                  </b-input-group>
+                  <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                    errors[0]
+                  }}</span>
+                </ValidationProvider>
                 <ValidationProvider
                   v-slot="{ errors }"
                   name="Email"
                   rules="required|email"
                 >
-                  <b-input-group class="formInputGroup poppins mb-0">
+                  <b-input-group class="formInputGroup poppins mb-0 mt-20">
                     <b-input-group-prepend
                       class="input-radius border-right-0 bg-white"
                     >
@@ -458,7 +491,8 @@ export default {
       spinner: false,
       userAlreadyExist: null,
       sameLocationQuery: 'YES',
-
+      addLocalToNumber: null,
+      normalPhoneNumber: null,
       defaultAddress: {},
       recentAddresses: [],
       cartPayload: this.$store.state.cart.payload,
@@ -561,6 +595,7 @@ export default {
       this.cartPayload.lastName = this.USER.lastName
       this.cartPayload.phoneNumber = this.USER.phone
       this.cartPayload.emailAddress = this.USER.user
+      this.normalPhoneNumber = this.cartPayload.phoneNumber
     }
 
     // User Prozy details,  don't know the usecase yet
@@ -578,6 +613,7 @@ export default {
     validateFields() {
       if (
         this.cartPayload.deliveryDetails.deliveryAddress.currentAddressId ||
+        this.normalPhoneNumber ||
         (this.cartPayload.phoneNumber &&
           this.cartPayload.emailAddress &&
           (this.cartPayload.deliveryDetails.deliveryMethod === 'pickup' ||
@@ -600,10 +636,10 @@ export default {
     async submitAddress() {
       if (this.validateFields() && !this.spinner) {
         if (
-          this.cartPayload.phoneNumber.length < 11 ||
-          this.cartPayload.phoneNumber.length === 12 ||
-          this.cartPayload.phoneNumber.length === 13 ||
-          this.cartPayload.phoneNumber.length > 14
+          this.normalPhoneNumber.length < 11 ||
+          this.normalPhoneNumber.length === 12 ||
+          this.normalPhoneNumber.length === 13 ||
+          this.normalPhoneNumber.length > 14
         ) {
           this.SHOW_TOAST({
             text:
@@ -613,12 +649,23 @@ export default {
           })
           return
         }
-        if (this.cartPayload.phoneNumber.length === 11) {
-          const updateNumber = this.cartPayload.phoneNumber.substring(1)
-          this.cartPayload.phoneNumber = updateNumber
+        // if (this.cartPayload.phoneNumber.length === 11) {
+        //   const updateNumber = this.cartPayload.phoneNumber.substring(1)
+        //   this.cartPayload.phoneNumber = updateNumber
+        // }
+        // if (this.cartPayload.phoneNumber.length === 10) {
+        //   this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
+        // }
+        if (this.normalPhoneNumber.length === 11) {
+          const updateNumber = this.normalPhoneNumber.substring(1)
+          // this.cartPayload.phoneNumber = updateNumber
+          this.addLocalToNumber = '+234' + updateNumber
         }
-        if (this.cartPayload.phoneNumber.length === 10) {
-          this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
+        // if (this.cartPayload.phoneNumber.length === 10) {
+        //   this.cartPayload.phoneNumber = '+234' + this.cartPayload.phoneNumber
+        // }
+        if (this.addLocalToNumber) {
+          this.cartPayload.phoneNumber = this.addLocalToNumber
         }
 
         const encodePhone = window.btoa(this.cartPayload.phoneNumber)
