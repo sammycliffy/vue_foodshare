@@ -245,7 +245,6 @@ export default {
           .subTotalPlusServiceChargePlusShippingPlusPaystackfees * 100,
     }
   },
-
   computed: {
     reference() {
       let text = ''
@@ -257,6 +256,15 @@ export default {
 
       return text
     },
+  },
+
+  mounted() {
+    if (location.host === 'app.foodshare.ng') {
+      this.paystackkey =
+        process.env.PAYKEY || 'pk_live_02fd774b299b7aa5a1395738f20c38642e2e55fb'
+    } else {
+      this.paystackkey = 'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024'
+    }
   },
 
   methods: {
