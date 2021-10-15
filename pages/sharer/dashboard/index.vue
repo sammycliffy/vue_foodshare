@@ -30,7 +30,9 @@
               <!-- <b-skeleton v-if="$fetchState.pending"></b-skeleton>
               <span v-else v-text="totalReviews" /> -->
             </span>
-            <span class="d-block statisticsName">Reviews</span>
+            <span class="d-block statisticsName">
+              <!-- Reviews -->
+            </span>
           </div>
           <div class="text-center col">
             <span class="d-block statisticsNumber">

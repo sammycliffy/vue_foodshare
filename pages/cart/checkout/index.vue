@@ -233,12 +233,13 @@ export default {
       paymentPayload: this.$store.state.cart.payment,
       spinner: false,
       ps_spinner: false,
-      paystackkey:
-        process.env.PAYKEY ||
-        'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024',
+      // paystackkey:
+      //   process.env.PAYKEY ||
+      //   'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024',
+
       // paystackkey: 'pk_live_02fd774b299b7aa5a1395738f20c38642e2e55fb',
       // paystack public key
-      // paystackkey: 'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024', // paystack public key
+      paystackkey: 'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024', // paystack public key
       email: this.$store.state.cart.payload.emailAddress, // Customer email
       amount:
         this.$store.state.cart.payload
@@ -260,8 +261,7 @@ export default {
 
   mounted() {
     if (location.host === 'app.foodshare.ng') {
-      this.paystackkey =
-        process.env.PAYKEY || 'pk_live_02fd774b299b7aa5a1395738f20c38642e2e55fb'
+      this.paystackkey = 'pk_live_02fd774b299b7aa5a1395738f20c38642e2e55fb'
     } else {
       this.paystackkey = 'pk_test_37f0940b6486906976a15a1cb6fcf7feb64ce024'
     }
