@@ -161,7 +161,15 @@
                         {{ Intl.NumberFormat().format(item.sharingPrice) }}
                         <span class="d-block toggle_text_sub">
                           <span>
-                            per {{ item.sharingUnits }}
+                            <span v-if="item.sharingUnits == 0.25"
+                              >per 1/4</span
+                            >
+                            <span v-if="item.sharingUnits == 0.5">
+                              per 1/2</span
+                            >
+                            <span v-if="item.sharingUnits > 0.5"
+                              >per {{ item.sharingUnits }}</span
+                            >
                             {{ item.unitOfMeasurement }}
                           </span>
                         </span>
@@ -247,13 +255,13 @@
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                     >
                     <span class="d-block toggle_text_sub">
-                      <span v-if="item.sharingUnits == 0.25">1/4</span>
-                      <span v-if="item.sharingUnits == 0.5">1/2</span>
+                      <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                      <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
                       <span v-if="item.sharingUnits > 0.5"
                         >per {{ item.sharingUnits }}</span
                       >
-                      {{ item.unitOfMeasurement }}</span
-                    >
+                      {{ item.unitOfMeasurement }}
+                    </span>
                   </b-col>
                 </b-row>
                 <b-row class="mx-0">
@@ -466,7 +474,11 @@
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}
                       <span class="d-block toggle_text_sub">
                         <span>
-                          per {{ item.sharingUnits }}
+                          <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                          <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
+                          <span v-if="item.sharingUnits > 0.5"
+                            >per {{ item.sharingUnits }}</span
+                          >
                           {{ item.unitOfMeasurement }}
                         </span>
                       </span>
@@ -559,10 +571,14 @@
                     NGN
                     {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                   >
-                  <span class="d-block toggle_text_sub"
-                    >per {{ item.sharingUnits }}
-                    {{ item.unitOfMeasurement }}</span
-                  >
+                  <span class="d-block toggle_text_sub">
+                    <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                    <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
+                    <span v-if="item.sharingUnits > 0.5"
+                      >per {{ item.sharingUnits }}</span
+                    >
+                    {{ item.unitOfMeasurement }}
+                  </span>
                 </b-col>
               </b-row>
               <b-row class="mx-0">
