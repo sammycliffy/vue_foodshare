@@ -79,7 +79,7 @@
             <div class="col-7 px-0">
               <div class="paymentProveBox">
                 <p>Proof of Payment</p>
-                <div v-if="!roundBasket.paymentComplete">
+                <div v-if="roundBasket.paymentComplete">
                   <div v-if="paymentProof" class="">
                     <img
                       v-if="paymentProof"

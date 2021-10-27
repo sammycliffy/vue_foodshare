@@ -32,7 +32,9 @@
                   <div class="d-flex justify-content-between">
                     <div class="d-flex justify-content-around">
                       <div class="item__image">
-                        <img :src="item.image || '/assets/empty-photo.svg'" />
+                        <img
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                        />
                       </div>
                       <div class="ml-3 my-auto">
                         <span class="d-block item__name">{{

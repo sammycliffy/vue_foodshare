@@ -247,7 +247,11 @@
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                     >
                     <span class="d-block toggle_text_sub">
-                      per {{ item.sharingUnits }}
+                      <span v-if="item.sharingUnits == 0.25">1/4</span>
+                      <span v-if="item.sharingUnits == 0.5">1/2</span>
+                      <span v-if="item.sharingUnits > 0.5"
+                        >per {{ item.sharingUnits }}</span
+                      >
                       {{ item.unitOfMeasurement }}</span
                     >
                   </b-col>
@@ -699,7 +703,7 @@ export default {
     },
 
     addToCart(item, index, action) {
-      if (this.cart[index] < 1) {
+      if (this.cart[index] < 0.25) {
         // Delete from Cart
         this.cartPayload.sharedCommodities[index] = null
 

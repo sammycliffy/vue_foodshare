@@ -77,7 +77,21 @@
             </span>
           </span>
         </div>
-        <div v-if="item.isClosed === true" class="text-center">
+        <div class="d-flex justify-content-between">
+          <span>
+            <span class="ml-1 mini-title">
+              <span>Sharing Day</span>
+              <span>{{ item.endTimeWithDay }} </span>
+            </span>
+          </span>
+          <span>
+            <span>Total transactions</span>
+            <span class="ml-1 mini-title">
+              {{ item.sharingRoundFinancials.totalCost }}
+            </span>
+          </span>
+        </div>
+        <div v-if="item.isClosed === true" class="d-none text-center">
           <b-btn
             :disabled="verifClicked === true"
             class="btn fs-12 mt-3 primary-btn"
