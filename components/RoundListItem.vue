@@ -77,7 +77,10 @@
             </span>
           </span>
         </div>
-        <div class="d-flex justify-content-between">
+        <div
+          v-if="item.isClosed === true"
+          class="d-flex justify-content-between"
+        >
           <span>
             <span class="ml-1 mini-title">
               <span>Sharing Day</span>

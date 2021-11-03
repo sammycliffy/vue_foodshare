@@ -69,7 +69,9 @@
 
       <div class="d-flex justify-content-between">
         <p class="text_semiBold mb-0">
-          {{ searchInput ? 'Search Result' : 'Available Sharing rounds' }}
+          {{ searchInput ? 'Search Result' : 'Available Sharing' }}
+          <span v-if="!searchInput && sharingRounds.length > 1"> Rounds</span>
+          <span v-if="!searchInput && sharingRounds.length == 1"> Round</span>
         </p>
         <span v-if="numberOfPages > 1" class="showingResult"
           >showing <span v-text="currentPageNumber" /> of
@@ -147,7 +149,10 @@
                 </span>
                 <span class="text_medium mini-title">
                   <span class="d-block color-orange text_normal">
-                    <span>{{ item.sharingAddress.lineTwo }}</span>
+                    <span>{{ item.sharingAddress.lineTwo }},</span>
+                  </span>
+                  <span class="d-block color-black text_normal">
+                    <span>{{ item.sharingAddress.state }}</span>
                   </span>
                 </span>
               </div>
