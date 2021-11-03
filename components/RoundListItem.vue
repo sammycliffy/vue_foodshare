@@ -77,7 +77,22 @@
             </span>
           </span>
         </div>
-        <div v-if="item.isClosed === true" class="text-center">
+        <div
+          v-if="item.isClosed === true"
+          class="d-flex justify-content-between"
+        >
+          <span>
+            <span class="fs-12">Sharing Day</span><br />
+            <span class="fs-12 text_semiBold">{{ item.endTimeWithDay }} </span>
+          </span>
+          <span>
+            <span class="fs-12">Total transactions</span><br />
+            <span class="fs-12 text_semiBold">
+              NGN {{ item.sharingRoundFinancials.totalTransaction }}
+            </span>
+          </span>
+        </div>
+        <div v-if="item.isClosed === true" class="d-none text-center">
           <b-btn
             :disabled="verifClicked === true"
             class="btn fs-12 mt-3 primary-btn"

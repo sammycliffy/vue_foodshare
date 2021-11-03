@@ -183,7 +183,16 @@
                         {{ Intl.NumberFormat().format(item.sharingPrice) }}
                         <span class="d-block toggle_text_sub">
                           <span>
-                            per {{ item.sharingUnits }}
+                            <span v-if="item.sharingUnits == 0.25"
+                              >per 1/4</span
+                            >
+                            <span v-if="item.sharingUnits == 0.5">per 1/2</span>
+                            <span v-if="item.sharingUnits == 0.75">
+                              per 3/4</span
+                            >
+                            <span v-if="item.sharingUnits >= 1"
+                              >per {{ item.sharingUnits }}</span
+                            >
                             {{ item.unitOfMeasurement }}
                           </span>
                         </span>
@@ -321,9 +330,14 @@
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                     >
                     <span class="d-block toggle_text_sub">
-                      per {{ item.sharingUnits }}
-                      {{ item.unitOfMeasurement }}</span
-                    >
+                      <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                      <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
+                      <span v-if="item.sharingUnits == 0.75"> per 3/4</span>
+                      <span v-if="item.sharingUnits > 0.5"
+                        >per {{ item.sharingUnits }}</span
+                      >
+                      {{ item.unitOfMeasurement }}
+                    </span>
                   </b-col>
                 </b-row>
                 <b-row class="mx-0">
@@ -530,7 +544,7 @@ export default {
     },
 
     addToCart(item, index) {
-      if (this.cart[index] < 1) {
+      if (this.cart[index] < 0.5) {
         // Delete from Cart
         this.cartPayload.sharedCommodities[index] = null
         // toggle drop-down
