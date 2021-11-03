@@ -186,10 +186,11 @@
                             <span v-if="item.sharingUnits == 0.25"
                               >per 1/4</span
                             >
-                            <span v-if="item.sharingUnits == 0.5">
-                              per 1/2</span
+                            <span v-if="item.sharingUnits == 0.5">per 1/2</span>
+                            <span v-if="item.sharingUnits == 0.75">
+                              per 3/4</span
                             >
-                            <span v-if="item.sharingUnits > 0.5"
+                            <span v-if="item.sharingUnits >= 1"
                               >per {{ item.sharingUnits }}</span
                             >
                             {{ item.unitOfMeasurement }}
@@ -331,6 +332,7 @@
                     <span class="d-block toggle_text_sub">
                       <span v-if="item.sharingUnits == 0.25">per 1/4</span>
                       <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
+                      <span v-if="item.sharingUnits == 0.75"> per 3/4</span>
                       <span v-if="item.sharingUnits > 0.5"
                         >per {{ item.sharingUnits }}</span
                       >
@@ -542,7 +544,7 @@ export default {
     },
 
     addToCart(item, index) {
-      if (this.cart[index] < 0.25) {
+      if (this.cart[index] < 0.5) {
         // Delete from Cart
         this.cartPayload.sharedCommodities[index] = null
         // toggle drop-down

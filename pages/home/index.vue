@@ -144,12 +144,16 @@
                   </span>
                 </span>
                 <span class="text_medium mini-title">
-                  <span class="d-block color-orange text_normal">
-                    <span>{{ item.sharingAddress.lineTwo }},</span>
+                  <span class="d-block text_normal">
+                    <span class="color-orange"
+                      >{{ item.sharingAddress.lineTwo }}, </span
+                    ><span class="color-black">{{
+                      item.sharingAddress.state
+                    }}</span>
                   </span>
-                  <span class="d-block color-black text_normal">
+                  <!-- <span class="d-block color-black text_normal">
                     <span>{{ item.sharingAddress.state }}</span>
-                  </span>
+                  </span> -->
                 </span>
               </div>
             </div>

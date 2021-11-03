@@ -82,15 +82,13 @@
           class="d-flex justify-content-between"
         >
           <span>
-            <span class="ml-1 mini-title">
-              <span>Sharing Day</span>
-              <span>{{ item.endTimeWithDay }} </span>
-            </span>
+            <span class="fs-12">Sharing Day</span><br />
+            <span class="fs-12 text_semiBold">{{ item.endTimeWithDay }} </span>
           </span>
           <span>
-            <span>Total transactions</span>
-            <span class="ml-1 mini-title">
-              {{ item.sharingRoundFinancials.totalCost }}
+            <span class="fs-12">Total transactions</span><br />
+            <span class="fs-12 text_semiBold">
+              NGN {{ item.sharingRoundFinancials.totalTransaction }}
             </span>
           </span>
         </div>
