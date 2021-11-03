@@ -128,7 +128,7 @@
                 </h5>
               </div>
               <div class="col-6 orderDetailsBox">
-                <p class="orderDetailsTitle color-orange">shipping Fee</p>
+                <p class="orderDetailsTitle color-orange">Shipping Fee</p>
                 <h5 class="text_medium">
                   NGN
                   <span>{{

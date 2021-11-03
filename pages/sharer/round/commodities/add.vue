@@ -182,7 +182,7 @@
             class="form-control createFormInput"
             type="text"
             placeholder="Enter sharing commment"
-            maxlength="10"
+            maxlength="15"
           >
           </b-form-input>
         </div>
