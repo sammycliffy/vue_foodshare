@@ -357,7 +357,7 @@
                         :placeholder="
                           cartPayload.sharedCommodities[index]
                             ? cartPayload.sharedCommodities[index].numberOfSlots
-                            : 'Enter # of slots'
+                            : 'Enter # of slots e.g 0.5, 0.75, 1'
                         "
                       />
                     </div>

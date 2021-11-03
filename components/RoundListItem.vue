@@ -88,7 +88,12 @@
           <span>
             <span class="fs-12">Total transactions</span><br />
             <span class="fs-12 text_semiBold">
-              NGN {{ item.sharingRoundFinancials.totalTransaction }}
+              NGN
+              {{
+                Intl.NumberFormat().format(
+                  item.sharingRoundFinancials.totalTransaction
+                )
+              }}
             </span>
           </span>
         </div>
