@@ -17,16 +17,23 @@
             />
           </svg>
         </span>
-        <h5 class="title">Revenue</h5>
+        <h5 class="title">
+          Total Round Revenue
+          <span class="color-orange"
+            >&#8358;{{
+              Intl.NumberFormat().format(totalProfit + totalProfit)
+            }}</span
+          >
+        </h5>
         <span>&nbsp;</span>
       </header>
       <div class="colorBox my-3">
-        <div class="d-flex justify-content-between mb-3">
+        <!-- <div class="d-flex justify-content-between mb-3">
           <h6 class="text_medium mb-0">Revenue</h6>
           <p class="mb-0">
             <span v-text="sharingRound.name"></span>
           </p>
-        </div>
+        </div> -->
         <div class="row">
           <div class="b-line-r pl-3 pr-2 col">
             <h6 class="mb-1 text_semiBold">
@@ -43,11 +50,16 @@
             <p>Members</p>
           </div>
           <div class="pl-3 pr-2 col">
-            <h6 class="mb-1 text_semiBold color-green">
-              NGN
+            <p class="mb-1 text_semiBold color-green">
+              &#8358;
               <span v-text="Intl.NumberFormat().format(totalProfit)"></span>
-            </h6>
-            <p>Revenue</p>
+            </p>
+            <p class="mb-1">Total Product Revenue</p>
+            <p class="mb-1 text_semiBold color-orange">
+              &#8358;
+              <span v-text="Intl.NumberFormat().format(totalProfit)"></span>
+            </p>
+            <p class="m-0">Total Service Revenue</p>
           </div>
         </div>
       </div>
@@ -85,7 +97,7 @@
               <span>Revenue</span>
             </p>
             <p class="mb-0 color-green">
-              <span> NGN </span>
+              <span> &#8358; </span>
               <span
                 v-text="
                   Intl.NumberFormat().format(

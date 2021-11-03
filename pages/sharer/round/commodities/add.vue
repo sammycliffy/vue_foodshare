@@ -69,7 +69,7 @@
         <div class="form-row">
           <div class="col input-l-seperator input-col">
             <div class="form-group">
-              <label class="createFormLabel" for="sharingUnits">Size</label>
+              <label class="createFormLabel" for="sharingUnits">Quantity</label>
               <b-form-input
                 id="sharingUnits"
                 v-model.number="
@@ -77,14 +77,14 @@
                 "
                 type="number"
                 class="form-control createFormInput"
-                placeholder="Enter NO. of units"
+                placeholder="Enter the quantity e.g 0.25, 0.5, 1"
                 required
               />
             </div>
           </div>
           <div class="col input-r-seperator input-col">
             <div class="form-group">
-              <label class="createFormLabel" for="productSize">Size type</label>
+              <label class="createFormLabel" for="productSize">Units</label>
 
               <v-select
                 id="productSize"
@@ -165,7 +165,7 @@
                 class="createFormInput secondary-background secondary-border"
               >
                 <p class="avgPrice">
-                  NGN
+                  &#8358;
                   {{ sharingRound.commodities[commoditiesLength].marketPrice }}
                 </p>
               </div>

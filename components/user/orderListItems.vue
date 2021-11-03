@@ -108,7 +108,7 @@
                   v-text="commodity.sharedCommodityName"
                 ></span>
                 <span class="d-block itemPrice mt-2 color-orange"
-                  >NGN
+                  >&#8358;
                   {{ Intl.NumberFormat().format(commodity.totalCost) }}</span
                 >
                 <span class="d-block itemSlot mt-2">
@@ -123,14 +123,14 @@
               <div class="col-6 orderDetailsBox">
                 <p class="orderDetailsTitle color-orange">Sub Total</p>
                 <h5 class="text_medium">
-                  NGN
+                  &#8358;
                   <span>{{ Intl.NumberFormat().format(item.subTotal) }}</span>
                 </h5>
               </div>
               <div class="col-6 orderDetailsBox">
                 <p class="orderDetailsTitle color-orange">Shipping Fee</p>
                 <h5 class="text_medium">
-                  NGN
+                  &#8358;
                   <span>{{
                     Intl.NumberFormat().format(item.shippingFee)
                   }}</span>
@@ -141,7 +141,7 @@
               <div class="col-6 orderDetailsBox">
                 <p class="orderDetailsTitle color-orange">Service Charge</p>
                 <h5 class="">
-                  NGN
+                  &#8358;
                   <span>{{
                     Intl.NumberFormat().format(item.serviceCharge)
                   }}</span>
@@ -153,7 +153,7 @@
               >
                 <p class="orderDetailsTitle color-orange">Paystack Fee</p>
                 <h5 class="">
-                  NGN
+                  &#8358;
                   <span>{{
                     Intl.NumberFormat().format(item.paystackFees)
                   }}</span>
@@ -162,7 +162,7 @@
               <div class="orderDetailsBox col-6">
                 <p class="orderDetailsTitle color-orange">Total</p>
                 <h5 class="text_medium">
-                  NGN
+                  &#8358;
                   <span v-if="item.paymentDetails.paymentType === 'PAYSTACK'">
                     {{
                       Intl.NumberFormat().format(

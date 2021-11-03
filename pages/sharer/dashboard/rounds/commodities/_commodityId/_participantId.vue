@@ -49,7 +49,7 @@
         <div class="singleSlotTotalBox">
           <p>Total Price</p>
           <h5 class="color-orange text_bold mb-0">
-            NGN
+            &#8358;
             <span v-text="totalCost"></span>
           </h5>
         </div>
@@ -78,7 +78,7 @@
           <div class="multiplySlotTotalBox col px-0">
             <p>Total Price</p>
             <h5 class="color-orange text_bold mb-0">
-              NGN
+              &#8358;
               <span v-text="totalCost"></span>
             </h5>
           </div>

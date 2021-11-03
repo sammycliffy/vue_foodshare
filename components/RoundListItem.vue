@@ -88,7 +88,7 @@
           <span>
             <span class="fs-12">Total transactions</span><br />
             <span class="fs-12 text_semiBold">
-              NGN
+              &#8358;
               {{
                 Intl.NumberFormat().format(
                   item.sharingRoundFinancials.totalTransaction
@@ -183,7 +183,7 @@
           <div class="col-4 align-self-center">
             <p class="mb-0">
               <span
-                >NGN
+                >&#8358;
                 {{ Intl.NumberFormat().format(product.sharingPrice) }}</span
               >
             </p>
