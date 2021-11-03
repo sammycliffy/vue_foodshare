@@ -30,7 +30,7 @@
             <div class="pr-5">
               <span class="d-block item__title__small">Sharing Price</span>
               <span class="d-block item__price">
-                NGN
+                &#8358;
                 {{ Intl.NumberFormat().format(commodity.sharingPrice) }}</span
               >
             </div>
@@ -49,15 +49,15 @@
           <table class="mt-1">
             <tr class="">
               <td class="mr-2">-</td>
-              <td class="table__price">NGN</td>
+              <td class="table__price">&#8358;</td>
             </tr>
             <tr class="pt-1">
               <td class="mr-2">-</td>
-              <td class="table__price">NGN</td>
+              <td class="table__price">&#8358;</td>
             </tr>
             <tr class="pt-1">
               <td class="mr-2">-</td>
-              <td class="table__price">NGN</td>
+              <td class="table__price">&#8358;</td>
             </tr>
           </table>
         </div>

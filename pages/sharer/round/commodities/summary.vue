@@ -45,7 +45,7 @@
                   <span class="d-block">{{ item.commodityName }}</span>
 
                   <span class="d-block item__price mt-2"
-                    >NGN
+                    >&#8358;
                     {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                   >
                 </div>
@@ -88,7 +88,7 @@
           <div class="font-weight-light">
             <span v-if="sharingRoundPayload.serviceChargeType === 'flatrate'"
               ><span class="color-orange mr-2"
-                >NGN {{ sharingRoundPayload.serviceChargeAmount }}</span
+                >&#8358; {{ sharingRoundPayload.serviceChargeAmount }}</span
               >
               Flat Rate
             </span>
