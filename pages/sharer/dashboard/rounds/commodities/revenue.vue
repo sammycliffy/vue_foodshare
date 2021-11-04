@@ -20,9 +20,7 @@
         <h5 class="title">
           Total Round Revenue
           <span class="color-orange"
-            >&#8358;{{
-              Intl.NumberFormat().format(totalProfit + totalProfit)
-            }}</span
+            >&#8358;{{ Intl.NumberFormat().format(totalRevenueAmount) }}</span
           >
         </h5>
         <span>&nbsp;</span>
@@ -52,12 +50,25 @@
           <div class="pl-3 pr-2 col">
             <p class="mb-1 text_semiBold color-green">
               &#8358;
-              <span v-text="Intl.NumberFormat().format(totalProfit)"></span>
+              <span
+                v-text="
+                  Intl.NumberFormat().format(
+                    this.sharingRound.sharingRoundFinancials
+                      .totalTransactionWithoutServices
+                  )
+                "
+              ></span>
             </p>
             <p class="mb-1">Total Product Revenue</p>
             <p class="mb-1 text_semiBold color-orange">
               &#8358;
-              <span v-text="Intl.NumberFormat().format(totalProfit)"></span>
+              <span
+                v-text="
+                  Intl.NumberFormat().format(
+                    this.sharingRound.sharingRoundFinancials.totalServices
+                  )
+                "
+              ></span>
             </p>
             <p class="m-0">Total Service Revenue</p>
           </div>
@@ -134,6 +145,15 @@ export default {
       })
 
       return total
+    },
+
+    totalRevenueAmount() {
+      const totalRevenue = parseInt(
+        this.sharingRound.sharingRoundFinancials
+          .totalTransactionWithoutServices +
+          this.sharingRound.sharingRoundFinancials.totalServices
+      )
+      return totalRevenue
     },
 
     // totalProfit() {

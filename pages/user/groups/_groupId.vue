@@ -50,9 +50,9 @@
             </div>
             <div class="contentCard mb-24">
               <p class="mb-8px text_medium">Phone Number</p>
-              <p class="mb-0 contentText" v-text="group.phoneNumber"></p>
+              <p class="mb-0 contentText" v-text="group.sharerPhoneNumber"></p>
             </div>
-            <h5 class="color-orange text_medium my-3">Group Members</h5>
+            <!-- <h5 class="color-orange text_medium my-3">Group Members</h5>
             <div v-for="item in group.members" :key="item.email" class="">
               <div class="d-flex flex-row align-items-center mb-20">
                 <img
@@ -64,7 +64,7 @@
                   v-text="item.firstName"
                 ></span>
               </div>
-            </div>
+            </div> -->
           </section>
         </div>
       </div>
