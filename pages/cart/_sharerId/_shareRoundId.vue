@@ -283,7 +283,7 @@
                         :placeholder="
                           cartPayload.sharedCommodities[index]
                             ? cartPayload.sharedCommodities[index].numberOfSlots
-                            : 'Enter # of slots e.g 0.5, 0.75, 1'
+                            : 'Enter # of slots e.g 0.5, 1'
                         "
                       />
                     </div>
@@ -331,6 +331,7 @@
                   class="d-flex justify-content-between"
                 >
                   <!-- <p class="mb-0 fs-12">Open Market Price</p> -->
+                  <h6 class="toggle_text text_medium">Open Market Price</h6>
                   <p class="mb-0 fs-12">
                     {{ item.openMarketPrices[0].marketName }} Market Price
                   </p>
@@ -608,7 +609,7 @@
                       :placeholder="
                         cartPayload.sharedCommodities[index]
                           ? cartPayload.sharedCommodities[index].numberOfSlots
-                          : 'Enter # of slots e.g 0.5, 0.75, 1'
+                          : 'Enter # of slots e.g 0.5, 1'
                       "
                     />
                   </div>

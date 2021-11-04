@@ -813,6 +813,18 @@ h5{
   color: #4f9e55;
   font-weight: 500;
 }
+.round-share-icons{
+  border: 1px solid #4F9E55;
+  padding: 4px 6px 4px 4px;
+  border-radius: 50%;
+}
+.round-edit-icons{
+  border: 1px solid #4F9E55;
+  padding: 4px;
+  border-radius: 50%;
+  font-size: 15px !important;
+  vertical-align: middle;
+}
 @media (max-width: 321px) {
   .mt-sub{
     font-size: 11px !important;

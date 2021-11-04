@@ -79,7 +79,7 @@
             <div class="col-7 px-0">
               <div class="paymentProveBox">
                 <p>Proof of Payment</p>
-                <div v-if="roundBasket.paymentComplete">
+                <div>
                   <div v-if="paymentProof" class="">
                     <img
                       v-if="paymentProof"
@@ -93,40 +93,29 @@
                       width="136px"
                     ></b-skeleton>
                   </div>
-                  <div
-                    v-if="
-                      roundBasket.orderStatus ===
+                  <div v-else class="badge badge-warning text-wrap">
+                    No payment proof found
+                  </div>
+                  <!-- roundBasket.orderStatus ===
                         'AWAITING_PAYMENT_CONFIRMATION' ||
                       'AWAITING_PROOF_OF_PAYMENT' ||
                       'AWAITING_PAYMENT'
-                    "
+                    " -->
+                  <div
+                    v-if="!roundBasket.paymentComplete"
                     class="mt-20 btnBox d-flex"
                   >
                     <b-btn
                       class="btn primary-btn btn-sm mr-1"
-                      @click="confirmPayment()"
+                      @click="approveOrderTrigger()"
                     >
                       Approve
-                      <b-spinner
-                        v-if="spinner1"
-                        variant="white"
-                        label="Spinning"
-                        class="ml-3"
-                        small
-                      />
                     </b-btn>
                     <b-btn
                       class="btn btn-transparent btn-sm ml-1 borderPrimary"
-                      @click="cancelOrder()"
+                      @click="declineOrderTrigger()"
                     >
                       Decline
-                      <b-spinner
-                        v-if="spinner2"
-                        variant="white"
-                        label="Spinning"
-                        class="ml-3"
-                        small
-                      />
                     </b-btn>
                   </div>
                 </div>
@@ -136,7 +125,7 @@
                 >
                   Order cancelled
                 </div>
-                <div
+                <!-- <div
                   v-if="
                     roundBasket.orderStatus ===
                       'AWAITING_PAYMENT_CONFIRMATION' && !paymentProof
@@ -144,7 +133,7 @@
                   class="badge badge-secondary text-wrap"
                 >
                   Payment proof not yet uploaded.
-                </div>
+                </div> -->
               </div>
               <p class="paymentStatus">
                 <span class="">Payment Method:</span>
@@ -171,6 +160,74 @@
             />
           </div>
         </b-modal>
+        <b-modal
+          v-model="orderApproveModal"
+          modal-class="logOutModalStyle text-center"
+          size="md"
+          hide-footer
+          hide-header
+          no-close-on-backdrop
+        >
+          <p class="text_semiBold">
+            Are you sure you want to APPROVE this order?
+          </p>
+          <div class="text-center mt-24">
+            <b-button
+              variant="outline-warning"
+              class="mr-2"
+              @click="orderApproveModal = false"
+            >
+              Cancel
+            </b-button>
+            <b-button
+              variant="outline-success"
+              :disabled="verifClicked === true"
+              @click="confirmPayment()"
+              >Approve
+              <b-spinner
+                v-if="spinner1"
+                variant="white"
+                label="Spinning"
+                class="ml-3"
+                small
+              />
+            </b-button>
+          </div>
+        </b-modal>
+        <b-modal
+          v-model="orderDeclineModal"
+          modal-class="logOutModalStyle text-center"
+          size="md"
+          hide-footer
+          hide-header
+          no-close-on-backdrop
+        >
+          <p class="text_semiBold">
+            Are you sure you want to DECLINE this order?
+          </p>
+          <div class="text-center mt-24">
+            <b-button
+              variant="outline-warning"
+              class="mr-2"
+              @click="orderDeclineModal = false"
+            >
+              Cancel
+            </b-button>
+            <b-button
+              variant="outline-danger"
+              :disabled="verifClicked === true"
+              @click="cancelOrder()"
+              >Decline
+              <b-spinner
+                v-if="spinner2"
+                variant="white"
+                label="Spinning"
+                class="ml-3"
+                small
+              />
+            </b-button>
+          </div>
+        </b-modal>
       </section>
     </div>
   </div>
@@ -189,6 +246,9 @@ export default {
 
       orderAddress: {},
       paymentProof: null,
+      orderApproveModal: false,
+      orderDeclineModal: false,
+      verifClicked: false,
     }
   },
 
@@ -210,8 +270,9 @@ export default {
     await this.fetchOrderAddress()
 
     if (
-      this.roundBasket.paymentMethod === 'OFFLINE' &&
-      this.roundBasket.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
+      this.roundBasket.paymentMethod === 'OFFLINE'
+      // &&
+      // this.roundBasket.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
     ) {
       await this.fetchPaymentProof()
     }
@@ -244,14 +305,23 @@ export default {
             this.paymentProof = res.result.url
           })
           .catch((error) => {
-            this.ERROR_HANDLER(error)
+            if (this.roundBasket.paymentComplete) {
+              this.SHOW_TOAST({
+                title: 'No Payment Proof',
+                variant: 'warning',
+                text:
+                  'Order was approved from (Awaiting Payments) without an attached proof of payment.',
+              })
+            } else {
+              this.ERROR_HANDLER(error)
+            }
           })
       }
     },
 
     async confirmPayment() {
       this.spinner1 = true
-
+      this.verifClicked = true
       const orderId = this.$route.params.orderId
       // if(this.roundBasket.orderStatus === 'AWAITING_PROOF_OF_PAYMENT' ||'AWAITING_PAYMENT'){
       //   this.roundBasket.paymentReference = `APPROVED_BY_SHARER_${this.roundBasket.sharerId}`
@@ -280,11 +350,14 @@ export default {
         })
         .finally(() => {
           this.spinner1 = false
+          this.verifClicked = false
+          this.orderApproveModal = false
         })
     },
 
     async cancelOrder() {
       this.spinner2 = true
+      this.verifClicked = true
 
       const orderId = this.$route.params.orderId
 
@@ -305,7 +378,15 @@ export default {
         })
         .finally(() => {
           this.spinner2 = false
+          this.orderDeclineModal = false
         })
+    },
+
+    approveOrderTrigger() {
+      this.orderApproveModal = true
+    },
+    declineOrderTrigger() {
+      this.orderDeclineModal = true
     },
   },
 }
@@ -366,5 +447,21 @@ export default {
 
 .borderPrimary {
   border-color: 4f9e55;
+}
+
+::v-deep .logOutModalStyle .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+::v-deep .logOutModalStyle .modal-body {
+  padding: 32px 0 50px;
+}
+
+::v-deep .logOutModalStyle .modal-body p {
+  margin: 0 20%;
+}
+
+::v-deep .logOutModalStyle .modal-dialog {
+  padding: 20% 42px;
 }
 </style>
