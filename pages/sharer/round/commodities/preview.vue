@@ -41,6 +41,9 @@
               </div>
 
               <div class="d-block" v-text="item.commodityName" />
+              <span v-if="item.sharingComment" class="fs-12">{{
+                item.sharingComment
+              }}</span>
             </div>
           </div>
         </div>
