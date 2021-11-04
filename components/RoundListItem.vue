@@ -5,7 +5,10 @@
       :key="item.id"
       class="sharingRoundListBox"
     >
-      <div class="sharingRoundBox text-left" @click="listClicked(item)">
+      <div
+        class="sharingRoundBox borderPrimary text-left"
+        @click="listClicked(item)"
+      >
         <div class="row roundNameHost mx-0">
           <span class="col-9 px-0">
             <span class="round-name" v-text="item.name"></span>
@@ -510,5 +513,9 @@ export default {
   padding-bottom: 8px;
   margin-bottom: 10px;
   border-bottom: 1px solid #e9ecef;
+}
+.borderPrimary {
+  border: 1px solid #4f9e55;
+  cursor: pointer;
 }
 </style>
