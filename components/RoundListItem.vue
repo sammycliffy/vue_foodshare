@@ -19,7 +19,7 @@
               class="color-orange"
               @click.stop="editSharingRound(item)"
             >
-              <i class="fas fa-pencil-alt"></i>
+              <i class="fas fa-pencil-alt round-edit-icons"></i>
             </span>
             <span v-if="sharable" class="ml-2">
               <b-dropdown
@@ -32,7 +32,7 @@
                 right
               >
                 <template #button-content>
-                  <i class="fas fa-share-alt"></i>
+                  <i class="fas fa-share-alt round-share-icons"></i>
                 </template>
                 <b-dropdown-item>
                   <span class="text-right d-block mb-0 text-danger">

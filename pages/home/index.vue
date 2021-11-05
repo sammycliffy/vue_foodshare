@@ -223,6 +223,9 @@ export default {
         this.sharingRoundsDefault = res.result.sharingRounds
         this.numberOfPages = res.result.numberOfPages
 
+        // this.sharingRounds.
+        // str.trim()
+
         // Save round form data to a perstisted Vuex store
         this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRounds)
       })
