@@ -405,7 +405,9 @@
                   </p>
                 </div>
                 <div v-if="item.openMarketPrices[0]">
-                  <h6 class="toggle_text text_medium">Open Market Price</h6>
+                  <h6 class="toggle_text text_medium mt-3 mb-1">
+                    Open Market Price
+                  </h6>
                   <div class="d-flex justify-content-between">
                     <p class="mb-0 fs-12">
                       {{ item.openMarketPrices[0].marketName }} Market Price
