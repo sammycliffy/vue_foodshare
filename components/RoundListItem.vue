@@ -451,7 +451,7 @@ export default {
       if (this.clickable) {
         // Save cart data to a perstisted Vuex store
         this.$store.commit('round/SAVE_ROUND_DATA', item)
-        this.$router.replace(`/sharer/dashboard/rounds/commodities/`)
+        this.$router.push(`/sharer/dashboard/rounds/commodities/`)
       }
     },
 

@@ -477,8 +477,10 @@
                       <span class="d-block toggle_text_sub">
                         <span>
                           <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                          <span v-if="item.sharingUnits == 0.125">per 1/8</span>
                           <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
-                          <span v-if="item.sharingUnits > 0.5"
+                          <span v-if="item.sharingUnits == 0.75"> per 3/4</span>
+                          <span v-if="item.sharingUnits > 1"
                             >per {{ item.sharingUnits }}</span
                           >
                           {{ item.unitOfMeasurement }}
@@ -575,6 +577,7 @@
                   >
                   <span class="d-block toggle_text_sub">
                     <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                    <span v-if="item.sharingUnits == 0.125">per 1/8</span>
                     <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
                     <span v-if="item.sharingUnits == 0.75"> per 3/4</span>
                     <span v-if="item.sharingUnits >= 1"
@@ -774,7 +777,7 @@ export default {
             : 0
         })
       } catch (e) {
-        this.$router.replace(
+        this.$router.push(
           `/r/${this.sharingRound.sharerId}/${this.sharingRound.id}/`
         )
       } finally {
@@ -784,7 +787,7 @@ export default {
     },
 
     gotoLogistics() {
-      this.$router.replace('/cart/logistics/')
+      this.$router.push('/cart/logistics/')
     },
   },
 }
