@@ -150,7 +150,7 @@ export default {
           // Save round payload data to a perstisted Vuex store
           this.$store.commit('round/SAVE_PAYLOAD_DATA', res.result)
           // Redirect to publish page
-          this.$router.replace('/sharer/round/publish/')
+          this.$router.push('/sharer/round/publish/')
         })
         .catch((error) => {
           // Display  error toast notification

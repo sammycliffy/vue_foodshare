@@ -184,6 +184,9 @@
                             <span v-if="item.sharingUnits == 0.25"
                               >per 1/4</span
                             >
+                            <span v-if="item.sharingUnits == 0.125">
+                              per 1/8</span
+                            >
                             <span v-if="item.sharingUnits == 0.5">per 1/2</span>
                             <span v-if="item.sharingUnits == 0.75">
                               per 3/4</span
@@ -329,6 +332,7 @@
                     >
                     <span class="d-block toggle_text_sub">
                       <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                      <span v-if="item.sharingUnits == 0.125">per 1/8</span>
                       <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
                       <span v-if="item.sharingUnits == 0.75"> per 3/4</span>
                       <span v-if="item.sharingUnits > 0.5"
