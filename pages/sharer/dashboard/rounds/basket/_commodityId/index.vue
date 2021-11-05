@@ -486,7 +486,7 @@ export default {
           this.SHOW_TOAST({
             title: 'Success',
             variant: 'success',
-            text: 'Orders successfully updated for: ' + item.emailAddress,
+            text: 'Orders successfully updated',
           })
 
           this.checkOrderModal = false

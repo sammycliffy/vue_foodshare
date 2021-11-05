@@ -404,21 +404,20 @@
                     &#8358; {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
-                <div
-                  v-if="item.openMarketPrices[0]"
-                  class="d-flex justify-content-between"
-                >
+                <div v-if="item.openMarketPrices[0]">
                   <h6 class="toggle_text text_medium">Open Market Price</h6>
-                  <p class="mb-0 fs-12">
-                    {{ item.openMarketPrices[0].marketName }} Market Price
-                  </p>
-                  <p class="mb-0 fs-12 color-black text_semiBold">
-                    {{
-                      Intl.NumberFormat().format(
-                        item.openMarketPrices[0].marketPrice
-                      )
-                    }}
-                  </p>
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0 fs-12">
+                      {{ item.openMarketPrices[0].marketName }} Market Price
+                    </p>
+                    <p class="mb-0 fs-12 color-black text_semiBold">
+                      {{
+                        Intl.NumberFormat().format(
+                          item.openMarketPrices[0].marketPrice
+                        )
+                      }}
+                    </p>
+                  </div>
                 </div>
               </div>
               <!-- <div v-if="item.topMarkets" class="">
@@ -695,21 +694,21 @@ export default {
 
 .toggle_input::-webkit-input-placeholder {
   /* Edge */
-  font-size: 12px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 12px;
   color: rgba(100, 100, 100, 0.81);
 }
 
 .toggle_input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  font-size: 12px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 12px;
   color: rgba(100, 100, 100, 0.81);
 }
 
 .toggle_input::placeholder {
-  font-size: 12px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 12px;
   color: rgba(100, 100, 100, 0.81);
 }
 
