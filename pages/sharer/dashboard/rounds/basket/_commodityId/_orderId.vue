@@ -78,8 +78,9 @@
           <div class="row mx-0">
             <div class="col-7 px-0">
               <div class="paymentProveBox">
-                <p>Proof of Payment</p>
-                <div>
+                <div v-show="roundBasket.paymentMethod === 'OFFLINE'">
+                  <p>Proof of Payment</p>
+
                   <div v-if="paymentProof" class="">
                     <img
                       v-if="paymentProof"
@@ -96,28 +97,23 @@
                   <div v-else class="badge badge-warning text-wrap">
                     No payment proof found
                   </div>
-                  <!-- roundBasket.orderStatus ===
-                        'AWAITING_PAYMENT_CONFIRMATION' ||
-                      'AWAITING_PROOF_OF_PAYMENT' ||
-                      'AWAITING_PAYMENT'
-                    " -->
-                  <div
-                    v-if="!roundBasket.paymentComplete"
-                    class="mt-20 btnBox d-flex"
+                </div>
+                <div
+                  v-if="!roundBasket.paymentComplete"
+                  class="mt-20 btnBox d-flex"
+                >
+                  <b-btn
+                    class="btn primary-btn btn-sm mr-1"
+                    @click="approveOrderTrigger()"
                   >
-                    <b-btn
-                      class="btn primary-btn btn-sm mr-1"
-                      @click="approveOrderTrigger()"
-                    >
-                      Approve
-                    </b-btn>
-                    <b-btn
-                      class="btn btn-transparent btn-sm ml-1 borderPrimary"
-                      @click="declineOrderTrigger()"
-                    >
-                      Decline
-                    </b-btn>
-                  </div>
+                    Approve
+                  </b-btn>
+                  <b-btn
+                    class="btn btn-transparent btn-sm ml-1 borderPrimary"
+                    @click="declineOrderTrigger()"
+                  >
+                    Decline
+                  </b-btn>
                 </div>
                 <div
                   v-if="roundBasket.orderStatus === 'ORDER_CANCELLED'"
