@@ -144,15 +144,15 @@
               <div class="d-flex justify-content-between mt-1">
                 <span class="text_medium color-green mini-title">
                   <span class="d-block color-black text_normal">
-                    {{ item.sharingDayWithoutTime }}
+                    {{ item.sharingDayWithoutTime.trim() }}
                   </span>
                 </span>
                 <span class="text_medium mini-title">
                   <span class="d-block text_normal">
                     <span class="color-orange"
-                      >{{ item.sharingAddress.lineTwo }}, </span
+                      >{{ item.sharingAddress.lineTwo.trim() }}, </span
                     ><span class="color-black">{{
-                      item.sharingAddress.state
+                      item.sharingAddress.state.trim()
                     }}</span>
                   </span>
                   <!-- <span class="d-block color-black text_normal">
@@ -519,10 +519,6 @@ export default {
       .$get(URL, {})
       .then((res) => {
         this.sharingRounds = res.result.sharingRounds
-        this.sharingRounds.sharingAddress.lineOne = this.sharingRounds.sharingAddress.lineOne.trim()
-        this.sharingRounds.sharingAddress.lineTwo = this.sharingRounds.sharingAddress.lineTwo.trim()
-        this.sharingRounds.sharingAddress.town = this.sharingRounds.sharingAddress.town.trim()
-        this.sharingRounds.sharingAddress.state = this.sharingRounds.sharingAddress.state.trim()
 
         this.sharingRoundsDefault = res.result.sharingRounds
         this.numberOfPages = res.result.numberOfPages

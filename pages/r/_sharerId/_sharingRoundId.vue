@@ -51,12 +51,18 @@
           <p class="color-orange mb-0">
             Sharing Location
             <span class="d-block color-black">
-              <span>{{ sharingRound.sharingAddress.lineOne }}&comma;</span>
-              <span v-if="sharingRound.sharingAddress.lineTwo"
-                >{{ sharingRound.sharingAddress.lineTwo }} &comma;</span
+              <span v-if="sharingRound.sharingAddress.lineOne"
+                >{{ sharingRound.sharingAddress.lineOne.trim() }}&comma;</span
               >
-              <span>{{ sharingRound.sharingAddress.town }}&comma;</span>
-              <span>{{ sharingRound.sharingAddress.state }}</span>
+              <span v-if="sharingRound.sharingAddress.lineTwo"
+                >{{ sharingRound.sharingAddress.lineTwo.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.town"
+                >{{ sharingRound.sharingAddress.town.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.state">{{
+                sharingRound.sharingAddress.state.trim()
+              }}</span>
             </span>
           </p>
         </div>
@@ -500,10 +506,10 @@ export default {
       .$get(URI, {})
       .then((res) => {
         this.sharingRound = res.result
-        this.sharingRound.sharingAddress.lineOne = this.sharingRound.sharingAddress.lineOne.trim()
-        this.sharingRound.sharingAddress.lineTwo = this.sharingRound.sharingAddress.lineTwo.trim()
-        this.sharingRound.sharingAddress.town = this.sharingRound.sharingAddress.town.trim()
-        this.sharingRound.sharingAddress.state = this.sharingRound.sharingAddress.state.trim()
+        // this.sharingRound.sharingAddress.lineOne.trim()
+        // this.sharingRound.sharingAddress.lineTwo = this.sharingRound.sharingAddress.lineTwo.trim()
+        // this.sharingRound.sharingAddress.town = this.sharingRound.sharingAddress.town.trim()
+        // this.sharingRound.sharingAddress.state = this.sharingRound.sharingAddress.state.trim()
         // Save round form data to a perstisted Vuex store
         this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRound)
         // Reset cartPayload

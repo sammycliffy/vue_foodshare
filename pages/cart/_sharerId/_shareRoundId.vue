@@ -49,14 +49,18 @@
           <p class="color-orange mb-0">
             Sharing Location
             <span class="d-block color-black">
-              <span>{{ sharingRound.sharingAddress.lineOne }}</span
-              >&comma;
-              <span v-if="sharingRound.sharingAddress.lineTwo"
-                >{{ sharingRound.sharingAddress.lineTwo }} &comma;</span
+              <span v-if="sharingRound.sharingAddress.lineOne"
+                >{{ sharingRound.sharingAddress.lineOne.trim() }}&comma;</span
               >
-              <span>{{ sharingRound.sharingAddress.town }}</span
-              >&comma;
-              <span>{{ sharingRound.sharingAddress.state }}</span>
+              <span v-if="sharingRound.sharingAddress.lineTwo"
+                >{{ sharingRound.sharingAddress.lineTwo.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.town"
+                >{{ sharingRound.sharingAddress.town.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.state">{{
+                sharingRound.sharingAddress.state.trim()
+              }}</span>
             </span>
           </p>
         </div>
