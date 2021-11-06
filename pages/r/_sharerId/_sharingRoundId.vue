@@ -409,10 +409,11 @@
                     Open Market Price
                   </h6>
                   <div class="d-flex justify-content-between">
-                    <p class="mb-0 fs-12">
-                      {{ item.openMarketPrices[0].marketName }} Market Price
+                    <p class="mb-0 fs-12 text-capitalize">
+                      {{ item.openMarketPrices[0].marketName }}
                     </p>
                     <p class="mb-0 fs-12 color-black text_semiBold">
+                      &#8358;
                       {{
                         Intl.NumberFormat().format(
                           item.openMarketPrices[0].marketPrice
@@ -451,7 +452,7 @@
               @click="
                 $router.push('/cart/' + sharerId + '/' + sharingRoundId + '/')
               "
-              >Checkout</b-btn
+              >Next</b-btn
             >
             <!-- <div>{{ calculateSlot.length }}</div> -->
           </div>
@@ -499,8 +500,12 @@ export default {
       .$get(URI, {})
       .then((res) => {
         this.sharingRound = res.result
+        this.sharingRound.sharingAddress.lineOne = this.sharingRound.sharingAddress.lineOne.trim()
+        this.sharingRound.sharingAddress.lineTwo = this.sharingRound.sharingAddress.lineTwo.trim()
+        this.sharingRound.sharingAddress.town = this.sharingRound.sharingAddress.town.trim()
+        this.sharingRound.sharingAddress.state = this.sharingRound.sharingAddress.state.trim()
         // Save round form data to a perstisted Vuex store
-        this.$store.commit('cart/SAVE_ROUND_DATA', res.result)
+        this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRound)
         // Reset cartPayload
         this.cartPayload.sharedCommodities = []
         // Save cart data to a perstisted Vuex store

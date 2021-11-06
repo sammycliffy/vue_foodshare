@@ -519,6 +519,11 @@ export default {
       .$get(URL, {})
       .then((res) => {
         this.sharingRounds = res.result.sharingRounds
+        this.sharingRounds.sharingAddress.lineOne = this.sharingRounds.sharingAddress.lineOne.trim()
+        this.sharingRounds.sharingAddress.lineTwo = this.sharingRounds.sharingAddress.lineTwo.trim()
+        this.sharingRounds.sharingAddress.town = this.sharingRounds.sharingAddress.town.trim()
+        this.sharingRounds.sharingAddress.state = this.sharingRounds.sharingAddress.state.trim()
+
         this.sharingRoundsDefault = res.result.sharingRounds
         this.numberOfPages = res.result.numberOfPages
 
