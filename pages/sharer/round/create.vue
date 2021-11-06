@@ -448,9 +448,9 @@ export default {
 
           //  Redirect
           if (this.recreateHash) {
-            this.$router.replace('/sharer/round/location/#!recreate')
+            this.$router.push('/sharer/round/location/#!recreate')
           } else {
-            this.$router.replace('/sharer/round/location/')
+            this.$router.push('/sharer/round/location/')
           }
         }
       } else {

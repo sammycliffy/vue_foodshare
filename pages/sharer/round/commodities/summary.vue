@@ -45,7 +45,7 @@
                   <span class="d-block">{{ item.commodityName }}</span>
 
                   <span class="d-block item__price mt-2"
-                    >NGN
+                    >&#8358;
                     {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                   >
                 </div>
@@ -88,7 +88,7 @@
           <div class="font-weight-light">
             <span v-if="sharingRoundPayload.serviceChargeType === 'flatrate'"
               ><span class="color-orange mr-2"
-                >NGN {{ sharingRoundPayload.serviceChargeAmount }}</span
+                >&#8358; {{ sharingRoundPayload.serviceChargeAmount }}</span
               >
               Flat Rate
             </span>
@@ -150,7 +150,7 @@ export default {
           // Save round payload data to a perstisted Vuex store
           this.$store.commit('round/SAVE_PAYLOAD_DATA', res.result)
           // Redirect to publish page
-          this.$router.replace('/sharer/round/publish/')
+          this.$router.push('/sharer/round/publish/')
         })
         .catch((error) => {
           // Display  error toast notification

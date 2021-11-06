@@ -8,12 +8,12 @@
       </header>
 
       <div class="colorBox my-3">
-        <div class="d-flex justify-content-between mb-3">
+        <!-- <div class="d-flex justify-content-between mb-3">
           <h6 class="text_medium mb-0">Market List</h6>
           <p class="mb-0">
             <span v-text="sharingRound.name"></span>
           </p>
-        </div>
+        </div> -->
         <div class="row">
           <div class="b-line-r pl-3 pr-2 col">
             <h6 class="mb-1 text_semiBold">
@@ -31,16 +31,10 @@
           </div>
           <div class="pl-3 pr-2 col">
             <h6 class="mb-1 text_semiBold color-orange">
-              NGN
-              <span
-                v-text="
-                  Intl.NumberFormat().format(
-                    sharingRound.sharingRoundFinancials.totalCost
-                  )
-                "
-              ></span>
+              &#8358;
+              <span v-text="Intl.NumberFormat().format(totalCost)"></span>
             </h6>
-            <p>Cost Price</p>
+            <p>Total Round Cost Price</p>
           </div>
         </div>
       </div>
@@ -76,7 +70,7 @@
               <span>Cost price</span>
             </p>
             <p class="mb-0 color-orange">
-              <span> NGN </span>
+              <span> &#8358; </span>
               <span
                 v-text="
                   Intl.NumberFormat().format(item.commodityFinancials.totalCost)
@@ -109,14 +103,15 @@ export default {
     //   })
     //   return total
     // },
-    // totalCost() {
-    //   let total = 0
-    //   this.sharingRound.commoditiesDetails.forEach((element) => {
-    //     total +=
-    //       element.costPrice * (element.numberOfSlots - element.remainingSlots)
-    //   })
-    //   return total
-    // },
+    totalCost() {
+      let total = 0
+      this.sharingRound.commoditiesDetails.forEach((element) => {
+        total +=
+          parseInt(element.commodityFinancials.costPrice) *
+          element.purchasedSlots
+      })
+      return total
+    },
     // totalMembers() {
     //   let total = 0
     //   this.sharingRound.commoditiesDetails.forEach((element) => {

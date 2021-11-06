@@ -246,7 +246,7 @@ export default {
         // Save round form data to a perstisted Vuex store
         this.$store.commit('round/SAVE_ROUND_DATA', this.sharingRound)
         //  Redirect
-        this.$router.replace('/sharer/round/commodities/add/')
+        this.$router.push('/sharer/round/commodities/add/')
       } else {
         // Display  error toast notification
         this.$bvToast.toast('All Fields Are Required!', {

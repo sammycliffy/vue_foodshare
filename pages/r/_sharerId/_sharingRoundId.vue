@@ -51,14 +51,18 @@
           <p class="color-orange mb-0">
             Sharing Location
             <span class="d-block color-black">
-              <span>{{ sharingRound.sharingAddress.lineOne }}</span
-              >&comma;
-              <span v-if="sharingRound.sharingAddress.lineTwo"
-                >{{ sharingRound.sharingAddress.lineTwo }} &comma;</span
+              <span v-if="sharingRound.sharingAddress.lineOne"
+                >{{ sharingRound.sharingAddress.lineOne.trim() }}&comma;</span
               >
-              <span>{{ sharingRound.sharingAddress.town }}</span
-              >&comma;
-              <span>{{ sharingRound.sharingAddress.state }}</span>
+              <span v-if="sharingRound.sharingAddress.lineTwo"
+                >{{ sharingRound.sharingAddress.lineTwo.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.town"
+                >{{ sharingRound.sharingAddress.town.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.state">{{
+                sharingRound.sharingAddress.state.trim()
+              }}</span>
             </span>
           </p>
         </div>
@@ -95,7 +99,7 @@
               <span class="text-uppercase text_label">Basket</span>
             </div>
             <p class="m-0 text_bold">
-              Total:&nbsp; NGN
+              Total:&nbsp; &#8358;
               {{ Intl.NumberFormat().format(basketWorth) }}
             </p>
           </div>
@@ -170,7 +174,7 @@
                           cartPayload.sharedCommodities[index] &&
                           cartPayload.sharedCommodities[index].numberOfSlots > 0
                         "
-                        >NGN
+                        >&#8358;
                         {{
                           Intl.NumberFormat().format(
                             item.sharingPrice *
@@ -179,11 +183,23 @@
                         }}
                       </span>
                       <span v-else>
-                        NGN
+                        &#8358;
                         {{ Intl.NumberFormat().format(item.sharingPrice) }}
                         <span class="d-block toggle_text_sub">
                           <span>
-                            per {{ item.sharingUnits }}
+                            <span v-if="item.sharingUnits == 0.25"
+                              >per 1/4</span
+                            >
+                            <span v-if="item.sharingUnits == 0.125">
+                              per 1/8</span
+                            >
+                            <span v-if="item.sharingUnits == 0.5">per 1/2</span>
+                            <span v-if="item.sharingUnits == 0.75">
+                              per 3/4</span
+                            >
+                            <span v-if="item.sharingUnits >= 1"
+                              >per {{ item.sharingUnits }}</span
+                            >
                             {{ item.unitOfMeasurement }}
                           </span>
                         </span>
@@ -259,7 +275,7 @@
                     "
                     class="mb-0 color-orange text_semiBold fs-12"
                   >
-                    NGN
+                    &#8358;
                     {{
                       Intl.NumberFormat().format(
                         item.savings *
@@ -268,13 +284,13 @@
                     }}
                   </p>
                   <p v-else class="mb-0 color-orange text_semiBold fs-12">
-                    NGN {{ Intl.NumberFormat().format(item.savings) }}
+                    &#8358; {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
                 <!-- <div class=" d-flex justify-content-between">
                   <p class="mb-0 fs-12">Open Market Price</p>
                   <p class="mb-0 color-black text_semiBold fs-12">
-                    NGN {{ Intl.NumberFormat().format(5000) }}
+                    &#8358; {{ Intl.NumberFormat().format(5000) }}
                   </p>
                 </div> -->
               </div>
@@ -317,13 +333,19 @@
                   <b-col class="">
                     <p class="toggle_text m-0">Sharing Price</p>
                     <span class="toggle_price text_bold d-block">
-                      NGN
+                      &#8358;
                       {{ Intl.NumberFormat().format(item.sharingPrice) }}</span
                     >
                     <span class="d-block toggle_text_sub">
-                      per {{ item.sharingUnits }}
-                      {{ item.unitOfMeasurement }}</span
-                    >
+                      <span v-if="item.sharingUnits == 0.25">per 1/4</span>
+                      <span v-if="item.sharingUnits == 0.125">per 1/8</span>
+                      <span v-if="item.sharingUnits == 0.5"> per 1/2</span>
+                      <span v-if="item.sharingUnits == 0.75"> per 3/4</span>
+                      <span v-if="item.sharingUnits > 0.5"
+                        >per {{ item.sharingUnits }}</span
+                      >
+                      {{ item.unitOfMeasurement }}
+                    </span>
                   </b-col>
                 </b-row>
                 <b-row class="mx-0">
@@ -343,7 +365,7 @@
                         :placeholder="
                           cartPayload.sharedCommodities[index]
                             ? cartPayload.sharedCommodities[index].numberOfSlots
-                            : 'Enter # of slots'
+                            : 'Enter # of slots e.g 0.5, 1'
                         "
                       />
                     </div>
@@ -376,7 +398,7 @@
                     "
                     class="mb-0 color-orange text_semiBold fs-12"
                   >
-                    NGN
+                    &#8358;
                     {{
                       Intl.NumberFormat().format(
                         item.savings *
@@ -385,24 +407,26 @@
                     }}
                   </p>
                   <p v-else class="mb-0 color-orange text_semiBold fs-12">
-                    NGN {{ Intl.NumberFormat().format(item.savings) }}
+                    &#8358; {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
-                <div
-                  v-if="item.openMarketPrices[0]"
-                  class="d-flex justify-content-between"
-                >
-                  <!-- <p class="mb-0 fs-12">Open Market Price</p> -->
-                  <p class="mb-0 fs-12">
-                    {{ item.openMarketPrices[0].marketName }} Market Price
-                  </p>
-                  <p class="mb-0 fs-12 color-black text_semiBold">
-                    {{
-                      Intl.NumberFormat().format(
-                        item.openMarketPrices[0].marketPrice
-                      )
-                    }}
-                  </p>
+                <div v-if="item.openMarketPrices[0]">
+                  <h6 class="toggle_text text_medium mt-3 mb-1">
+                    Open Market Price
+                  </h6>
+                  <div class="d-flex justify-content-between">
+                    <p class="mb-0 fs-12 text-capitalize">
+                      {{ item.openMarketPrices[0].marketName }}
+                    </p>
+                    <p class="mb-0 fs-12 color-black text_semiBold">
+                      &#8358;
+                      {{
+                        Intl.NumberFormat().format(
+                          item.openMarketPrices[0].marketPrice
+                        )
+                      }}
+                    </p>
+                  </div>
                 </div>
               </div>
               <!-- <div v-if="item.topMarkets" class="">
@@ -418,7 +442,7 @@
                     </div>
                     <div class="col-4 input-l-seperator input-col">
                       <p class="toggle_text m-0 text_bold">
-                        NGN {{ Intl.NumberFormat().format(market.amount) }}
+                        &#8358; {{ Intl.NumberFormat().format(market.amount) }}
                       </p>
                     </div>
                   </div>
@@ -434,7 +458,7 @@
               @click="
                 $router.push('/cart/' + sharerId + '/' + sharingRoundId + '/')
               "
-              >Checkout</b-btn
+              >Next</b-btn
             >
             <!-- <div>{{ calculateSlot.length }}</div> -->
           </div>
@@ -482,8 +506,12 @@ export default {
       .$get(URI, {})
       .then((res) => {
         this.sharingRound = res.result
+        // this.sharingRound.sharingAddress.lineOne.trim()
+        // this.sharingRound.sharingAddress.lineTwo = this.sharingRound.sharingAddress.lineTwo.trim()
+        // this.sharingRound.sharingAddress.town = this.sharingRound.sharingAddress.town.trim()
+        // this.sharingRound.sharingAddress.state = this.sharingRound.sharingAddress.state.trim()
         // Save round form data to a perstisted Vuex store
-        this.$store.commit('cart/SAVE_ROUND_DATA', res.result)
+        this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRound)
         // Reset cartPayload
         this.cartPayload.sharedCommodities = []
         // Save cart data to a perstisted Vuex store
@@ -530,7 +558,7 @@ export default {
     },
 
     addToCart(item, index) {
-      if (this.cart[index] < 1) {
+      if (this.cart[index] < 0.5) {
         // Delete from Cart
         this.cartPayload.sharedCommodities[index] = null
         // toggle drop-down
@@ -679,21 +707,21 @@ export default {
 
 .toggle_input::-webkit-input-placeholder {
   /* Edge */
-  font-size: 12px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 12px;
   color: rgba(100, 100, 100, 0.81);
 }
 
 .toggle_input:-ms-input-placeholder {
   /* Internet Explorer 10-11 */
-  font-size: 12px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 12px;
   color: rgba(100, 100, 100, 0.81);
 }
 
 .toggle_input::placeholder {
-  font-size: 12px;
-  line-height: 22px;
+  font-size: 9px;
+  line-height: 12px;
   color: rgba(100, 100, 100, 0.81);
 }
 

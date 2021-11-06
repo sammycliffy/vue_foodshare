@@ -17,38 +17,88 @@
             />
           </svg>
         </span>
-        <h5 class="title">Revenue</h5>
+        <h5 class="title">
+          Total Round Revenue
+          <span class="color-orange"
+            >&#8358;{{ Intl.NumberFormat().format(totalRevenueAmount) }}</span
+          >
+        </h5>
         <span>&nbsp;</span>
       </header>
-      <div class="colorBox my-3">
-        <div class="d-flex justify-content-between mb-3">
+      <div class="colorBox my-3 text-center">
+        <!-- <div class="d-flex justify-content-between mb-3">
           <h6 class="text_medium mb-0">Revenue</h6>
           <p class="mb-0">
             <span v-text="sharingRound.name"></span>
           </p>
+        </div> -->
+        <div class="d-flex justify-content-between text-center">
+          <p class="mb-1 text_semiBold">
+            <span class="mb-1 d-block">Product Revenue</span>
+            <span class="color-green"
+              ><span class="">&#8358;</span>
+              {{
+                Intl.NumberFormat().format(
+                  this.sharingRound.sharingRoundFinancials
+                    .totalTransactionWithoutServices
+                )
+              }}</span
+            >
+          </p>
+          <p class="mb-1 text_semiBold">
+            <span class="mb-1 d-block">Service Revenue</span>
+
+            <span class="color-green"
+              >&#8358;
+              {{
+                Intl.NumberFormat().format(
+                  this.sharingRound.sharingRoundFinancials.totalServices
+                )
+              }}</span
+            >
+          </p>
         </div>
-        <div class="row">
-          <div class="b-line-r pl-3 pr-2 col">
-            <h6 class="mb-1 text_semiBold">
+        <div class="d-flex justify-content-between text-center">
+          <div class="text-center">
+            <p class="mb-1">Commodities</p>
+            <h6 class="text_semiBold">
               <span v-text="sharingRound.commoditiesDetails.length"></span>
             </h6>
-            <p>Commodities</p>
           </div>
-          <div class="b-line-r pl-3 pr-2 col">
-            <h6 class="mb-1 text_semiBold">
+          <div class="b-line-r"></div>
+          <div class="text-center">
+            <p class="mb-1">Members</p>
+            <h6 class="text_semiBold">
               <span
                 v-text="sharingRound.sharingRoundSummary.numberOfParticipants"
               ></span>
             </h6>
-            <p>Members</p>
           </div>
-          <div class="pl-3 pr-2 col">
-            <h6 class="mb-1 text_semiBold color-green">
-              NGN
-              <span v-text="Intl.NumberFormat().format(totalProfit)"></span>
-            </h6>
-            <p>Revenue</p>
-          </div>
+          <!-- <div class="pl-3 pr-2 col">
+            <p class="mb-1 text_semiBold color-green">
+              &#8358;
+              <span
+                v-text="
+                  Intl.NumberFormat().format(
+                    this.sharingRound.sharingRoundFinancials
+                      .totalTransactionWithoutServices
+                  )
+                "
+              ></span>
+            </p>
+            <p class="mb-1">Total Product Revenue</p>
+            <p class="mb-1 text_semiBold color-orange">
+              &#8358;
+              <span
+                v-text="
+                  Intl.NumberFormat().format(
+                    this.sharingRound.sharingRoundFinancials.totalServices
+                  )
+                "
+              ></span>
+            </p>
+            <p class="m-0">Total Service Revenue</p>
+          </div> -->
         </div>
       </div>
 
@@ -85,7 +135,7 @@
               <span>Revenue</span>
             </p>
             <p class="mb-0 color-green">
-              <span> NGN </span>
+              <span> &#8358; </span>
               <span
                 v-text="
                   Intl.NumberFormat().format(
@@ -122,6 +172,20 @@ export default {
       })
 
       return total
+    },
+
+    totalRevenueAmount() {
+      let totalRevenue = 0
+      const totalTr = parseInt(
+        this.sharingRound.sharingRoundFinancials.totalTransactionWithoutServices
+      )
+      const totalServices = parseInt(
+        this.sharingRound.sharingRoundFinancials.totalServices
+      )
+
+      totalRevenue += totalTr + totalServices
+
+      return totalRevenue
     },
 
     // totalProfit() {

@@ -12,7 +12,7 @@
           </div>
         </div>
         <div class="statisticsBox row">
-          <div class="text-center col">
+          <div class="text-center col middleStatisticsInner">
             <span class="d-block statisticsNumber">
               <b-skeleton v-if="$fetchState.pending"></b-skeleton>
               <span
@@ -24,14 +24,16 @@
             </span>
             <span class="d-block statisticsName">Members</span>
           </div>
-          <div class="text-center middleStatisticsInner col">
+          <!-- <div class="text-center middleStatisticsInner col">
             <span class="d-block statisticsNumber">
               <span>&nbsp;</span>
-              <!-- <b-skeleton v-if="$fetchState.pending"></b-skeleton>
-              <span v-else v-text="totalReviews" /> -->
+              <b-skeleton v-if="$fetchState.pending"></b-skeleton>
+              <span v-else v-text="totalReviews" />
             </span>
-            <span class="d-block statisticsName">Reviews</span>
-          </div>
+            <span class="d-block statisticsName">
+              Reviews
+            </span>
+          </div> -->
           <div class="text-center col">
             <span class="d-block statisticsNumber">
               <b-skeleton v-if="$fetchState.pending"></b-skeleton>
@@ -72,11 +74,11 @@
         <div class="mt-4">
           <b-dropdown
             id="dropdown-left"
-            text="Income Chart"
+            text="Revenue Chart"
             class="textBtnDropdown"
           >
             <!-- <b-dropdown-item href="#">Commodity</b-dropdown-item> -->
-            <b-dropdown-item href="#">Income Chart</b-dropdown-item>
+            <b-dropdown-item href="#">Revenue Chart</b-dropdown-item>
             <!-- <b-dropdown-item href="#">Spread Sheet View</b-dropdown-item> -->
           </b-dropdown>
         </div>
@@ -128,18 +130,18 @@ export default {
 
         datasets: [
           {
-            label: 'Monthly Orders',
+            label: 'Monthly Revenue',
             type: 'bar',
             data: [],
             backgroundColor: '#4f9e55',
           },
-          {
-            type: 'line',
-            label: 'Total Transactions',
-            data: [],
-            fill: false,
-            borderColor: '#fe8f0a',
-          },
+          // {
+          //   type: 'line',
+          //   label: 'Total Transactions',
+          //   data: [],
+          //   fill: false,
+          //   borderColor: '#fe8f0a',
+          // },
         ],
       },
       barChartOptions: {
@@ -216,12 +218,12 @@ export default {
         const purchaseTransaction = mappedBarData.map(
           (el) => el.sumOfTransactions
         )
-        const cummlativeTransaction = mappedBarData.map(
-          (el) => el.cumulativeTransactions
-        )
+        // const cummlativeTransaction = mappedBarData.map(
+        //   (el) => el.cumulativeTransactions
+        // )
 
         this.barChartData.datasets[0].data = purchaseTransaction
-        this.barChartData.datasets[1].data = cummlativeTransaction
+        // this.barChartData.datasets[1].data = cummlativeTransaction
 
         this.chartDataLoaded = true
 
@@ -319,7 +321,7 @@ export default {
 }
 .middleStatisticsInner {
   border-right: 1px solid rgba(236, 236, 236, 1);
-  border-left: 1px solid rgba(236, 236, 236, 1);
+  /* border-left: 1px solid rgba(236, 236, 236, 1); */
 }
 
 .statisticsBox > div {

@@ -32,7 +32,9 @@
                   <div class="d-flex justify-content-between">
                     <div class="d-flex justify-content-around">
                       <div class="item__image">
-                        <img :src="item.image || '/assets/empty-photo.svg'" />
+                        <img
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                        />
                       </div>
                       <div class="ml-3 my-auto">
                         <span class="d-block item__name">{{
@@ -125,7 +127,7 @@
                       <b-col>
                         <p class="toggle_text m-0">Sharing Price</p>
                         <span class="toggle_price text_bold d-block">
-                          NGN {{ item.sharingPrice }}</span
+                          &#8358; {{ item.sharingPrice }}</span
                         >
                         <span class="d-block toggle_text_sub"
                           >per {{ item.sharingUnits }}
@@ -187,7 +189,7 @@
                         </div>
                         <div class="col-4 input-l-seperator input-col">
                           <p class="toggle_text m-0 text_bold">
-                            NGN &nbsp;{{ market.amount }}
+                            &#8358; &nbsp;{{ market.amount }}
                           </p>
                         </div>
                       </div>

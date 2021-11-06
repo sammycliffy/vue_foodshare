@@ -69,7 +69,9 @@
 
       <div class="d-flex justify-content-between">
         <p class="text_semiBold mb-0">
-          {{ searchInput ? 'Search Result' : 'Available Sharing rounds' }}
+          {{ searchInput ? 'Search Result' : 'Available Sharing' }}
+          <span v-if="!searchInput && sharingRounds.length > 1"> Rounds</span>
+          <span v-if="!searchInput && sharingRounds.length == 1"> Round</span>
         </p>
         <span v-if="numberOfPages > 1" class="showingResult"
           >showing <span v-text="currentPageNumber" /> of
@@ -142,13 +144,20 @@
               <div class="d-flex justify-content-between mt-1">
                 <span class="text_medium color-green mini-title">
                   <span class="d-block color-black text_normal">
-                    {{ item.sharingDayWithoutTime }}
+                    {{ item.sharingDayWithoutTime.trim() }}
                   </span>
                 </span>
                 <span class="text_medium mini-title">
-                  <span class="d-block color-orange text_normal">
-                    <span>{{ item.sharingAddress.lineTwo }}</span>
+                  <span class="d-block text_normal">
+                    <span class="color-orange"
+                      >{{ item.sharingAddress.lineTwo.trim() }}, </span
+                    ><span class="color-black">{{
+                      item.sharingAddress.state.trim()
+                    }}</span>
                   </span>
+                  <!-- <span class="d-block color-black text_normal">
+                    <span>{{ item.sharingAddress.state }}</span>
+                  </span> -->
                 </span>
               </div>
             </div>
@@ -510,6 +519,7 @@ export default {
       .$get(URL, {})
       .then((res) => {
         this.sharingRounds = res.result.sharingRounds
+
         this.sharingRoundsDefault = res.result.sharingRounds
         this.numberOfPages = res.result.numberOfPages
 
