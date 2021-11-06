@@ -5,7 +5,10 @@
       :key="item.id"
       class="sharingRoundListBox"
     >
-      <div class="sharingRoundBox text-left" @click="listClicked(item)">
+      <div
+        class="sharingRoundBox borderPrimary text-left"
+        @click="listClicked(item)"
+      >
         <div class="row roundNameHost mx-0">
           <span class="col-9 px-0">
             <span class="round-name" v-text="item.name"></span>
@@ -16,7 +19,7 @@
               class="color-orange"
               @click.stop="editSharingRound(item)"
             >
-              <i class="fas fa-pencil-alt"></i>
+              <i class="fas fa-pencil-alt round-edit-icons"></i>
             </span>
             <span v-if="sharable" class="ml-2">
               <b-dropdown
@@ -29,7 +32,7 @@
                 right
               >
                 <template #button-content>
-                  <i class="fas fa-share-alt"></i>
+                  <i class="fas fa-share-alt round-share-icons"></i>
                 </template>
                 <b-dropdown-item>
                   <span class="text-right d-block mb-0 text-danger">
@@ -77,7 +80,27 @@
             </span>
           </span>
         </div>
-        <div v-if="item.isClosed === true" class="text-center">
+        <div
+          v-if="item.isClosed === true"
+          class="d-flex justify-content-between"
+        >
+          <span>
+            <span class="fs-12">Sharing Day</span><br />
+            <span class="fs-12 text_semiBold">{{ item.endTimeWithDay }} </span>
+          </span>
+          <span>
+            <span class="fs-12">Total transactions</span><br />
+            <span class="fs-12 text_semiBold">
+              &#8358;
+              {{
+                Intl.NumberFormat().format(
+                  item.sharingRoundFinancials.totalTransaction
+                )
+              }}
+            </span>
+          </span>
+        </div>
+        <div v-if="item.isClosed === true" class="d-none text-center">
           <b-btn
             :disabled="verifClicked === true"
             class="btn fs-12 mt-3 primary-btn"
@@ -163,7 +186,7 @@
           <div class="col-4 align-self-center">
             <p class="mb-0">
               <span
-                >NGN
+                >&#8358;
                 {{ Intl.NumberFormat().format(product.sharingPrice) }}</span
               >
             </p>
@@ -428,7 +451,7 @@ export default {
       if (this.clickable) {
         // Save cart data to a perstisted Vuex store
         this.$store.commit('round/SAVE_ROUND_DATA', item)
-        this.$router.replace(`/sharer/dashboard/rounds/commodities/`)
+        this.$router.push(`/sharer/dashboard/rounds/commodities/`)
       }
     },
 
@@ -490,5 +513,9 @@ export default {
   padding-bottom: 8px;
   margin-bottom: 10px;
   border-bottom: 1px solid #e9ecef;
+}
+.borderPrimary {
+  border: 1px solid #4f9e55;
+  cursor: pointer;
 }
 </style>

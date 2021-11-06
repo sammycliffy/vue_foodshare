@@ -507,6 +507,7 @@ export default {
       stateOptions: [
         { value: null, text: 'Select state', disabled: true },
         'Rivers',
+        'Lagos',
         // 'FCT - Abuja',
         // 'Abia',
         // 'Adamawa',
