@@ -331,10 +331,11 @@
                     Open Market Price
                   </h6>
                   <div class="d-flex justify-content-between">
-                    <p class="mb-0 fs-12">
-                      {{ item.openMarketPrices[0].marketName }} Market Price
+                    <p class="mb-0 fs-12 text-capitalize">
+                      {{ item.openMarketPrices[0].marketName }}
                     </p>
                     <p class="mb-0 fs-12 color-black text_semiBold">
+                      &#8358;
                       {{
                         Intl.NumberFormat().format(
                           item.openMarketPrices[0].marketPrice
@@ -371,7 +372,7 @@
             v-show="basketWorth"
             class="btn primary-btn padded-btn btn-block"
             @click="gotoLogistics"
-            >Next</b-btn
+            >Checkout</b-btn
           >
         </div>
         <header class="mb_15 mt-4">

@@ -638,13 +638,19 @@ export default {
 
         this.registerSpinner = true
 
+        this.FORM.sharingGroupDetails.groupName.trim()
+        this.FORM.sharingGroupDetails.contactAddress.state.trim()
+        this.FORM.sharingGroupDetails.contactAddress.town.trim()
+        this.FORM.sharingGroupDetails.contactAddress.lineOne.trim()
+        this.FORM.sharingGroupDetails.contactAddress.lineTwo.trim()
+
         const payload = {
           accountDetails: {
             credentials: { ...this.FORM.credentials },
-            emailAddress: this.FORM.emailAddress,
-            firstName: this.FORM.firstName,
-            lastName: this.FORM.lastName,
-            phone: this.FORM.phone,
+            emailAddress: this.FORM.emailAddress.trim(),
+            firstName: this.FORM.firstName.trim(),
+            lastName: this.FORM.lastName.trim(),
+            phone: this.FORM.phone.trim(),
             role: 'SHARER',
           },
           sharingGroupDetails: { ...this.FORM.sharingGroupDetails },
