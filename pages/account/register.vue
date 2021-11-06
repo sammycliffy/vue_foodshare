@@ -638,11 +638,11 @@ export default {
 
         this.registerSpinner = true
 
-        this.FORM.sharingGroupDetails.groupName.trim()
-        this.FORM.sharingGroupDetails.contactAddress.state.trim()
-        this.FORM.sharingGroupDetails.contactAddress.town.trim()
-        this.FORM.sharingGroupDetails.contactAddress.lineOne.trim()
-        this.FORM.sharingGroupDetails.contactAddress.lineTwo.trim()
+        this.FORM.sharingGroupDetails.groupName = this.FORM.sharingGroupDetails.groupName.trim()
+        this.FORM.sharingGroupDetails.contactAddress.state = this.FORM.sharingGroupDetails.contactAddress.state.trim()
+        this.FORM.sharingGroupDetails.contactAddress.town = this.FORM.sharingGroupDetails.contactAddress.town.trim()
+        this.FORM.sharingGroupDetails.contactAddress.lineOne = this.FORM.sharingGroupDetails.contactAddress.lineOne.trim()
+        this.FORM.sharingGroupDetails.contactAddress.lineTwo = this.FORM.sharingGroupDetails.contactAddress.lineTwo.trim()
 
         const payload = {
           accountDetails: {
