@@ -9,6 +9,7 @@ import {
   required,
   email,
   alpha,
+  alpha_dash,
   alpha_spaces,
   digits,
   min,
@@ -30,6 +31,7 @@ const dictionary = {
 extend('required', required)
 extend('email', email)
 extend('alpha', alpha)
+extend('alpha_dash', alpha_dash)
 extend('alpha_spaces', alpha_spaces)
 extend('digits', digits)
 extend('max', max)
