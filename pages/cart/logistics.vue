@@ -3,7 +3,11 @@
     <div v-if="!sharingRound">Something Occured. Please, Try Again</div>
 
     <div class="half-width">
-      <div v-if="userAlreadyExist" class="pad-options">
+      <span>
+        <partials-back-nav-button />
+        <span class="backIconTitle color-black"> Back </span>
+      </span>
+      <!-- <div v-if="userAlreadyExist" class="pad-options">
         <div>
           <span @click="userAlreadyExist = false">
             <partials-back-nav-button />
@@ -36,9 +40,9 @@
             </div>
           </section>
         </div>
-      </div>
+      </div> -->
 
-      <div v-else-if="cartPayload.deliveryDetails">
+      <div v-if="cartPayload.deliveryDetails">
         <div class="header-overlay">
           <div class="overlay-img"></div>
           <div class="overlay-bg"></div>
@@ -500,10 +504,6 @@ export default {
       USER: this.$store.state.auth.userData,
       AUTH: this.$store.state.auth.loggedIn,
 
-      member: {
-        name: 'Albert',
-      },
-
       stateOptions: [
         { value: null, text: 'Select state', disabled: true },
         'Rivers',
@@ -689,9 +689,10 @@ export default {
             if (this.AUTH) {
               this.$router.push('/cart/payment/')
             } else {
-              this.userAlreadyExist = true
+              // this.userAlreadyExist = true
               this.verifClicked = false
               this.spinner = false
+              this.gotoLogin()
             }
           })
           .catch((error) => {
