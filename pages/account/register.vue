@@ -10,7 +10,7 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="First Name"
-            rules="alpha_spaces|required"
+            rules="alpha_dash|required"
             type="text"
           >
             <b-input-group class="formInputGroup poppins mb-0">
@@ -33,7 +33,7 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="Last Name"
-            rules="alpha_spaces|required"
+            rules="alpha_dash|required"
             type="text"
           >
             <b-input-group class="formInputGroup poppins mb-0 mt-20">

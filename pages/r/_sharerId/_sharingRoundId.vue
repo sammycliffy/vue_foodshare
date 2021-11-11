@@ -455,12 +455,12 @@
             <b-btn
               v-show="calculateSlot.length >= 1"
               class="btn primary-btn btn-block py-20"
-              @click="
-                $router.push('/cart/' + sharerId + '/' + sharingRoundId + '/')
-              "
-              >Next</b-btn
+              @click="$router.push('/cart/logistics/')"
+              >Checkout</b-btn
             >
-            <!-- <div>{{ calculateSlot.length }}</div> -->
+            <!-- @click="
+                $router.push('/cart/' + sharerId + '/' + sharingRoundId + '/')
+              " -->
           </div>
         </template>
       </div>
