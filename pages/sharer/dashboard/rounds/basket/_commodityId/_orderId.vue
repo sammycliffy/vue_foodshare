@@ -309,7 +309,13 @@ export default {
                   'Order was approved from (Awaiting Payments) without an attached proof of payment.',
               })
             } else {
-              this.ERROR_HANDLER(error)
+              this.SHOW_TOAST({
+                title: 'No Payment Proof',
+                variant: 'warning',
+                text: 'Proof of payment was not uploaded.',
+              })
+              console.log(error)
+              // this.ERROR_HANDLER(error)
             }
           })
       }

@@ -1,9 +1,14 @@
 <template>
   <div class="bg-general-color">
     <div class="bodyBox half-width">
-      <div class="text-center header">
+      <div v-if="!hashbang" class="text-center header">
         <img src="/assets/logo.svg" alt="logo" class="logo" />
         <h2 class="poppins text-center">Welcome</h2>
+      </div>
+
+      <div v-if="hashbang" class="text-center header">
+        <h5 class="text-left">User already Exists</h5>
+        <p>The email address or phone number is linked to an account.</p>
       </div>
 
       <div class="formBox">
