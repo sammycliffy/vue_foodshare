@@ -100,7 +100,7 @@
             </span>
           </span>
         </div>
-        <div v-if="item.isClosed === true" class="text-center">
+        <div v-if="item.isClosed === true" class="d-none text-center">
           <b-btn
             :disabled="verifClicked === true"
             class="btn fs-12 mt-3 primary-btn"
