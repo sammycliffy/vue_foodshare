@@ -110,7 +110,6 @@
               small
           /></b-btn>
         </div>
-        {{ cartPayload }}
       </b-modal>
     </div>
     <partials-footer v-if="AUTH" />
