@@ -64,6 +64,15 @@
         >
           <img class="" src="/assets/icons/home.svg" />
         </nuxt-link>
+        <nuxt-link
+          v-if="!AUTH"
+          slot="modal-title"
+          nuxt-link
+          class="primary-btn-link m-0"
+          to="/home/"
+        >
+          <img class="" src="/assets/icons/home.svg" />
+        </nuxt-link>
         <b-img
           v-if="AUTH"
           :src="USER.image || '/assets/empty-photo.svg'"
@@ -132,7 +141,8 @@ export default {
   methods: {
     async submitReview() {
       this.btnSpinner = true
-      this.FORM.reviewContext.userId = this.USER.id
+
+      this.FORM.reviewContext.userId = this.cartPayload.userId
 
       // Fetch sharer's review
       const URL = `/unauth/reviews`
@@ -146,6 +156,9 @@ export default {
         })
         .finally(() => {
           this.btnSpinner = false
+          if (!this.AUTH) {
+            this.$router.replace('/home/')
+          }
         })
     },
   },
