@@ -103,7 +103,7 @@
             >
               <p class="mb-0 text_semiBold" v-text="item.name"></p>
 
-              <div class="d-flex justify-content-start mt-16">
+              <div class="d-flex justify-content-between mt-16">
                 <span class="mr-4">
                   <img
                     class="sharingRoundBoxIcon1"
@@ -120,7 +120,7 @@
                     >
                   </span>
                 </span>
-                <span class="">
+                <!-- <span class="">
                   <img
                     class="sharingRoundBoxIcon2"
                     src="/assets/icons/group-orange.svg"
@@ -135,14 +135,7 @@
                       }}</span
                     >
                   </span>
-                </span>
-              </div>
-              <div class="d-flex justify-content-between mt-1">
-                <span class="text_medium color-green mini-title">
-                  <span class="d-block color-black text_normal">
-                    {{ item.sharingDayWithoutTime.trim() }}
-                  </span>
-                </span>
+                </span> -->
                 <span class="text_medium mini-title">
                   <span class="d-block text_normal">
                     <span class="color-orange"
@@ -151,10 +144,32 @@
                       item.sharingAddress.state.trim()
                     }}</span>
                   </span>
-                  <!-- <span class="d-block color-black text_normal">
-                    <span>{{ item.sharingAddress.state }}</span>
-                  </span> -->
                 </span>
+              </div>
+              <div class="d-flex justify-content-between mt-1">
+                <span class="text_medium color-green mini-title">
+                  <span class="d-block fs-12 color-black text_normal">
+                    <span class="fs-10 text_semiBold"
+                      >Order Deadline&colon;</span
+                    >
+                    {{ item.cutOffTimeWithDay.trim() }}
+                  </span>
+                </span>
+                <span class="text_medium color-green mini-title">
+                  <span class="d-block fs-12 color-black text_normal">
+                    <span class="fs-10 text_semiBold">Sharing Day&colon;</span>
+                    {{ item.sharingDayWithoutTime.trim() }}
+                  </span>
+                </span>
+                <!-- <span class="text_medium mini-title">
+                  <span class="d-block text_normal">
+                    <span class="color-orange"
+                      >{{ item.sharingAddress.lineTwo.trim() }}, </span
+                    ><span class="color-black">{{
+                      item.sharingAddress.state.trim()
+                    }}</span>
+                  </span>
+                </span> -->
               </div>
             </div>
           </div>

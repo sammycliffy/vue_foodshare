@@ -157,7 +157,7 @@ export default {
         .finally(() => {
           this.btnSpinner = false
           if (!this.AUTH) {
-            this.$router.replace('/home/')
+            this.$router.replace('/account/login/')
           }
         })
     },
