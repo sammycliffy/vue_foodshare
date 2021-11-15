@@ -1,13 +1,18 @@
 <template>
   <div class="bg-general-color">
+    <div v-if="hashbang" class="py-3 px-14">
+      <span class="d-flex">
+        <partials-back-nav-button />
+        <span class="backIconTitle color-black"> Back </span>
+      </span>
+    </div>
     <div class="bodyBox half-width">
       <div v-if="!hashbang" class="text-center header">
         <img src="/assets/logo.svg" alt="logo" class="logo" />
         <h2 class="poppins text-center">Welcome</h2>
       </div>
-
       <div v-if="hashbang" class="text-center header">
-        <h5 class="text-left">User already Exists</h5>
+        <h5 class="">User already Exists</h5>
         <p>The email address or phone number is linked to an account.</p>
       </div>
 

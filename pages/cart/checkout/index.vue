@@ -26,17 +26,21 @@
 
       <div class="body-primary half-width">
         <div class="checkoutBox">
-          <p class="color-orange mb-0]">
+          <p class="color-orange mb-0">
             Sharing Location
-            <span class="d-block color-black mt-2">
-              <span>{{ cartPayload.sharingAddress.lineOne }}</span
-              >&comma;
-              <span v-if="cartPayload.sharingAddress.lineTwo"
-                >{{ cartPayload.sharingAddress.lineTwo }} &comma;</span
+            <span class="d-block color-black">
+              <span v-if="sharingRound.sharingAddress.lineOne"
+                >{{ sharingRound.sharingAddress.lineOne.trim() }}&comma;</span
               >
-              <span>{{ cartPayload.sharingAddress.town }}</span
-              >&comma;
-              <span>{{ cartPayload.sharingAddress.state }}</span>
+              <span v-if="sharingRound.sharingAddress.lineTwo"
+                >{{ sharingRound.sharingAddress.lineTwo.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.town"
+                >{{ sharingRound.sharingAddress.town.trim() }}&comma;</span
+              >
+              <span v-if="sharingRound.sharingAddress.state">{{
+                sharingRound.sharingAddress.state.trim()
+              }}</span>
             </span>
           </p>
         </div>
@@ -302,7 +306,9 @@ export default {
           const newCartPayload = response.result
           newCartPayload.sharedCommodities = this.cartPayload.sharedCommodities
           // Save cart data to a perstisted Vuex store
-          this.$store.commit('cart/SAVE_OFFLINE_CART_DATA', newCartPayload)
+          console.log('Check Id:', newCartPayload)
+          this.$store.commit('cart/SAVE_CART_DATA', newCartPayload)
+          // this.$store.commit('cart/SAVE_OFFLINE_CART_DATA', newCartPayload)
 
           this.$router.replace('/cart/checkout/details/')
         })
@@ -329,7 +335,9 @@ export default {
       await this.$axios
         .$post(URI, this.paymentPayload)
         .then((response) => {
-          // const newCartPayload = response.result
+          const latestCartPayload = response.result
+          console.log('Check Id:', latestCartPayload)
+          this.$store.commit('cart/SAVE_CART_DATA', latestCartPayload)
           this.$router.replace('/cart/checkout/success/')
         })
         .catch((error) => {

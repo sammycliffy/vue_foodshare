@@ -3,10 +3,6 @@
     <div v-if="!sharingRound">Something Occured. Please, Try Again</div>
 
     <div class="half-width">
-      <span>
-        <partials-back-nav-button />
-        <span class="backIconTitle color-black"> Back </span>
-      </span>
       <!-- <div v-if="userAlreadyExist" class="pad-options">
         <div>
           <span @click="userAlreadyExist = false">

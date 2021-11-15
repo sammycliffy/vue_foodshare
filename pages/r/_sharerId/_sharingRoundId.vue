@@ -267,7 +267,7 @@
                   v-if="item.savings >= 1"
                   class="d-flex justify-content-between mb-0"
                 >
-                  <p class="mb-0 fs-12">Savings</p>
+                  <p class="mb-0 fs-12">Est. Savings</p>
                   <p
                     v-if="
                       cartPayload.sharedCommodities[index] &&
@@ -389,7 +389,7 @@
                   v-if="item.savings >= 1"
                   class="d-flex justify-content-between mb-0"
                 >
-                  <p class="mb-0 fs-12">Savings</p>
+                  <p class="mb-0 fs-12">Est. Savings</p>
 
                   <p
                     v-if="
