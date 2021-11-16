@@ -262,9 +262,14 @@
                 </span>
               </div>
               <div class="">
-                <hr v-show="item.savings >= 1" class="" />
+                <!-- <hr v-show="item.savings >= 1" class="" /> -->
+                <hr v-show="item.openMarketPrices" class="" />
+
                 <div
-                  v-if="item.savings >= 1"
+                  v-if="
+                    item.openMarketPrices[0].marketPrice - item.sharingPrice >=
+                    1
+                  "
                   class="d-flex justify-content-between mb-0"
                 >
                   <p class="mb-0 fs-12">Est. Savings</p>
@@ -284,7 +289,13 @@
                     }}
                   </p>
                   <p v-else class="mb-0 color-orange text_semiBold fs-12">
-                    &#8358; {{ Intl.NumberFormat().format(item.savings) }}
+                    &#8358;
+                    {{
+                      Intl.NumberFormat().format(
+                        item.openMarketPrices[0].marketPrice - item.sharingPrice
+                      )
+                    }}
+                    <!-- &#8358; {{ Intl.NumberFormat().format(item.savings) }} -->
                   </p>
                 </div>
                 <!-- <div class=" d-flex justify-content-between">
@@ -381,12 +392,16 @@
               </div>
 
               <div class="">
-                <hr
+                <!-- <hr
                   v-show="item.savings >= 1 || item.openMarketPrices"
                   class=""
-                />
+                /> -->
+                <hr v-show="item.openMarketPrices" class="" />
                 <div
-                  v-if="item.savings >= 1"
+                  v-if="
+                    item.openMarketPrices[0].marketPrice - item.sharingPrice >=
+                    1
+                  "
                   class="d-flex justify-content-between mb-0"
                 >
                   <p class="mb-0 fs-12">Est. Savings</p>
@@ -401,13 +416,19 @@
                     &#8358;
                     {{
                       Intl.NumberFormat().format(
-                        item.savings *
+                        (item.openMarketPrices[0].marketPrice -
+                          item.sharingPrice) *
                           cartPayload.sharedCommodities[index].numberOfSlots
                       )
                     }}
                   </p>
                   <p v-else class="mb-0 color-orange text_semiBold fs-12">
-                    &#8358; {{ Intl.NumberFormat().format(item.savings) }}
+                    &#8358;
+                    {{
+                      Intl.NumberFormat().format(
+                        item.openMarketPrices[0].marketPrice - item.sharingPrice
+                      )
+                    }}
                   </p>
                 </div>
                 <div v-if="item.openMarketPrices[0]">
