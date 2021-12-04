@@ -683,9 +683,49 @@ export default {
     },
 
     searchItem() {
-      this.sharingRounds = this.sharingRoundsDefault.filter((element) =>
-        element.name.toLowerCase().includes(this.searchInput.toLowerCase())
-      )
+      const vueThis = this
+      this.sharingRounds = this.sharingRoundsDefault.filter(function (element) {
+        if (
+          element.name.toLowerCase().includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        } else if (
+          element.sharingAddress.lineTwo
+            .toLowerCase()
+            .includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        } else if (
+          element.sharingAddress.town
+            .toLowerCase()
+            .includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        } else if (
+          element.sharingAddress.state
+            .toLowerCase()
+            .includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        }
+        const commoditiesDetails = element.commoditiesDetails
+        const commoditiesResult = commoditiesDetails.filter(function (
+          commodity
+        ) {
+          if (
+            commodity.commodityName
+              .toLowerCase()
+              .includes(vueThis.searchInput.toLowerCase())
+          ) {
+            return element
+          }
+          return false
+        })
+        if (commoditiesResult.length > 0) {
+          return commoditiesResult[0]
+        }
+        return false
+      })
     },
 
     async submitReview() {
