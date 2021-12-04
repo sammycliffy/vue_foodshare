@@ -261,7 +261,7 @@
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
                 </span>
               </div>
-              <div class="">
+              <div class="d-none">
                 <hr v-show="item.savings >= 1" class="" />
                 <div
                   v-if="item.savings >= 1"
@@ -380,7 +380,7 @@
                 </b-row>
               </div>
 
-              <div class="">
+              <div class="d-none">
                 <hr
                   v-show="item.savings >= 1 || item.openMarketPrices"
                   class=""
@@ -410,7 +410,7 @@
                     &#8358; {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
-                <div v-if="item.openMarketPrices[0]">
+                <div v-if="item.openMarketPrices[0]" class="d-none">
                   <h6 class="toggle_text text_medium mt-3 mb-1">
                     Open Market Price
                   </h6>
