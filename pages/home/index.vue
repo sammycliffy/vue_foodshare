@@ -83,14 +83,12 @@
         <nav v-else-if="$fetchState.error" class="text-center p-5">
           Something Occured. Please, Try Again
         </nav>
-
         <section
           v-else-if="sharingRounds.length < 1"
           class="bg-white text-center rounded p-3 mt-3"
         >
           No sharing round at the moment
         </section>
-
         <section v-else class="row mx-0">
           <div
             v-for="item in sharingRounds"
@@ -174,7 +172,6 @@
             </div>
           </div>
         </section>
-
         <div v-if="numberOfPages > 1">
           <div class="d-flex justify-content-around mt-24">
             <span
@@ -278,9 +275,49 @@ export default {
     },
 
     searchItem() {
-      this.sharingRounds = this.sharingRoundsDefault.filter((element) =>
-        element.name.toLowerCase().includes(this.searchInput.toLowerCase())
-      )
+      const vueThis = this
+      this.sharingRounds = this.sharingRoundsDefault.filter(function (element) {
+        if (
+          element.name.toLowerCase().includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        } else if (
+          element.sharingAddress.lineTwo
+            .toLowerCase()
+            .includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        } else if (
+          element.sharingAddress.town
+            .toLowerCase()
+            .includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        } else if (
+          element.sharingAddress.state
+            .toLowerCase()
+            .includes(vueThis.searchInput.toLowerCase())
+        ) {
+          return element
+        }
+        const commoditiesDetails = element.commoditiesDetails
+        const commoditiesResult = commoditiesDetails.filter(function (
+          commodity
+        ) {
+          if (
+            commodity.commodityName
+              .toLowerCase()
+              .includes(vueThis.searchInput.toLowerCase())
+          ) {
+            return element
+          }
+          return false
+        })
+        if (commoditiesResult.length > 0) {
+          return commoditiesResult[0]
+        }
+        return false
+      })
     },
   },
 }
