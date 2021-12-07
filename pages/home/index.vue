@@ -4,7 +4,6 @@
       <div class="d-flex justify-content-between generalHomeHost">
         <div class="generalHome">
           <h5 class="text_semiBold mb-8px">Good to see you&comma; 😊</h5>
-          <!-- <p class="mb-0">What will you like to do?</p> -->
         </div>
         <div class="d-flex align-items-center"></div>
       </div>
@@ -118,22 +117,6 @@
                     >
                   </span>
                 </span>
-                <!-- <span class="">
-                  <img
-                    class="sharingRoundBoxIcon2"
-                    src="/assets/icons/group-orange.svg"
-                  />
-                  <span class="ml-1 mini-title">
-                    <span
-                      >{{ item.participants.length }}
-                      {{
-                        item.participants.length > 1
-                          ? 'Participants'
-                          : 'Participant'
-                      }}</span
-                    >
-                  </span>
-                </span> -->
                 <span class="text_medium mini-title">
                   <span class="d-block text_normal">
                     <span class="color-orange"
@@ -159,15 +142,6 @@
                     {{ item.sharingDayWithoutTime.trim() }}
                   </span>
                 </span>
-                <!-- <span class="text_medium mini-title">
-                  <span class="d-block text_normal">
-                    <span class="color-orange"
-                      >{{ item.sharingAddress.lineTwo.trim() }}, </span
-                    ><span class="color-black">{{
-                      item.sharingAddress.state.trim()
-                    }}</span>
-                  </span>
-                </span> -->
               </div>
             </div>
           </div>
