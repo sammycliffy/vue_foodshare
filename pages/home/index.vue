@@ -212,7 +212,7 @@ export default {
   },
 
   async fetch() {
-    console.log('QA WORKS')
+    console.log('QA WORKS, Thats a success!')
     // Fetch Banner images
     const BANNERURL = `/unauth/banner/images`
     await this.$axios
