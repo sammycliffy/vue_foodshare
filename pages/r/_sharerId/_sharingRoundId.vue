@@ -261,7 +261,7 @@
                   <span v-else class="toggle_icon color-orange">Sold Out</span>
                 </span>
               </div>
-              <div class="d-none">
+              <div class="">
                 <hr v-show="item.savings >= 1" class="" />
                 <div
                   v-if="item.savings >= 1"
@@ -380,7 +380,7 @@
                 </b-row>
               </div>
 
-              <div class="d-none">
+              <div class="">
                 <hr
                   v-show="item.savings >= 1 || item.openMarketPrices"
                   class=""
