@@ -410,7 +410,7 @@
                     &#8358; {{ Intl.NumberFormat().format(item.savings) }}
                   </p>
                 </div>
-                <div v-if="item.openMarketPrices[0]" class="d-none">
+                <div v-if="item.openMarketPrices[0]" class="">
                   <h6 class="toggle_text text_medium mt-3 mb-1">
                     Open Market Price
                   </h6>
