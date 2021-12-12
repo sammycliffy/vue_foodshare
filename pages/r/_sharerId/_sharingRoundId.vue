@@ -412,19 +412,25 @@
                 </div>
                 <div v-if="item.openMarketPrices[0]" class="">
                   <h6 class="toggle_text text_medium mt-3 mb-1">
-                    Open Market Price
+                    Market Price
                   </h6>
-                  <div class="d-flex justify-content-between">
-                    <p class="mb-0 fs-12 text-capitalize">
-                      {{ item.openMarketPrices[0].marketName }}
+                  <div
+                    v-for="item in item.openMarketPrices"
+                    :key="item.index"
+                    class="d-flex justify-content-between"
+                  >
+                    <p
+                      v-show="item.marketPrice > 0"
+                      class="mb-0 fs-12 text-capitalize"
+                    >
+                      {{ item.marketName }}
                     </p>
-                    <p class="mb-0 fs-12 color-black text_semiBold">
+                    <p
+                      v-show="item.marketPrice > 0"
+                      class="mb-0 fs-12 color-black text_semiBold"
+                    >
                       &#8358;
-                      {{
-                        Intl.NumberFormat().format(
-                          item.openMarketPrices[0].marketPrice
-                        )
-                      }}
+                      {{ Intl.NumberFormat().format(item.marketPrice) }}
                     </p>
                   </div>
                 </div>
