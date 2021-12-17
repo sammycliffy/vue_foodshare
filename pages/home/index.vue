@@ -120,9 +120,9 @@
                 <span class="text_medium mini-title">
                   <span class="d-block text_normal">
                     <span class="color-orange"
-                      >{{ item.sharingAddress.lineTwo.trim() }}, </span
+                      >{{ item.sharingAddress.lineTwo }}, </span
                     ><span class="color-black">{{
-                      item.sharingAddress.state.trim()
+                      item.sharingAddress.state
                     }}</span>
                   </span>
                 </span>
@@ -133,13 +133,13 @@
                     <span class="fs-10 text_semiBold"
                       >Order Deadline&colon;</span
                     >
-                    {{ item.cutOffTimeWithDay.trim() }}
+                    {{ item.cutOffTimeWithDay }}
                   </span>
                 </span>
                 <span class="text_medium color-green mini-title">
                   <span class="d-block fs-12 color-black text_normal">
                     <span class="fs-10 text_semiBold">Sharing Day&colon;</span>
-                    {{ item.sharingDayWithoutTime.trim() }}
+                    {{ item.sharingDayWithoutTime }}
                   </span>
                 </span>
               </div>
@@ -211,7 +211,7 @@ export default {
         this.numberOfPages = res.result.numberOfPages
 
         // this.sharingRounds.
-        // str.trim()
+        // str
 
         // Save round form data to a perstisted Vuex store
         this.$store.commit('cart/SAVE_ROUND_DATA', this.sharingRounds)
