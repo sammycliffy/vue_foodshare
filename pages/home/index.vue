@@ -36,7 +36,7 @@
           <b-form-input
             v-model="searchInput"
             class="searchBarInput bg-transparent border-right-0 addon-left"
-            placeholder="Search for Sharing Rounds"
+            placeholder="Search for rounds, location and commodities."
             required
             @input="searchItem()"
             @keyup.enter="searchItem()"
