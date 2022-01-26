@@ -101,6 +101,10 @@
                         class="paymentStatusPaid"
                         >Payment Confirmed</span
                       >
+                      <span
+                        class="deliveryTypeSTyle"
+                        v-text="item.deliveryDetails.deliveryMethod"
+                      ></span>
                     </div>
                   </label>
                 </div>
@@ -176,6 +180,10 @@
                         class="paymentStatusPaid"
                         >Payment Confirmed</span
                       >
+                      <span
+                        class="deliveryTypeSTyle"
+                        v-text="item.deliveryDetails.deliveryMethod"
+                      ></span>
                     </div>
                   </label>
                 </div>
@@ -239,6 +247,10 @@
                           <span class="mr-2">View Basket</span>
                         </nuxt-link>
                       </span>
+                      <span
+                        class="deliveryTypeSTyle"
+                        v-text="item.deliveryDetails.deliveryMethod"
+                      ></span>
                       <!-- <span
                         v-if="item.orderStatus === 'ORDER_CANCELLED'"
                         class="paymentStatusBadge"

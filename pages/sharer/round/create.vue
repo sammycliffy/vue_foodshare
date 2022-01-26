@@ -132,7 +132,7 @@
           <ValidationProvider
             v-slot="{ errors }"
             name="Waiting Time"
-            rules="required|digits:2"
+            rules="required|numeric|min_value:10|max_value:60"
           >
             <div class="form-group">
               <label class="createFormLabel" for="waitingWindow">
@@ -185,7 +185,7 @@
                 <ValidationProvider
                   v-slot="{ errors }"
                   name="Service Charge"
-                  rules="required|digits"
+                  rules="required|numeric"
                 >
                   <div
                     v-if="sharingRound.serviceCharge.serviceChargeType"
