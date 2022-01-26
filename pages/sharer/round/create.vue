@@ -16,37 +16,39 @@
       </nav>
 
       <section v-else class="createFormBox mt-3">
-        <label class="createFormLabel" for="sharingRoundName"
-          >Default Round Name</label
-        >
-        <div class="defaultNameBox createFormInput">
-          <span class="text_semiBold"> {{ defaultRoundName }}</span>
-        </div>
-        <client-only>
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col-6 input-l-seperator input-col">
-                <div>
-                  <label class="createFormLabel" for="sharingRoundDay"
-                    >Order Deadline</label
-                  >
-                </div>
+        <ValidationObserver v-slot="{ handleSubmit }">
+          <label class="createFormLabel" for="sharingRoundName"
+            >Default Round Name</label
+          >
+          <div class="defaultNameBox createFormInput">
+            <span class="text_semiBold"> {{ defaultRoundName }}</span>
+          </div>
 
-                <b-form-datepicker
-                  id="example-datepicker-1               "
-                  v-model="sharingRound.effectivity.cutOffTime"
-                  placeholder="Order Deadline"
-                  class="noBoxShadow createFormInput form-control"
-                  :date-format-options="{
-                    year: 'numeric',
-                    month: 'long',
-                    day: '2-digit',
-                    weekday: 'short',
-                  }"
-                  :min="new Date()"
-                  locale="en"
-                />
-                <!-- <v-calendar
+          <client-only>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-6 input-l-seperator input-col">
+                  <div>
+                    <label class="createFormLabel" for="sharingRoundDay"
+                      >Order Deadline</label
+                    >
+                  </div>
+
+                  <b-form-datepicker
+                    id="example-datepicker-1               "
+                    v-model="sharingRound.effectivity.cutOffTime"
+                    placeholder="Order Deadline"
+                    class="noBoxShadow createFormInput form-control"
+                    :date-format-options="{
+                      year: 'numeric',
+                      month: 'long',
+                      day: '2-digit',
+                      weekday: 'short',
+                    }"
+                    :min="new Date()"
+                    locale="en"
+                  />
+                  <!-- <v-calendar
                   v-model="sharingRound.effectivity.cutOffTime"
                   :min-date="new Date()"
                   model-config="iso"
@@ -61,37 +63,38 @@
                     />
                   </template>
                 </v-calendar> -->
-              </div>
-
-              <div class="col-6 input-r-seperator input-col">
-                <div>
-                  <label class="createFormLabel" for="sharingRoundDay"
-                    >Sharing Day</label
-                  >
                 </div>
 
-                <b-form-datepicker
-                  id="example-datepicker-2"
-                  v-model="sharingRound.effectivity.endTime"
-                  placeholder="Sharing day"
-                  class="noBoxShadow createFormInput form-control mb-3"
-                  :date-format-options="{
-                    year: 'numeric',
-                    month: 'long',
-                    day: '2-digit',
-                    weekday: 'short',
-                  }"
-                  :min="
-                    new Date(
-                      new Date(sharingRound.effectivity.cutOffTime).getTime() +
-                        86400000
-                    )
-                  "
-                  locale="en"
-                  @input="createDefaultName()"
-                />
+                <div class="col-6 input-r-seperator input-col">
+                  <div>
+                    <label class="createFormLabel" for="sharingRoundDay"
+                      >Sharing Day</label
+                    >
+                  </div>
 
-                <!-- <v-date-picker
+                  <b-form-datepicker
+                    id="example-datepicker-2"
+                    v-model="sharingRound.effectivity.endTime"
+                    placeholder="Sharing day"
+                    class="noBoxShadow createFormInput form-control mb-3"
+                    :date-format-options="{
+                      year: 'numeric',
+                      month: 'long',
+                      day: '2-digit',
+                      weekday: 'short',
+                    }"
+                    :min="
+                      new Date(
+                        new Date(
+                          sharingRound.effectivity.cutOffTime
+                        ).getTime() + 86400000
+                      )
+                    "
+                    locale="en"
+                    @input="createDefaultName()"
+                  />
+
+                  <!-- <v-date-picker
                   v-model="sharingRound.effectivity.endTime"
                   :min-date="
                     new Date(
@@ -112,92 +115,111 @@
                     />
                   </template>
                 </v-date-picker> -->
+                </div>
               </div>
             </div>
-          </div>
-        </client-only>
-        <label class="createFormLabel" for="sharingRoundName"
-          >Sharing Round Name</label
-        >
-        <b-form-input
-          v-model.trim="sharingRound.name"
-          class="createFormInput"
-          type="text"
-          placeholder="Optional"
-          @input="changeDefaultToName()"
-        />
-
-        <div class="form-group">
-          <label class="createFormLabel" for="waitingWindow">
-            Waiting window for reservation
-          </label>
-          <b-input-group class="formInputGroup">
-            <b-form-input
-              v-model.trim="sharingRound.waitingTime"
-              class="createFormInput"
-              type="number"
-              max="60"
-              min="5"
-              placeholder="Enter waiting time"
-              required
-            />
-            <b-input-group-append>
-              <b-input-group-text
-                class="input-addon bg-white createFormInput-r-addon"
-              >
-                <span>Minutes</span>
-              </b-input-group-text>
-            </b-input-group-append>
-          </b-input-group>
-        </div>
-        <div class="form-group">
-          <label class="createFormLabel" for="serviceCharge"
-            >Service Charge</label
+          </client-only>
+          <label class="createFormLabel" for="sharingRoundName"
+            >Sharing Round Name</label
           >
-          <div class="form-row">
-            <div class="col-6 input-l-seperator input-col">
-              <div class="form-group">
-                <v-select
-                  v-model="sharingRound.serviceCharge.serviceChargeType"
-                  :options="serviceChargeTypes"
-                  :reduce="(serviceChargeTypes) => serviceChargeTypes.option"
-                  class="selectVCustom"
-                  placeholder="Charge Type"
-                  :clearable="false"
-                  :filterable="false"
-                  :required="!sharingRound.serviceCharge.serviceChargeType"
-                ></v-select>
-              </div>
-            </div>
-            <div class="col-6 input-r-seperator input-col">
-              <div
-                v-if="sharingRound.serviceCharge.serviceChargeType"
-                class="form-group"
-              >
-                <input
-                  v-model="sharingRound.serviceCharge.serviceChargeAmount"
-                  :placeholder="
-                    sharingRound.serviceCharge.serviceChargeType == 'percentage'
-                      ? 'Enter percentage'
-                      : 'Enter amount'
-                  "
-                  class="form-control createFormInput"
+          <b-form-input
+            v-model.trim="sharingRound.name"
+            class="createFormInput"
+            type="text"
+            placeholder="Optional"
+            @input="changeDefaultToName()"
+          />
+          <ValidationProvider
+            v-slot="{ errors }"
+            name="Waiting Time"
+            rules="required|numeric|min_value:10|max_value:60"
+          >
+            <div class="form-group">
+              <label class="createFormLabel" for="waitingWindow">
+                Waiting window for reservation
+              </label>
+              <b-input-group class="formInputGroup">
+                <b-form-input
+                  v-model.trim="sharingRound.waitingTime"
+                  class="createFormInput"
                   type="number"
+                  max="60"
+                  min="5"
+                  placeholder="Enter waiting time"
                   required
                 />
+                <b-input-group-append>
+                  <b-input-group-text
+                    class="input-addon bg-white createFormInput-r-addon"
+                  >
+                    <span>Minutes</span>
+                  </b-input-group-text>
+                </b-input-group-append>
+              </b-input-group>
+            </div>
+            <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+              errors[0]
+            }}</span>
+          </ValidationProvider>
+
+          <div class="form-group">
+            <label class="createFormLabel" for="serviceCharge"
+              >Service Charge</label
+            >
+            <div class="form-row">
+              <div class="col-6 input-l-seperator input-col">
+                <div class="form-group">
+                  <v-select
+                    v-model="sharingRound.serviceCharge.serviceChargeType"
+                    :options="serviceChargeTypes"
+                    :reduce="(serviceChargeTypes) => serviceChargeTypes.option"
+                    class="selectVCustom"
+                    placeholder="Charge Type"
+                    :clearable="false"
+                    :filterable="false"
+                    :required="!sharingRound.serviceCharge.serviceChargeType"
+                  ></v-select>
+                </div>
+              </div>
+              <div class="col-6 input-r-seperator input-col">
+                <ValidationProvider
+                  v-slot="{ errors }"
+                  name="Service Charge"
+                  rules="required|numeric"
+                >
+                  <div
+                    v-if="sharingRound.serviceCharge.serviceChargeType"
+                    class="form-group"
+                  >
+                    <input
+                      v-model="sharingRound.serviceCharge.serviceChargeAmount"
+                      :placeholder="
+                        sharingRound.serviceCharge.serviceChargeType ==
+                        'percentage'
+                          ? 'Enter percentage'
+                          : 'Enter amount'
+                      "
+                      class="form-control createFormInput"
+                      type="number"
+                      required
+                    />
+                  </div>
+                  <span v-show="errors.length > 0" class="is-invalid mt-2">{{
+                    errors[0]
+                  }}</span>
+                </ValidationProvider>
               </div>
             </div>
           </div>
-        </div>
-        <div class="text-center mt-5">
-          <b-btn class="btn primary-btn padded-btn" @click="moveToLocationPage">
-            <!-- <b-btn
-            class="btn primary-btn padded-btn"
-            @click="$router.replace('/sharer/round/wrongtester/')"
-          > -->
-            Continue
-          </b-btn>
-        </div>
+          <div class="text-center mt-5">
+            <b-btn
+              class="btn primary-btn padded-btn"
+              @click="handleSubmit(moveToLocationPage)"
+            >
+              Continue
+            </b-btn>
+          </div>
+        </ValidationObserver>
       </section>
     </div>
 

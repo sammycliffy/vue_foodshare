@@ -14,6 +14,9 @@ import {
   digits,
   min,
   max,
+  min_value,
+  max_value,
+  numeric,
 } from 'vee-validate/dist/rules'
 
 Vue.component('ValidationProvider', ValidationProvider)
@@ -31,10 +34,13 @@ const dictionary = {
 extend('required', required)
 extend('email', email)
 extend('alpha', alpha)
-extend('alphaDash', alpha_dash)
-extend('alphaSpaces', alpha_spaces)
+extend('alpha_dash', alpha_dash)
+extend('alpha_spaces', alpha_spaces)
 extend('digits', digits)
 extend('max', max)
 extend('min', min)
+extend('min_value', min_value)
+extend('max_value', max_value)
+extend('numeric', numeric)
 
 localize(dictionary)
