@@ -13,114 +13,80 @@
 
       <div class="body-primary half-width">
         <b-tabs class="profile_tabs">
-          <b-tab
-            title="Pending"
-            active
-          >
+          <b-tab title="Pending" active>
             <div
               v-if="sharingRoundsPending && sharingRoundsPending.length < 1"
               class=""
             >
               <p class="noRoundP">You Don’t have any pending sharing round</p>
-      </div>
-      <div
-        v-else
-        class=""
-      >
-        <nav
-          v-if="$fetchState.pending"
-          class="sharingRoundListBox"
-        >
-          <partials-skeleton-loader />
-          </nav>
-          <nav
-            v-else-if="$fetchState.error"
-            class="noRoundP"
-          >
-            Something Occured. Please, Try Again
-            </nav>
-            <round-list-item
-              editable
-              :sharing-rounds="sharingRoundsPending"
-            />
-    </div>
-    </b-tab>
-    <b-tab title="Active">
-      <div
-        v-if="sharingRoundsActive && sharingRoundsActive.length < 1"
-        class="text-center"
-      >
-        <p class="noRoundP">You Don’t have any active sharing round</p>
-        <b-btn
-          class="btn primary-btn"
-          to="/sharer/round/create/"
-        >
-          Create sharing round
-          </b-btn>
-  </div>
-  <div
-    v-else
-    class=""
-  >
-    <nav
-      v-if="$fetchState.pending"
-      class="sharingRoundListBox"
-    >
-      <partials-skeleton-loader />
-      </nav>
-      <nav
-        v-else-if="$fetchState.error"
-        class="noRoundP"
-      >
-        Something Occured. Please, Try Again
-        </nav>
-        <round-list-item
-          v-else
-          clickable
-          sharable
-          editable
-          :sharing-rounds="sharingRoundsActive"
-        />
-        </div>
-        </b-tab>
-
-        <b-tab title="Closed">
-          <div
-            v-if="sharingRoundsClosed && sharingRoundsClosed.length < 1"
-            class=""
-          >
-            <p class="noRoundP">You Don’t have any closed sharing round</p>
             </div>
+            <div v-else class="">
+              <nav v-if="$fetchState.pending" class="sharingRoundListBox">
+                <partials-skeleton-loader />
+              </nav>
+              <nav v-else-if="$fetchState.error" class="noRoundP">
+                Something Occured. Please, Try Again
+              </nav>
+              <round-list-item
+                editable
+                :sharing-rounds="sharingRoundsPending"
+              />
+            </div>
+          </b-tab>
+          <b-tab title="Active">
             <div
-              v-else
+              v-if="sharingRoundsActive && sharingRoundsActive.length < 1"
+              class="text-center"
+            >
+              <p class="noRoundP">You Don’t have any active sharing round</p>
+              <b-btn class="btn primary-btn" to="/sharer/round/create/">
+                Create sharing round
+              </b-btn>
+            </div>
+            <div v-else class="">
+              <nav v-if="$fetchState.pending" class="sharingRoundListBox">
+                <partials-skeleton-loader />
+              </nav>
+              <nav v-else-if="$fetchState.error" class="noRoundP">
+                Something Occured. Please, Try Again
+              </nav>
+              <round-list-item
+                v-else
+                clickable
+                sharable
+                editable
+                :sharing-rounds="sharingRoundsActive"
+              />
+            </div>
+          </b-tab>
+
+          <b-tab title="Closed">
+            <div
+              v-if="sharingRoundsClosed && sharingRoundsClosed.length < 1"
               class=""
             >
-              <nav
-                v-if="$fetchState.pending"
-                class="sharingRoundListBox"
-              >
+              <p class="noRoundP">You Don’t have any closed sharing round</p>
+            </div>
+            <div v-else class="">
+              <nav v-if="$fetchState.pending" class="sharingRoundListBox">
                 <partials-skeleton-loader />
-                </nav>
+              </nav>
 
-                <nav
-                  v-else-if="$fetchState.error"
-                  class="noRoundP"
-                >
-                  Something Occured. Please, Try Again
-                  </nav>
-                  <round-list-item
-                    clickable
-                    duplicatable
-                    :sharing-rounds="sharingRoundsClosed"
-                  />
-                  </div>
-        </b-tab>
+              <nav v-else-if="$fetchState.error" class="noRoundP">
+                Something Occured. Please, Try Again
+              </nav>
+              <round-list-item
+                clickable
+                :sharing-rounds="sharingRoundsClosed"
+              />
+            </div>
+          </b-tab>
         </b-tabs>
-        </div>
+      </div>
 
-        <partials-sharer-footer-bar />
-        </div>
-        </div>
+      <partials-sharer-footer-bar />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -145,19 +111,19 @@ export default {
     const URL = `/services/sharing-rounds/${this.USER.id}`
     await this.$axios
       .$get(URL, {})
-      .then(res => {
+      .then((res) => {
         this.sharingRounds = res.result.sharingRounds
         this.sharingRoundsActive = this.sharingRounds.filter(
-          element => element.status === 'ACTIVE'
+          (element) => element.status === 'ACTIVE'
         )
         this.sharingRoundsPending = this.sharingRounds.filter(
-          element => element.status === 'PENDING'
+          (element) => element.status === 'PENDING'
         )
         this.sharingRoundsClosed = this.sharingRounds.filter(
-          element => element.isClosed
+          (element) => element.isClosed
         )
       })
-      .catch(error => {
+      .catch((error) => {
         this.ERROR_HANDLER(error)
         throw error
       })
@@ -165,9 +131,7 @@ export default {
 
   mounted() {
     const baseURL = location.protocol + '//' + location.host
-    this.publishLink = `${baseURL}/r/${this.linkSharingRound.sharerId}/${
-      this.linkSharingRound.id
-    }/`
+    this.publishLink = `${baseURL}/r/${this.linkSharingRound.sharerId}/${this.linkSharingRound.id}/`
   },
 }
 </script>
