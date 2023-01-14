@@ -384,6 +384,9 @@ export default {
   box-shadow: unset;
   -webkit-box-shadow: unset;
   -moz-box-shadow: unset;
+  /* box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05);
+  -webkit-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.05); */
 }
 
 .sharingRoundBoxIcon1 {
