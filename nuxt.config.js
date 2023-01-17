@@ -121,10 +121,10 @@ export default {
   },
 
   publicRuntimeConfig: {
-    // baseAPI: 'https://extreme-braid-374718.oa.r.appspot.com',
+    // baseAPI: 'https://extreme-braid-374718.oa.r.appspot.com/api/v1',
     baseAPI:
       process.env.BASE_API ||
-      'https://extreme-braid-374718.oa.r.appspot.com',
+      'https://extreme-braid-374718.oa.r.appspot.com/api/v1',
   },
 
   server: {
