@@ -121,10 +121,10 @@ export default {
   },
 
   publicRuntimeConfig: {
-    // baseAPI: 'https://foodshare-service-prod.eu-gb.mybluemix.net/api/v1',
+    // baseAPI: 'https://extreme-braid-374718.oa.r.appspot.com',
     baseAPI:
       process.env.BASE_API ||
-      'https://foodshare-service-qa.eu-gb.mybluemix.net/api/v1',
+      'https://extreme-braid-374718.oa.r.appspot.com',
   },
 
   server: {
