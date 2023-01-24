@@ -7,7 +7,8 @@
         <div class="top-bar">
           <div class="top-row d-flex justify-content-between">
             <span class="">
-              Hey <span v-text="USER ? USER.firstName : ''" />
+              Hey
+              <span v-text="USER ? USER.firstName : ''" />
             </span>
           </div>
         </div>
@@ -71,16 +72,12 @@
           </div>
         </section>
 
-        <div class="mt-4">
-          <b-dropdown
-            id="dropdown-left"
-            text="Revenue Chart"
-            class="textBtnDropdown"
-          >
-            <!-- <b-dropdown-item href="#">Commodity</b-dropdown-item> -->
-            <b-dropdown-item href="#">Revenue Chart</b-dropdown-item>
-            <!-- <b-dropdown-item href="#">Spread Sheet View</b-dropdown-item> -->
-          </b-dropdown>
+        <div class="mt-4 form-select">
+          <b-form-select
+            v-model="year"
+            :options="options"
+            v-on:change="changeYear()"
+          ></b-form-select>
         </div>
         <div class="chartBox">
           <bar-chart
@@ -98,11 +95,61 @@
 
 <script>
 export default {
+  methods: {
+    changeYear() {
+      this.callMetrics()
+    },
+
+    async callMetrics() {
+      URL = `/services/metrics/${this.USER.id}/${this.year}`
+      await this.$axios
+        .$get(URL)
+        .then((resp) => {
+          const fetchedbarData = resp.result.annualSummaries
+          const mappedBarData = fetchedbarData[0].monthlyTransactionSummaries
+          // const convertToFloat = []
+          const purchaseTransaction = mappedBarData.map(
+            (el) => el.sumOfTransactions
+          )
+          // const cummlativeTransaction = mappedBarData.map(
+          //   (el) => el.cumulativeTransactions
+          // )
+
+          this.barChartData.datasets[0].data = purchaseTransaction
+          // this.barChartData.datasets[1].data = cummlativeTransaction
+
+          this.chartDataLoaded = true
+          console.log(purchaseTransaction)
+
+          // this.barChartData.datasets[0].data = purchaseTransaction.map((i) =>
+          //   parseFloat(i)
+          // )
+          // this.barChartData.datasets[1].data = cummlativeTransaction.map((i) =>
+          //   parseFloat(i)
+          // )
+          // this.barChartData.datasets[0].data = barChartMonthlyTransaction.map(i => parseFloat(i))
+          // this.barChartData.datasets[0].data = mappedBarData.map(
+          //   (el) => el.sumOfTransactions
+          // )
+
+          // console.log(convertToFloat)
+          // console.log(this.barChartData.datasets[0].data)
+        })
+        .catch((err) => {
+          this.ERROR_HANDLER(err)
+        })
+    },
+  },
   data() {
     return {
       USER: this.$store.state.auth.userData,
       sharerDetails: null,
-
+      year: 2022,
+      options: [
+        { value: 2023, text: '2023' },
+        { value: 2022, text: '2022' },
+        { value: 2021, text: '2021' },
+      ],
       publishLink: '#',
       totalReviews: 0,
       sharingRounds: [],
@@ -207,43 +254,7 @@ export default {
       .catch((e) => {
         this.ERROR_HANDLER(e)
       })
-
-    URL = `/services/metrics/${this.USER.id}`
-    await this.$axios
-      .$get(URL)
-      .then((resp) => {
-        const fetchedbarData = resp.result.annualSummaries
-        const mappedBarData = fetchedbarData[0].monthlyTransactionSummaries
-        // const convertToFloat = []
-        const purchaseTransaction = mappedBarData.map(
-          (el) => el.sumOfTransactions
-        )
-        // const cummlativeTransaction = mappedBarData.map(
-        //   (el) => el.cumulativeTransactions
-        // )
-
-        this.barChartData.datasets[0].data = purchaseTransaction
-        // this.barChartData.datasets[1].data = cummlativeTransaction
-
-        this.chartDataLoaded = true
-
-        // this.barChartData.datasets[0].data = purchaseTransaction.map((i) =>
-        //   parseFloat(i)
-        // )
-        // this.barChartData.datasets[1].data = cummlativeTransaction.map((i) =>
-        //   parseFloat(i)
-        // )
-        // this.barChartData.datasets[0].data = barChartMonthlyTransaction.map(i => parseFloat(i))
-        // this.barChartData.datasets[0].data = mappedBarData.map(
-        //   (el) => el.sumOfTransactions
-        // )
-
-        // console.log(convertToFloat)
-        // console.log(this.barChartData.datasets[0].data)
-      })
-      .catch((err) => {
-        this.ERROR_HANDLER(err)
-      })
+    this.callMetrics()
     // Fetch sharer's review
     // URL = `/services/reviews/sharer/${this.USER.id}`
     // await this.$axios
@@ -307,6 +318,9 @@ export default {
   font-weight: bold;
 }
 
+.form-select {
+  width: 200px;
+}
 .statisticsBox {
   border: 1px solid #ececec;
   background-color: rgba(255, 255, 255, 0.99);
