@@ -7,284 +7,267 @@
         <span>&nbsp;</span>
       </header>
 
-      <nav
-        v-if="$fetchState.pending"
-        class="text-center p-5"
-      >
+      <nav v-if="$fetchState.pending" class="text-center p-5">
         <partials-skeleton-loader />
-        </nav>
+      </nav>
 
-        <nav
-          v-else-if="$fetchState.error"
-          class="text-center p-5"
-        >
-          Something Occured. Please, Try Again
-          </nav>
+      <nav v-else-if="$fetchState.error" class="text-center p-5">
+        Something Occured. Please, Try Again
+      </nav>
 
-          <section v-else>
-            <div class="detailsBox">
-              <p
-                class="text_medium mb-0"
-                v-text="sharingRound.name"
-              ></p>
-                <p class="item_day mt-1 mb-0">
-                  <span>Sharing Day&colon;</span>
-                  <span v-text="sharingRound.endTimeWithDay"></span>
-                </p>
-            </div>
+      <section v-else>
+        <div class="detailsBox">
+          <p class="text_medium mb-0" v-text="sharingRound.name"></p>
+          <p class="item_day mt-1 mb-0">
+            <span>Sharing Day&colon;</span>
+            <span v-text="sharingRound.endTimeWithDay"></span>
+          </p>
+        </div>
 
-            <div
-              v-if="orders.length < 1"
-              class="bg-white text-center py-3"
-            >
-              No Order Found
-    </div>
+        <div v-if="orders.length < 1" class="bg-white text-center py-3">
+          No Order Found
+        </div>
 
-    <div v-else>
-      <div class="d-flex justify-content-between mb-3">
-        <!-- <p class="color-orange text_medium">Payment Status</p>
+        <div v-else>
+          <div class="d-flex justify-content-between mb-3">
+            <!-- <p class="color-orange text_medium">Payment Status</p>
         <p class="color-orange text_medium">Order Status</p> -->
-        <span
-          @click="toggleStatus(true)"
-          class="color-orange text_medium paymentStatus"
-        >Payment Status</span>
-
-          <span
-            @click="toggleStatus(false)"
-            class="color-orange text_medium orderStatus"
-          >Order Status</span>
-      </div>
-
-      <div v-if="isPaymentStatus">
-        <div
-          class="accordion"
-          role="tablist"
-        >
-          <!--Orders Awaiting Payment-->
-          <div class="itemBox">
-            <div
-              v-b-toggle.awaitingOrders
-              block
-              class="text_medium"
+            <span
+              @click="toggleStatus(true)"
+              class="color-orange text_medium paymentStatus"
+              >Payment Status</span
             >
-              Awaiting Payment
-              <span class="primary-p color-orange float-right">
-                <span v-if="awaitingOrders.length">{{ awaitingOrders.length }}
-                </span>
-                <span v-if="awaitingOrders.length > 1"> Orders </span>
-                <span v-if="awaitingOrders.length == 1"> Order </span>
-              </span>
+
+            <span
+              @click="toggleStatus(false)"
+              class="color-orange text_medium orderStatus"
+              >Order Status</span
+            >
           </div>
-          <b-collapse
-            id="awaitingOrders"
-            accordion="my-accordion"
-            role="tabpanel"
-          >
-            <div
-              v-for="item in awaitingOrders"
-              :key="item.id"
-              class="member mt-16"
-            >
-              <label class="row mx-0">
-                <div class="col px-0 pr-2">
-                  <img
-                    class="rounded-circle border border-primary"
-                    :src="item.imageUrl || '/assets/empty-photo.svg'"
-                    height="75"
-                    width="75"
-                  />
-                </div>
-                <div class="col-8 px-0">
-                  <span class="nameBox">
-                    <strong
-                      class="mb-0"
-                      v-text="`${item.firstName} ${item.lastName}`"
-                    ></strong>
-                      <p
-                        class="mb-0"
-                        v-text="item.emailAddress"
-                      ></p>
-                        <nuxt-link
-                          :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
-                          class="plain-link text_medium basketLink"
-                        >
-                          <span class="mr-2">View Basket</span>
-                          </nuxt-link>
+
+          <div v-if="isPaymentStatus">
+            <div class="accordion" role="tablist">
+              <!--Orders Awaiting Payment-->
+              <div class="itemBox">
+                <div v-b-toggle.awaitingOrders block class="text_medium">
+                  Awaiting Payment
+                  <span class="primary-p color-orange float-right">
+                    <span v-if="awaitingOrders.length"
+                      >{{ awaitingOrders.length }}
+                    </span>
+                    <span v-if="awaitingOrders.length > 1"> Orders </span>
+                    <span v-if="awaitingOrders.length == 1"> Order </span>
                   </span>
-                  <span
-                    v-if="item.orderStatus === 'ORDER_CANCELLED'"
-                    class="paymentStatusBadge"
-                  >Order cancelled</span>
-                    <span
-                      v-if="
-                          item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
-                        "
-                      class="paymentStatusBadge"
-                    >Awaiting Payment Confirmation</span>
-                      <span
-                        v-if="
-                          item.orderStatus === 'AWAITING_PAYMENT' ||
-                          item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
-                        "
-                        class="paymentStatusBadge"
-                      >Payment required</span>
+                </div>
+                <b-collapse
+                  id="awaitingOrders"
+                  accordion="my-accordion"
+                  role="tabpanel"
+                >
+                  <div
+                    v-for="item in awaitingOrders"
+                    :key="item.id"
+                    class="member mt-16"
+                  >
+                    <label class="row mx-0">
+                      <div class="col px-0 pr-2">
+                        <img
+                          class="rounded-circle border border-primary"
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                          height="75"
+                          width="75"
+                        />
+                      </div>
+                      <div class="col-8 px-0">
+                        <span class="nameBox">
+                          <strong
+                            class="mb-0"
+                            v-text="`${item.firstName} ${item.lastName}`"
+                          ></strong>
+                          <p class="mb-0" v-text="item.emailAddress"></p>
+                          <nuxt-link
+                            :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
+                            class="plain-link text_medium basketLink"
+                          >
+                            <span class="mr-2">View Basket</span>
+                          </nuxt-link>
+                        </span>
+                        <span
+                          v-if="item.orderStatus === 'ORDER_CANCELLED'"
+                          class="paymentStatusBadge"
+                          >Order cancelled</span
+                        >
+                        <span
+                          v-if="
+                            item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
+                          "
+                          class="paymentStatusBadge"
+                          >Awaiting Payment Confirmation</span
+                        >
+                        <span
+                          v-if="
+                            item.orderStatus === 'AWAITING_PAYMENT' ||
+                            item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
+                          "
+                          class="paymentStatusBadge"
+                          >Payment required</span
+                        >
                         <span
                           v-if="item.paymentComplete"
                           class="paymentStatusPaid"
-                        >Payment Confirmed</span>
-                          <span
-                            class="deliveryTypeSTyle"
-                            v-text="item.deliveryDetails.deliveryMethod"
-                          ></span>
+                          >Payment Confirmed</span
+                        >
+                        <span
+                          class="deliveryTypeSTyle"
+                          v-text="item.deliveryDetails.deliveryMethod"
+                        ></span>
+                      </div>
+                    </label>
+                  </div>
+                </b-collapse>
+              </div>
+              <!--Orders Pending Approval -->
+              <div class="itemBox">
+                <div v-b-toggle.pendingOrders block class="text_medium">
+                  Awaiting Confirmation
+                  <span class="primary-p color-orange float-right">
+                    <span v-if="pendingOrders.length"
+                      >{{ pendingOrders.length }}
+                    </span>
+                    <span v-if="pendingOrders.length > 1"> Orders </span>
+                    <span v-if="pendingOrders.length == 1"> Order </span>
+                  </span>
                 </div>
-              </label>
-      </div>
-      </b-collapse>
-    </div>
-    <!--Orders Pending Approval -->
-    <div class="itemBox">
-      <div
-        v-b-toggle.pendingOrders
-        block
-        class="text_medium"
-      >
-        Awaiting Confirmation
-        <span class="primary-p color-orange float-right">
-          <span v-if="pendingOrders.length">{{ pendingOrders.length }}
-          </span>
-          <span v-if="pendingOrders.length > 1"> Orders </span>
-          <span v-if="pendingOrders.length == 1"> Order </span>
-        </span>
-    </div>
-    <b-collapse
-      id="pendingOrders"
-      accordion="my-accordion"
-      role="tabpanel"
-    >
-      <div
-        v-for="item in pendingOrders"
-        :key="item.id"
-        class="member mt-16"
-      >
-        <label class="row mx-0">
-          <div class="col px-0 pr-2">
-            <img
-              class="rounded-circle border border-primary"
-              :src="item.imageUrl || '/assets/empty-photo.svg'"
-              height="75"
-              width="75"
-            />
-          </div>
-          <div class="col-8 px-0">
-            <span class="nameBox">
-              <strong
-                class="mb-0"
-                v-text="`${item.firstName} ${item.lastName}`"
-              ></strong>
-                <p
-                  class="mb-0"
-                  v-text="item.emailAddress"
-                ></p>
-                  <nuxt-link
-                    :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
-                    class="plain-link text_medium basketLink"
+                <b-collapse
+                  id="pendingOrders"
+                  accordion="my-accordion"
+                  role="tabpanel"
+                >
+                  <div
+                    v-for="item in pendingOrders"
+                    :key="item.id"
+                    class="member mt-16"
                   >
-                    <span class="mr-2">View Basket</span>
-                    </nuxt-link>
-            </span>
-            <span
-              v-if="item.orderStatus === 'ORDER_CANCELLED'"
-              class="paymentStatusBadge"
-            >Order cancelled</span>
-              <span
-                v-if="
-                          item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
-                        "
-                class="paymentStatusBadge"
-              >Awaiting Payment Confirmation</span>
-                <span
-                  v-if="
-                          item.orderStatus === 'AWAITING_PAYMENT' ||
-                          item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
-                        "
-                  class="paymentStatusBadge"
-                >Payment required</span>
-                  <span
-                    v-if="item.paymentComplete"
-                    class="paymentStatusPaid"
-                  >Payment Confirmed</span>
-                    <span
-                      class="deliveryTypeSTyle"
-                      v-text="item.deliveryDetails.deliveryMethod"
-                    ></span>
-          </div>
-        </label>
-  </div>
-  </b-collapse>
-  </div>
-  <!--Confirmed Orders -->
-  <div class="itemBox">
-    <div
-      v-b-toggle.confirmedOrders
-      block
-      class="text_medium"
-    >
-      Approved
-      <span class="primary-p color-orange float-right when-closed">
-        <span v-if="confirmedOrders.length">{{ confirmedOrders.length }}
-        </span>
-        <span v-if="confirmedOrders.length > 1"> Orders </span>
-        <span v-if="confirmedOrders.length == 1"> Order </span>
-      </span>
-  </div>
-  <b-collapse
-    id="confirmedOrders"
-    accordion="my-accordion"
-    role="tabpanel"
-  >
-    <div class="text_medium mt-1 mb-2">
-      <span class="primary-p color-orange when-open fs-14">
-        <span v-if="confirmedOrders.length">{{ confirmedOrders.length }}
-        </span>
-        <span v-if="confirmedOrders.length > 1">
-          Orders Approved</span>
-        <span v-if="confirmedOrders.length == 1">
-          Order Approved</span>
-      </span>
-    </div>
-    <div
-      v-for="item in confirmedOrders"
-      :key="item.id"
-      class="member mt-16"
-    >
-      <label class="row mx-0">
-        <div class="col px-0 pr-2">
-          <img
-            class="rounded-circle border border-primary"
-            :src="item.imageUrl || '/assets/empty-photo.svg'"
-            height="75"
-            width="75"
-          />
-        </div>
-        <div class="col-8 px-0">
-          <span class="nameBox">
-            <strong
-              class="mb-0 fs-14 d-block"
-              v-text="`${item.firstName} ${item.lastName}`"
-            ></strong>
-              <!-- <p class="mb-0" v-text="item.emailAddress"></p> -->
-              <nuxt-link
-                :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
-                class="plain-link text_medium basketLink"
-              >
-                <span class="mr-2">View Basket</span>
-                </nuxt-link>
-          </span>
-          <span
-            class="deliveryTypeSTyle"
-            v-text="item.deliveryDetails.deliveryMethod"
-          ></span>
-            <!-- <span
+                    <label class="row mx-0">
+                      <div class="col px-0 pr-2">
+                        <img
+                          class="rounded-circle border border-primary"
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                          height="75"
+                          width="75"
+                        />
+                      </div>
+                      <div class="col-8 px-0">
+                        <span class="nameBox">
+                          <strong
+                            class="mb-0"
+                            v-text="`${item.firstName} ${item.lastName}`"
+                          ></strong>
+                          <p class="mb-0" v-text="item.emailAddress"></p>
+                          <nuxt-link
+                            :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
+                            class="plain-link text_medium basketLink"
+                          >
+                            <span class="mr-2">View Basket</span>
+                          </nuxt-link>
+                        </span>
+                        <span
+                          v-if="item.orderStatus === 'ORDER_CANCELLED'"
+                          class="paymentStatusBadge"
+                          >Order cancelled</span
+                        >
+                        <span
+                          v-if="
+                            item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
+                          "
+                          class="paymentStatusBadge"
+                          >Awaiting Payment Confirmation</span
+                        >
+                        <span
+                          v-if="
+                            item.orderStatus === 'AWAITING_PAYMENT' ||
+                            item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
+                          "
+                          class="paymentStatusBadge"
+                          >Payment required</span
+                        >
+                        <span
+                          v-if="item.paymentComplete"
+                          class="paymentStatusPaid"
+                          >Payment Confirmed</span
+                        >
+                        <span
+                          class="deliveryTypeSTyle"
+                          v-text="item.deliveryDetails.deliveryMethod"
+                        ></span>
+                      </div>
+                    </label>
+                  </div>
+                </b-collapse>
+              </div>
+              <!--Confirmed Orders -->
+              <div class="itemBox">
+                <div v-b-toggle.confirmedOrders block class="text_medium">
+                  Approved
+                  <span class="primary-p color-orange float-right when-closed">
+                    <span v-if="confirmedOrders.length"
+                      >{{ confirmedOrders.length }}
+                    </span>
+                    <span v-if="confirmedOrders.length > 1"> Orders </span>
+                    <span v-if="confirmedOrders.length == 1"> Order </span>
+                  </span>
+                </div>
+                <b-collapse
+                  id="confirmedOrders"
+                  accordion="my-accordion"
+                  role="tabpanel"
+                >
+                  <div class="text_medium mt-1 mb-2">
+                    <span class="primary-p color-orange when-open fs-14">
+                      <span v-if="confirmedOrders.length"
+                        >{{ confirmedOrders.length }}
+                      </span>
+                      <span v-if="confirmedOrders.length > 1">
+                        Orders Approved</span
+                      >
+                      <span v-if="confirmedOrders.length == 1">
+                        Order Approved</span
+                      >
+                    </span>
+                  </div>
+                  <div
+                    v-for="item in confirmedOrders"
+                    :key="item.id"
+                    class="member mt-16"
+                  >
+                    <label class="row mx-0">
+                      <div class="col px-0 pr-2">
+                        <img
+                          class="rounded-circle border border-primary"
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                          height="75"
+                          width="75"
+                        />
+                      </div>
+                      <div class="col-8 px-0">
+                        <span class="nameBox">
+                          <strong
+                            class="mb-0 fs-14 d-block"
+                            v-text="`${item.firstName} ${item.lastName}`"
+                          ></strong>
+                          <!-- <p class="mb-0" v-text="item.emailAddress"></p> -->
+                          <nuxt-link
+                            :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
+                            class="plain-link text_medium basketLink"
+                          >
+                            <span class="mr-2">View Basket</span>
+                          </nuxt-link>
+                        </span>
+                        <span
+                          class="deliveryTypeSTyle"
+                          v-text="item.deliveryDetails.deliveryMethod"
+                        ></span>
+                        <!-- <span
                         v-if="item.orderStatus === 'ORDER_CANCELLED'"
                         class="paymentStatusBadge"
                         >Order cancelled</span
@@ -309,262 +292,320 @@
                         class="paymentStatusPaid"
                         >Payment Confirmed</span
                       > -->
-        </div>
-        <div class="col px-0">
-          <b-form-checkbox
-            :id="item.orderId + ''"
-            v-model="checkStatus[item.orderId]"
-            class="roundBasket"
-            @change="checkOrderModal = true"
-          >
-            </b-form-checkbox>
-        </div>
-      </label>
-      <b-modal
-        v-model="checkOrderModal"
-        centered
-        modal-class="logOutModalStyle text-center"
-        size="sm"
-        hide-footer
-        hide-header
-        no-close-on-backdrop
-      >
-        <p>Are you sure you want mark this order as collected?</p>
-        <div class="text-center mt-24">
-          <b-button
-            variant="outline-danger"
-            :disabled="verifClicked === true"
-            class="mr-2"
-            @click="checkOrderModal = false"
-          >
-            Cancel
-            </b-button>
-            <b-button
-              :disabled="verifClicked === true"
-              variant="outline-success"
-              @click="confirmCollection(item)"
-            >Confirm</b-button>
-        </div>
-        </b-modal>
-        </div>
-        </b-collapse>
-        </div>
-        <!--Cancelled Orders -->
-        <div class="itemBox">
-          <div
-            v-b-toggle.cancelledOrders
-            block
-            class="text_medium"
-          >
-            Cancelled
-            <span class="primary-p color-orange float-right">
-              <span v-if="cancelledOrders.length">{{ cancelledOrders.length }}
-              </span>
-              <span v-if="cancelledOrders.length > 1"> Orders </span>
-              <span v-if="cancelledOrders.length == 1"> Order </span>
-            </span>
-        </div>
-        <b-collapse
-          id="cancelledOrders"
-          accordion="my-accordion"
-          role="tabpanel"
-        >
-          <div
-            v-for="item in cancelledOrders"
-            :key="item.id"
-            class="member mt-16"
-          >
-            <label class="row mx-0">
-              <div class="col px-0 pr-2">
-                <img
-                  class="rounded-circle border border-primary"
-                  :src="item.imageUrl || '/assets/empty-photo.svg'"
-                  height="75"
-                  width="75"
-                />
-              </div>
-              <div class="col-8 px-0">
-                <span class="nameBox">
-                  <strong
-                    class="mb-0"
-                    v-text="`${item.firstName} ${item.lastName}`"
-                  ></strong>
-                    <p
-                      class="mb-0"
-                      v-text="item.emailAddress"
-                    ></p>
-                      <nuxt-link
-                        :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
-                        class="plain-link text_medium basketLink"
-                      >
-                        <span class="mr-2">View Basket</span>
-                        </nuxt-link>
-                </span>
-                <span
-                  v-if="item.orderStatus === 'ORDER_CANCELLED'"
-                  class="paymentStatusBadge"
-                >Order cancelled</span>
-                  <span
-                    v-if="
-                          item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
-                        "
-                    class="paymentStatusBadge"
-                  >Awaiting Payment Confirmation</span>
-                    <span
-                      v-if="
-                          item.orderStatus === 'AWAITING_PAYMENT' ||
-                          item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
-                        "
-                      class="paymentStatusBadge"
-                    >Payment required</span>
-                      <span
-                        v-if="item.paymentComplete"
-                        class="paymentStatusPaid"
-                      >Payment Confirmed</span>
-              </div>
-            </label>
-            </div>
-            </b-collapse>
-            </div>
-            </div>
-            </div>
+                      </div>
+                      <div class="col px-0">
+                        <b-form-checkbox
+                          :id="item.orderId + ''"
+                          v-model="checkStatus[item.orderId]"
+                          class="roundBasket"
+                          @change="checkOrderModal = true"
+                        >
+                        </b-form-checkbox>
+                      </div>
 
-            <!-- Orders Status -->
-            <div v-else>
-              <div
-                class="accordion"
-                role="tablist"
-              >
-
-                <div
-                  v-for="item in orderItems"
-                  :key="item.sharedCommodityId"
-                >
-                  <div class="itemBox">
-                    <div
-                      v-b-toggle="'order-' + item.sharedCommodityId"
-                      block
-                      class="text_medium "
-                      @click="toggleDropDown(index)"
+                      <b-row>
+                        <b-col>
+                          <br />
+                          <b-form-radio-group
+                            class="ml-5"
+                            id="radio-group-1"
+                            v-model="selected"
+                            :options="options"
+                            :aria-describedby="ariaDescribedby"
+                            name="radio-options"
+                            @change="checkApprove"
+                          ></b-form-radio-group>
+                        </b-col>
+                      </b-row>
+                    </label>
+                    <b-modal
+                      v-model="some"
+                      centered
+                      modal-class="logOutModalStyle text-center"
+                      size="sm"
+                      hide-footer
+                      hide-header
+                      no-close-on-backdrop
                     >
-                      <span class="text_medium d-flex justify-content-between">
-                        <span>{{item.sharedCommodityName}}</span>
-
-                        <span>
-                          <i class="fas fa-angle-down"></i>
-                        </span>
-
-                      </span>
-
-                      <b-collapse
-                        :id="'order-' + item.sharedCommodityId"
-                        accordion="my-accordion"
-                        role="tabpanel"
+                      <p>
+                        Kindly list out the commodities that were not delivered
+                      </p>
+                      <Textarea
+                        rows="5"
+                        cols="12"
+                        class="form-control"
+                        @input="updateTheVariable($event.target.value)"
                       >
-
-                        <div class="member mt-16">
-                          <label class="row mx-0">
-                            <div class="col px-0 pr-2">
-                              <img
-                                class="rounded-circle border border-primary"
-                                :src="item.imageUrl || '/assets/empty-photo.svg'"
-                                height="75"
-                                width="75"
-                              />
-                            </div>
-                            <div class="col-8 px-0">
-                              <span class="nameBox">
-                                <strong
-                                  class="mb-0 fs-14 d-block"
-                                  v-text="`${item.firstName} ${item.lastName}`"
-                                ></strong>
-                                  <span class="orderStatusSlot">
-                                    {{item.numberOfSlots}}
-                                    <span v-if="item.numberOfSlots > 1">slots</span>
-                                    <span v-else>slot</span>
-                                  </span>
-
-                              </span>
-
-                            </div>
-                            <div class="col px-0">
-                              <b-form-checkbox
-                                :id="item.orderId + ''"
-                                v-model="checkStatus[item.orderId]"
-                                class="roundBasket"
-                                @change="checkOrderModal = true"
-                              >
-                                </b-form-checkbox>
-                            </div>
-                          </label>
-                          <b-modal
-                            v-model="checkOrderModal"
-                            centered
-                            modal-class="logOutModalStyle text-center"
-                            size="sm"
-                            hide-footer
-                            hide-header
-                            no-close-on-backdrop
-                          >
-                            <p>Are you sure you want mark this order as collected?</p>
-                            <div class="text-center mt-24">
-                              <b-button
-                                variant="outline-danger"
-                                :disabled="verifClicked === true"
-                                class="mr-2"
-                                @click="checkOrderModal = false"
-                              >
-                                Cancel
-                                </b-button>
-                                <b-button
-                                  :disabled="verifClicked === true"
-                                  variant="outline-success"
-                                  @click="confirmCollection(item)"
-                                >Confirm</b-button>
-                            </div>
-                            </b-modal>
-                        </div>
-                        </b-collapse>
+                      </Textarea>
+                      <div class="text-center mt-24">
+                        <b-button
+                          variant="success"
+                          :disabled="verifClicked === true"
+                          class="mr-2"
+                          @click="delivered(item)"
+                        >
+                          Save
+                        </b-button>
+                        <b-button
+                          variant="outline-success"
+                          @click="cancelNonDelivered"
+                          >Cancel</b-button
+                        >
+                      </div>
+                    </b-modal>
+                    <b-modal
+                      v-model="all"
+                      centered
+                      modal-class="logOutModalStyle text-center"
+                      size="sm"
+                      hide-footer
+                      hide-header
+                      no-close-on-backdrop
+                    >
+                      <p>Are you sure all items were delivered?</p>
+                      <div class="text-center mt-24">
+                        <b-button
+                          variant="success"
+                          :disabled="verifClicked === true"
+                          class="mr-2"
+                          @click="delivered(item)"
+                        >
+                          Yes
+                        </b-button>
+                        <b-button
+                          variant="outline-success"
+                          @click="canceldeliveredModel"
+                          >No</b-button
+                        >
+                      </div>
+                    </b-modal>
+                    <b-modal
+                      v-model="checkOrderModal"
+                      centered
+                      modal-class="logOutModalStyle text-center"
+                      size="sm"
+                      hide-footer
+                      hide-header
+                      no-close-on-backdrop
+                    >
+                      <p>Are you sure you want mark this order as collected?</p>
+                      <div class="text-center mt-24">
+                        <b-button
+                          variant="outline-danger"
+                          :disabled="verifClicked === true"
+                          class="mr-2"
+                          @click="checkOrderModal = false"
+                        >
+                          Cancel
+                        </b-button>
+                        <b-button
+                          :disabled="verifClicked === true"
+                          variant="outline-success"
+                          @click="confirmCollection(item)"
+                          >Confirm</b-button
+                        >
+                      </div>
+                    </b-modal>
                   </div>
+                </b-collapse>
+              </div>
+              <!--Cancelled Orders -->
+              <div class="itemBox">
+                <div v-b-toggle.cancelledOrders block class="text_medium">
+                  Cancelled
+                  <span class="primary-p color-orange float-right">
+                    <span v-if="cancelledOrders.length"
+                      >{{ cancelledOrders.length }}
+                    </span>
+                    <span v-if="cancelledOrders.length > 1"> Orders </span>
+                    <span v-if="cancelledOrders.length == 1"> Order </span>
+                  </span>
+                </div>
+                <b-collapse
+                  id="cancelledOrders"
+                  accordion="my-accordion"
+                  role="tabpanel"
+                >
+                  <div
+                    v-for="item in cancelledOrders"
+                    :key="item.id"
+                    class="member mt-16"
+                  >
+                    <label class="row mx-0">
+                      <div class="col px-0 pr-2">
+                        <img
+                          class="rounded-circle border border-primary"
+                          :src="item.imageUrl || '/assets/empty-photo.svg'"
+                          height="75"
+                          width="75"
+                        />
+                      </div>
+                      <div class="col-8 px-0">
+                        <span class="nameBox">
+                          <strong
+                            class="mb-0"
+                            v-text="`${item.firstName} ${item.lastName}`"
+                          ></strong>
+                          <p class="mb-0" v-text="item.emailAddress"></p>
+                          <nuxt-link
+                            :to="`/sharer/dashboard/rounds/basket/${sharingRound.id}/${item.orderId}/`"
+                            class="plain-link text_medium basketLink"
+                          >
+                            <span class="mr-2">View Basket</span>
+                          </nuxt-link>
+                        </span>
+                        <span
+                          v-if="item.orderStatus === 'ORDER_CANCELLED'"
+                          class="paymentStatusBadge"
+                          >Order cancelled</span
+                        >
+                        <span
+                          v-if="
+                            item.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
+                          "
+                          class="paymentStatusBadge"
+                          >Awaiting Payment Confirmation</span
+                        >
+                        <span
+                          v-if="
+                            item.orderStatus === 'AWAITING_PAYMENT' ||
+                            item.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
+                          "
+                          class="paymentStatusBadge"
+                          >Payment required</span
+                        >
+                        <span
+                          v-if="item.paymentComplete"
+                          class="paymentStatusPaid"
+                          >Payment Confirmed</span
+                        >
+                      </div>
+                    </label>
+                  </div>
+                </b-collapse>
+              </div>
             </div>
+          </div>
 
-            </div>
+          <!-- Orders Status -->
+          <div v-else>
+            <div class="accordion" role="tablist">
+              <div v-for="item in orderItems" :key="item.sharedCommodityId">
+                <div class="itemBox">
+                  <div
+                    v-b-toggle="'order-' + item.sharedCommodityId"
+                    block
+                    class="text_medium"
+                    @click="toggleDropDown(index)"
+                  >
+                    <span class="text_medium d-flex justify-content-between">
+                      <span>{{ item.sharedCommodityName }}</span>
+
+                      <span>
+                        <i class="fas fa-angle-down"></i>
+                      </span>
+                    </span>
+
+                    <b-collapse
+                      :id="'order-' + item.sharedCommodityId"
+                      accordion="my-accordion"
+                      role="tabpanel"
+                    >
+                      <div class="member mt-16">
+                        <label class="row mx-0">
+                          <div class="col px-0 pr-2">
+                            <img
+                              class="rounded-circle border border-primary"
+                              :src="item.imageUrl || '/assets/empty-photo.svg'"
+                              height="75"
+                              width="75"
+                            />
+                          </div>
+                          <div class="col-8 px-0">
+                            <span class="nameBox">
+                              <strong
+                                class="mb-0 fs-14 d-block"
+                                v-text="`${item.firstName} ${item.lastName}`"
+                              ></strong>
+                              <span class="orderStatusSlot">
+                                {{ item.numberOfSlots }}
+                                <span v-if="item.numberOfSlots > 1">slots</span>
+                                <span v-else>slot</span>
+                              </span>
+                            </span>
+                          </div>
+                          <div class="col px-0">
+                            <b-form-checkbox
+                              :id="item.orderId + ''"
+                              v-model="checkStatus[item.orderId]"
+                              class="roundBasket"
+                              @change="checkOrderModal = true"
+                            >
+                            </b-form-checkbox>
+                          </div>
+                        </label>
+                        <b-modal
+                          v-model="checkOrderModal"
+                          centered
+                          modal-class="logOutModalStyle text-center"
+                          size="sm"
+                          hide-footer
+                          hide-header
+                          no-close-on-backdrop
+                        >
+                          <p>
+                            Are you sure you want mark this order as collected?
+                          </p>
+                          <div class="text-center mt-24">
+                            <b-button
+                              variant="outline-danger"
+                              :disabled="verifClicked === true"
+                              class="mr-2"
+                              @click="checkOrderModal = false"
+                            >
+                              Cancel
+                            </b-button>
+                            <b-button
+                              :disabled="verifClicked === true"
+                              variant="outline-success"
+                              @click="confirmCollection(item)"
+                              >Confirm</b-button
+                            >
+                          </div>
+                        </b-modal>
+                      </div>
+                    </b-collapse>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Add the order status html above-->
+          </div>
+        </div>
+        <div v-show="isPaymentStatus" class="text-center mt-32">
+          <b-btn
+            v-if="!roundClosed && sharingRound.sharingDayPassed"
+            class="btn closeRound-btn"
+            @click="closeRound()"
+            >Close Round
+            <b-spinner
+              v-if="spinner"
+              variant="white"
+              label="Spinning"
+              class="ml-3"
+              small
+            />
+          </b-btn>
+          <div v-if="roundClosed" class="badge badge-warning text-wrap p-2">
+            Round Closed
+          </div>
+        </div>
+      </section>
+    </div>
 
-            </div>
-
-            </div>
-            <div
-              v-show="isPaymentStatus"
-              class="text-center mt-32"
-            >
-              <b-btn
-                v-if="!roundClosed && sharingRound.sharingDayPassed"
-                class="btn closeRound-btn"
-                @click="closeRound()"
-              >Close Round
-                <b-spinner
-                  v-if="spinner"
-                  variant="white"
-                  label="Spinning"
-                  class="ml-3"
-                  small
-                />
-                </b-btn>
-                <div
-                  v-if="roundClosed"
-                  class="badge badge-warning text-wrap p-2"
-                >
-                  Round Closed
-                  </div>
-                  </div>
-                  </section>
-                  </div>
-
-                  <partials-sharer-footer-bar />
-                  </div>
+    <partials-sharer-footer-bar />
+  </div>
 </template>
 
 <script>
@@ -575,7 +616,15 @@ export default {
     return {
       verifClicked: false,
       checkOrderModal: false,
-
+      all: false,
+      some: false,
+      selected: '',
+      approved: '',
+      notDeliveredList: '',
+      options: [
+        { text: 'All delivered', value: 'all' },
+        { text: 'Not all delivered', value: 'some' },
+      ],
       spinner: false,
       checkStatus: [],
       orders: [],
@@ -596,37 +645,92 @@ export default {
     const URL = `/services/orders/sharing-rounds/${commodityId}/order`
     await this.$axios
       .$get(URL, {})
-      .then(res => {
+      .then((res) => {
         console.log(res.result.orders)
 
         this.orders = res.result.orders
         this.checkStatus = {}
-        this.orders.forEach(el => {
+        this.orders.forEach((el) => {
           this.checkStatus[el.orderId] = el.isCollected || false
+          this.selected = el.isCollected ? 'all' : 'some'
         })
 
         this.awaitingOrders = this.orders.filter(
-          x =>
+          (x) =>
             x.orderStatus === 'AWAITING_PAYMENT' ||
             x.orderStatus === 'AWAITING_PROOF_OF_PAYMENT'
         )
         this.pendingOrders = this.orders.filter(
-          x => x.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
+          (x) => x.orderStatus === 'AWAITING_PAYMENT_CONFIRMATION'
         )
         this.confirmedOrders = this.orders.filter(
-          x => x.paymentComplete === true
+          (x) => x.paymentComplete === true
         )
         this.cancelledOrders = this.orders.filter(
-          x => x.orderStatus === 'ORDER_CANCELLED'
+          (x) => x.orderStatus === 'ORDER_CANCELLED'
         )
       })
-      .catch(error => {
+      .catch((error) => {
         this.ERROR_HANDLER(error)
         throw error
       })
   },
 
   methods: {
+    updateTheVariable(value) {
+      this.notDeliveredList = value
+    },
+    checkApprove() {
+      if (this.selected === 'all') {
+        this.all = true
+        return
+      }
+      this.some = true
+    },
+
+    canceldeliveredModel() {
+      this.selected = ''
+      this.all = false
+    },
+
+    cancelNonDelivered() {
+      this.selected = ''
+      this.some = false
+    },
+
+    async delivered(item) {
+      const PAYLOAD = {
+        particpants: [
+          {
+            collected: this.all ? true : false,
+            additionalInformation: this.notDeliveredList,
+            orderId: item.orderId,
+            userId: item.id,
+          },
+        ],
+      }
+      console.log(PAYLOAD)
+
+      const URL = `/services/sharing-rounds/${this.sharingRound.sharerId}/${item.sharingRoundId}/participants`
+      await this.$axios
+        .$put(URL, PAYLOAD)
+        .then((res) => {
+          this.roundBasket = res.result
+
+          this.SHOW_TOAST({
+            title: 'Success',
+            variant: 'success',
+            text: 'Orders successfully updated',
+          })
+
+          this.all = false
+          this.some = false
+        })
+        .catch((error) => {
+          this.ERROR_HANDLER(error)
+        })
+    },
+
     async confirmCollection(item) {
       this.verifClicked = true
       const PAYLOAD = {
@@ -639,12 +743,10 @@ export default {
         ],
       }
 
-      const URL = `/services/sharing-rounds/${this.sharingRound.sharerId}/${
-        item.sharingRoundId
-      }/participants`
+      const URL = `/services/sharing-rounds/${this.sharingRound.sharerId}/${item.sharingRoundId}/participants`
       await this.$axios
         .$put(URL, PAYLOAD)
-        .then(res => {
+        .then((res) => {
           this.roundBasket = res.result
 
           this.SHOW_TOAST({
@@ -656,7 +758,7 @@ export default {
           this.checkOrderModal = false
           this.verifClicked = false
         })
-        .catch(error => {
+        .catch((error) => {
           this.ERROR_HANDLER(error)
         })
     },
@@ -668,9 +770,7 @@ export default {
       const itemId = this.$route.params.commodityId
 
       // Close the particular round
-      const URL = `/services/sharing-rounds/${
-        this.sharingRound.id
-      }/${itemId}/close`
+      const URL = `/services/sharing-rounds/${this.sharingRound.id}/${itemId}/close`
       await this.$axios
         .$put(URL, {})
         .then(() => {
@@ -681,7 +781,7 @@ export default {
             title: 'Success',
           })
         })
-        .catch(error => {
+        .catch((error) => {
           this.ERROR_HANDLER(error)
           throw error
         })
@@ -721,7 +821,7 @@ export default {
     },
     getOrderItems() {
       let orderCommodities = this.orders.map(
-        items => (this.orderItems = items.orderedCommodities)
+        (items) => (this.orderItems = items.orderedCommodities)
       )
 
       // console.log(orderCommodities)
